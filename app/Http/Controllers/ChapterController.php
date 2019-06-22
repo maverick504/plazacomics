@@ -47,7 +47,7 @@ class ChapterController extends Controller
             'title' => 'required|string|max:45',
             'slug' => 'required|string|max:45', // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
-            'pages' => 'required|array|min:5|max:30'
+            'pages' => 'required|array|min:1|max:30'
         ]);
 
         // Validate that the specified serie exists and is owned by the user.
@@ -205,7 +205,7 @@ class ChapterController extends Controller
             'title' => 'required|string|max:45',
             'slug' => 'required|string|max:45', // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
-            'pages' => 'required|array|min:5|max:30'
+            'pages' => 'required|array|min:1|max:30'
         ]);
 
         $pages = $request->get('pages');
