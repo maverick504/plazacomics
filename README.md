@@ -1,0 +1,2 @@
+# plazacomics
+Laravel &amp; Nuxt
