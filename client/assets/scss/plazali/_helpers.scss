@@ -1,0 +1,81 @@
+// Padding and margin helpers (The padding and margin who comes with Spectre.css are too basic for the project needs).
+
+$sides: (top, bottom, left, right);
+$sizes: (no: 0, xs: 4, sm: 8, md: 16, lg: 24, xl: 32);
+
+@each $side in $sides {
+  @each $sizeKey, $sizeValue in $sizes {
+    .m#{str-slice($side, 0, 1)}-#{$sizeKey} {
+      margin-#{$side}: #{$sizeValue}px !important;
+    }
+    .p#{str-slice($side, 0, 1)}-#{$sizeKey} {
+      padding-#{$side}: #{$sizeValue}px !important;
+    }
+  }
+  .m#{str-slice($side, 0, 1)}-auto {
+    margin-#{$side}: auto !important;
+  }
+  .p#{str-slice($side, 0, 1)}-auto {
+    padding-#{$side}: auto !important;
+  }
+}
+@each $sizeKey, $sizeValue in $sizes {
+  .mx-#{$sizeKey} {
+    margin-left: #{$sizeValue}px !important;
+    margin-right: #{$sizeValue}px !important;
+  }
+  .px-#{$sizeKey} {
+    padding-left: #{$sizeValue}px !important;
+    padding-right: #{$sizeValue}px !important;
+  }
+  .my-#{$sizeKey} {
+    margin-top: #{$sizeValue}px !important;
+    margin-bottom: #{$sizeValue}px !important;
+  }
+  .py-#{$sizeKey} {
+    padding-top: #{$sizeValue}px !important;
+    padding-bottom: #{$sizeValue}px !important;
+  }
+  .ma-#{$sizeKey} {
+    margin: #{$sizeValue}px !important;
+  }
+  .pa-#{$sizeKey} {
+    padding: #{$sizeValue}px !important;
+  }
+}
+.ma-auto {
+margin: auto !important;
+}
+.pa-auto {
+padding: auto !important;
+}
+
+// Text align helpers
+$textAlignValues: (left, center, right);
+@each $value in $textAlignValues {
+  .align-#{$value} {
+    text-align: #{$value} !important;
+  }
+}
+
+// Vertical align helpers
+$verticalAlignValues: (baseline, length, sub, super, top, text-top, middle, bottom, text-bottom, initial, inherit);
+@each $value in $verticalAlignValues {
+  .v-align-#{$value} {
+    vertical-align: #{$value} !important;
+  }
+}
+
+// Icon size helpers
+$sizes: ('1-2': 1.2, '2': 2, '2-5': 2.5, '10': 10);
+
+@each $sizeKey, $sizeValue in $sizes {
+  .material-design-icon.icon-#{$sizeKey}x {
+    height: #{$sizeValue}em;
+    width: #{$sizeValue}em;
+  }
+  .material-design-icon.icon-#{$sizeKey}x > .material-design-icon__svg {
+    height: #{$sizeValue}em;
+    width: #{$sizeValue}em;
+  }
+}

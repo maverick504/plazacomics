@@ -1,0 +1,72 @@
+@import "spectre/spectre";
+
+@import "plazali/spectre_override";
+@import "plazali/layout";
+@import "plazali/helpers";
+@import "plazali/carousel_3d_override";
+@import "plazali/croppie_override";
+@import "plazali/material_icons_override";
+@import "plazali/sweet_alert_override";
+
+@import "plazali/elements/label";
+
+.auth-page-container {
+  margin-top: 48px;
+  margin-bottom: 48px;
+  max-width: 400px;
+}
+
+.btn-facebook {
+  background: #3B5998 !important;
+  border-color: #3B5998 !important;
+  color: #fff !important;
+}
+
+a.card {
+  text-decoration: none;
+  color: #3b4351;
+}
+
+.card-link .card-image {
+  overflow: hidden;
+}
+
+.card-link .card-image img {
+  transition: transform .2s;
+}
+
+.card-link:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-shadow {
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, .01) !important;
+}
+
+.chapter-card {
+  transition: all .2s;
+}
+
+.chapter-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, .1) !important;
+}
+
+.card .corner-label {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 64px 64px 0 0;
+  border-color: $primary-color transparent transparent transparent;
+}
+
+.card .corner-label .content {
+  position: relative;
+  top: -60px;
+  left: 6px;
+  font-weight: bold;
+  color: $light-color;
+}
