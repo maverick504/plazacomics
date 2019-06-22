@@ -119,6 +119,7 @@ return [
     'attributes' => [
       'genre1'               => 'genre',
       'genre2'               => 'secondary genre',
+      'relase_date'          => 'relase date',
     ],
 
 ];

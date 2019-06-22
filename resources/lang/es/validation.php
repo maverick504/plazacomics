@@ -134,6 +134,9 @@ return [
         'genre1'                => 'género',
         'genre2'                => 'género secundario',
         'licence'               => 'licencia',
+        'title'                 => 'título',
+        'relase_date'           => 'fecha de lanzamiento',
+        'pages'                 => 'páginas'
     ],
 
 ];

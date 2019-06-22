@@ -148,8 +148,8 @@ class SerieController extends Controller
 
         // Validate the request
         $request->validate([
-            'name' => [ 'required', 'string', 'max:45', Rule::unique('series', 'name') ],
-            'slug' => [ 'required', 'string', 'max:45', Rule::unique('series', 'slug') ],
+            'name' => [ 'required', 'string', 'max:45', Rule::unique('series', 'name')->ignore($serie->id) ],
+            'slug' => [ 'required', 'string', 'max:45', Rule::unique('series', 'slug')->ignore($serie->id) ],
             'state' => [ 'required', 'string', new ValidSerieState ],
             'genre1' => [ 'required', 'integer', 'exists:genres,id' ],
             'genre2' => [ 'nullable', 'integer', 'exists:genres,id', 'different:genre1' ],
