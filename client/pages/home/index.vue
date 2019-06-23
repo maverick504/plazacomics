@@ -12,7 +12,7 @@
     <div class="bg-primary text-light pt-xl pb-xl">
       <div class="container">
         <div class="col-6 col-md-12">
-          <h3>Publica tu cómic en PlazaComis!</h3>
+          <h3>Publica tu cómic en PlazaComics!</h3>
           <p>Publica tu cómic, conoce a tus fans y sé parte de una comunidad con artistas de todos los países de latinoamérica.</p>
           <router-link class="btn btn-lg" :to="{ name: 'info.publishing' }">
             <information-outline-icon class="mr-sm" /> Saber más
