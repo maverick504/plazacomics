@@ -15,14 +15,14 @@ class Chapter extends Model
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'relase_date', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'relase_date'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = array('created_at', 'updated_at', 'deleted_at');
+    protected $hidden = array('created_at', 'updated_at');
 
     /**
      * The attributes that are mass assignable.
