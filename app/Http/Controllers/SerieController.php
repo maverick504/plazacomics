@@ -124,6 +124,10 @@ class SerieController extends Controller
             return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
         }
 
+        if(Auth::user()) {
+            $serie->user_is_follower = $serie->isFollowedBy(Auth::user()->id);
+        }
+
         return $serie;
     }
 

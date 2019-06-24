@@ -71,7 +71,7 @@
       </transition>
     </div>
     <!-- Cover cropping modal -->
-    <Modal :active="showCoverCroppingModal" title="Cambiar Portada">
+    <modal :active.sync="showCoverCroppingModal" title="Cambiar Portada">
       <template v-slot:content>
         <vue-croppie
           ref="coverCroppie"
@@ -85,10 +85,10 @@
           Confirmar
         </v-button>
       </template>
-    </Modal>
+    </modal>
     <!-- /Cover cropping modal -->
     <!-- Banner cropping modal -->
-    <Modal :active="showBannerCroppingModal" title="Cambiar Banner">
+    <modal :active.sync="showBannerCroppingModal" title="Cambiar Banner">
       <template v-slot:content>
         <vue-croppie
           ref="bannerCroppie"
@@ -102,7 +102,7 @@
           Confirmar
         </v-button>
       </template>
-    </Modal>
+    </modal>
     <!-- /Banner cropping modal -->
   </div>
 </template>

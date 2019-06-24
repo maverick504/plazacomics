@@ -17,6 +17,8 @@ const SettingsPassword = () => import('~/pages/settings/password').then(m => m.d
 
 const Dashboard = () => import('~/pages/dashboard/index').then(m => m.default || m)
 
+const Library = () => import('~/pages/library/index').then(m => m.default || m)
+
 const SeriesIndex = () => import('~/pages/series/index').then(m => m.default || m)
 const CreateSerie = () => import('~/pages/series/create').then(m => m.default || m)
 const EditSerie = () => import('~/pages/series/edit/index').then(m => m.default || m)
@@ -52,6 +54,8 @@ const routes = [
     ] },
 
   { path: '/dashboard', name: 'dashboard', component: Dashboard },
+
+  { path: '/library', name: 'library', component: Library },
 
   { path: '/series', name: 'series.index', component: SeriesIndex },
   { path: '/series/create', name: 'series.create', component: CreateSerie },

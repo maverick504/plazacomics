@@ -42,6 +42,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/series', 'SerieController@userIndex');
     Route::get('user/series/{id}', 'SerieController@userShow');
 
+    // Serie Following
+    Route::get('user/followings', 'FollowController@userIndex');
+    Route::post('user/follow/{serieId}', 'FollowController@follow');
+    Route::post('user/unfollow/{serieId}', 'FollowController@unfollow');
+
     // Chapters
     Route::post('chapters/', 'ChapterController@store');
     Route::put('chapters/{id}', 'ChapterController@update');
@@ -95,6 +100,9 @@ Route::get('newSeries/', 'SerieController@new');
 Route::get('series/{id}', 'SerieController@show');
 Route::get('authors/{id}/series', 'SerieController@authorIndex');
 Route::get('series/', 'SerieController@index');
+
+// Serie following
+Route::get('series/{id}/followers', 'FollowController@serieIndex');
 
 // Chapters
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');

@@ -33,10 +33,14 @@
                 </li>
                 <li class="divider"></li>
                 <li class="menu-item">
-                  <router-link :to="{ name: 'dashboard' }">Mis series</router-link>
+                  <router-link :to="{ name: 'settings.profile' }">Ajustes</router-link>
+                </li>
+                <li class="divider"></li>
+                <li class="menu-item">
+                  <router-link :to="{ name: 'library' }">Mi biblioteca</router-link>
                 </li>
                 <li class="menu-item">
-                  <router-link :to="{ name: 'settings.profile' }">Ajustes</router-link>
+                  <router-link :to="{ name: 'dashboard' }">Mis series</router-link>
                 </li>
                 <li class="divider"></li>
                 <li class="menu-item">
@@ -67,11 +71,13 @@
 import { mapGetters } from 'vuex'
 import InformationOutlineIcon from "vue-material-design-icons/InformationOutline.vue"
 import PlusIcon from "vue-material-design-icons/Plus.vue"
+import BellOutlineIcon from "vue-material-design-icons/BellOutline.vue"
 
 export default {
   components: {
     InformationOutlineIcon,
-    PlusIcon
+    PlusIcon,
+    BellOutlineIcon
   },
 
   computed: mapGetters({

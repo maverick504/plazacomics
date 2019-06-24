@@ -5,9 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
 
 class Serie extends Model
 {
+    use CanBeFollowed;
+
     protected $table = 'series';
     public $timestamps = true;
 
@@ -16,14 +19,14 @@ class Serie extends Model
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = array('deleted_at');
+    protected $hidden = array();
 
     /**
      * The attributes that are mass assignable.

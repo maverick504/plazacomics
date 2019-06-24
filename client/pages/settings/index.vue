@@ -32,7 +32,7 @@
       </transition>
     </div>
     <!-- Avatar cropping modal -->
-    <Modal :active="showAvatarCroppingModal" title="Cambiar Avatar">
+    <modal :active.sync="showAvatarCroppingModal" title="Cambiar Avatar">
       <template v-slot:content>
         <vue-croppie
           ref="avatarCroppie"
@@ -46,7 +46,7 @@
           Confirmar
         </v-button>
       </template>
-    </Modal>
+    </modal>
     <!-- /Avatar cropping modal -->
   </div>
 </template>
