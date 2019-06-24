@@ -1,6 +1,9 @@
 <template>
   <div>
     <form class="pt-no pb-no" @submit.prevent="save" @keydown="form.onKeydown($event)">
+      <alert type="warning" :show="serie.state == 'draft'" :closable="false">
+        Advertencia: Esta serie está en estado borrador y no se verá como pública hasta que se cambie el estado.
+      </alert>
       <div class="columns">
         <div class="column col-6 col-sm-12">
           <!-- Name -->

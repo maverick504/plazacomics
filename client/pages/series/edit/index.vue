@@ -56,12 +56,12 @@
     <div class="container mb-xl">
       <ul class="tab mb-md">
         <li class="tab-item">
-          <router-link :to="{ name: 'series.edit.details', params: { serieId: 1 } }" active-class="active">
+          <router-link :to="{ name: 'series.edit.details', params: { id: serie.id } }" active-class="active">
             Detalles
           </router-link>
         </li>
         <li class="tab-item">
-          <router-link :to="{ name: 'series.edit.chapters', params: { serieId: 1 } }" active-class="active">
+          <router-link :to="{ name: 'series.edit.chapters', params: { id: serie.id } }" active-class="active">
             Capítulos
           </router-link>
         </li>

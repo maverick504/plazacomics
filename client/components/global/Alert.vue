@@ -1,6 +1,8 @@
 <template>
-  <div class="toast toast-success mb-md" v-if="show && !closed">
-    <button type="button" class="btn btn-clear float-right" @click="closed = true"></button>
+  <div v-if="show && !closed" :class="{
+    [`toast-${type}`]: true
+  }" class="toast">
+    <button type="button" class="btn btn-clear float-right" @click="closed = true" v-if="closable"></button>
     <slot/>
   </div>
 </template>
@@ -10,7 +12,14 @@ export default {
   name: 'Alert',
 
   props: {
-    show: { type: Boolean, default: false }
+    type: {
+      type: String,
+      default: 'default'
+    },
+
+    show: { type: Boolean, default: false },
+
+    closable: { type: Boolean, default: true }
   },
 
   data: () => ({
