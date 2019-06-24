@@ -152,7 +152,7 @@ class ChapterController extends Controller
             $query->where('relase_date', '=', $chapter->relase_date)
             ->where('created_at', '<', $chapter->created_at);
         })
-        ->where('serie.id', '=', $serie->id)
+        ->where('serie_id', '=', $serie->id)
         ->count()+1;
 
         // Get previous chapter.
@@ -161,8 +161,9 @@ class ChapterController extends Controller
         ->where('relase_date', '<', $chapter->relase_date)
         ->orwhere(function($query) use($chapter) {
             $query->where('relase_date', '=', $chapter->relase_date)
-                  ->where('created_at', '<', $chapter->created_at);
+            ->where('created_at', '<', $chapter->created_at);
         })
+        ->where('serie_id', '=', $serie->id)
         ->orderBy('relase_date', 'desc')
         ->orderBy('created_at', 'desc')
         ->first();
@@ -173,10 +174,11 @@ class ChapterController extends Controller
         ->where('relase_date', '>', $chapter->relase_date)
         ->orwhere(function($query) use($chapter) {
             $query->where('relase_date', '=', $chapter->relase_date)
-                  ->where('created_at', '>', $chapter->created_at);
+            ->where('created_at', '>', $chapter->created_at);
         })
+        ->where('serie_id', '=', $serie->id)
         ->orderBy('relase_date', 'asc')
-        ->orderBy('created_at', 'desc')
+        ->orderBy('created_at', 'asc')
         ->first();
 
         return $chapter;
