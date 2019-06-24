@@ -1,7 +1,7 @@
 <template>
   <router-link class="card mb-sm" style="flex-direction: row;" :to="{ name: 'authors.show', params: { id: author.id, username: author.username } }">
     <div class="card-image pa-sm">
-      <img class="img-responsive" style="width: 160px; height: auto; border-radius: 50% !important;" :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Thumbnail">
+      <img class="img-responsive" style="width: 140px; height: auto; border-radius: 50% !important;" :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Thumbnail">
     </div>
     <div class="card-body pb-md" style="display: flex; flex-direction: column;">
       <div style="flex-grow: 1;">
