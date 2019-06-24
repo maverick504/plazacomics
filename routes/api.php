@@ -107,3 +107,6 @@ Route::get('series/{id}/followers', 'FollowController@serieIndex');
 // Chapters
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');
 Route::get('chapters/{id}', 'ChapterController@show');
+
+// Suggestions
+Route::post('suggestions', 'SuggestionController@store');
