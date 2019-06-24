@@ -150,8 +150,9 @@ class ChapterController extends Controller
         $chapter->number = Chapter::where('relase_date', '<', $chapter->relase_date)
         ->orwhere(function($query) use($chapter) {
             $query->where('relase_date', '=', $chapter->relase_date)
-                ->where('created_at', '<', $chapter->created_at);
-            })
+            ->where('created_at', '<', $chapter->created_at);
+        })
+        ->where('serie.id', '=', $serie->id)
         ->count()+1;
 
         // Get previous chapter.
