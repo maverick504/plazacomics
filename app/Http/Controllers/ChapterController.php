@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\DB;
 use App\Serie;
 use App\Chapter;
 use App\Page;
+use App\Rules\ValidSlug;
 use Auth;
 use Image;
 use Storage;
 use Hashids;
 use DateTime;
-use App\Http\Controllers\Controller;
 
 class ChapterController extends Controller
 {
@@ -45,7 +45,7 @@ class ChapterController extends Controller
         $request->validate([
             'serie_id' => 'required|integer|exists:series,id',
             'title' => 'required|string|max:45',
-            'slug' => 'required|string|max:45', // Unique isn't required, that's ok for chapters.
+            'slug' => [ 'required', 'string', new ValidSlug, 'max:45' ], // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
             'pages' => 'required|array|min:1|max:30'
         ]);
@@ -203,7 +203,7 @@ class ChapterController extends Controller
         // Validate the request
         $request->validate([
             'title' => 'required|string|max:45',
-            'slug' => 'required|string|max:45', // Unique isn't required, that's ok for chapters.
+            'slug' => [ 'required', 'string', new ValidSlug, 'max:45' ], // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
             'pages' => 'required|array|min:1|max:30'
         ]);

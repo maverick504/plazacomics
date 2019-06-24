@@ -13,6 +13,7 @@ use App\Genre;
 use App\Licence;
 use App\Chapter;
 use App\Page;
+use App\Rules\ValidSlug;
 use App\Rules\ValidSerieState;
 use App\Rules\ValidBase64Image;
 use Auth;
@@ -65,7 +66,7 @@ class SerieController extends Controller
         // Validate the request
         $request->validate([
             'name' => [ 'required', 'string', 'max:45', Rule::unique('series', 'name') ],
-            'slug' => [ 'required', 'string', 'max:45', Rule::unique('series', 'slug') ],
+            'slug' => [ 'required', 'string', 'max:45', new ValidSlug, Rule::unique('series', 'slug') ],
             'genre1' => [ 'required', 'integer', 'exists:genres,id' ],
             'genre2' => [ 'nullable', 'integer', 'exists:genres,id', 'different:genre1' ],
             'licence' => [ 'required', 'integer', 'exists:licences,id' ],
@@ -153,7 +154,7 @@ class SerieController extends Controller
         // Validate the request
         $request->validate([
             'name' => [ 'required', 'string', 'max:45', Rule::unique('series', 'name')->ignore($serie->id) ],
-            'slug' => [ 'required', 'string', 'max:45', Rule::unique('series', 'slug')->ignore($serie->id) ],
+            'slug' => [ 'required', 'string', 'max:45', new ValidSlug, Rule::unique('series', 'slug')->ignore($serie->id) ],
             'state' => [ 'required', 'string', new ValidSerieState ],
             'genre1' => [ 'required', 'integer', 'exists:genres,id' ],
             'genre2' => [ 'nullable', 'integer', 'exists:genres,id', 'different:genre1' ],
@@ -166,7 +167,7 @@ class SerieController extends Controller
             $availableChaptersCount = Chapter::where('serie_id', $serie->id)->where('relase_date', '<=', date('Y-m-d') . ' 00:00:00')->count();
             if($availableChaptersCount == 0) {
                 $error = \Illuminate\Validation\ValidationException::withMessages([
-                   'state' => [ "Cannot change this serie's state because it doesn't have available chapters yet" ]
+                   'state' => [ "No puedes cambiar el estado de esta serie porque no tiene capítulos publicados aún." ]
                 ]);
                 throw $error;
             }

@@ -35,6 +35,6 @@ class ValidSerieState implements Rule
      */
     public function message()
     {
-        return "The field :attribute isn't valid.";
+        return "El campo :attribute no es un estado de serie válido.";
     }
 }

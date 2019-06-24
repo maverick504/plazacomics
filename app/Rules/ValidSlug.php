@@ -36,6 +36,6 @@ class ValidSlug implements Rule
      */
     public function message()
     {
-        return "The field :attribute isn't valid.";
+        return "El campo :attribute no puede contener espacios ni caracteres especiales.";
     }
 }

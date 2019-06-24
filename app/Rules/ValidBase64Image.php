@@ -60,6 +60,6 @@ class ValidBase64Image implements Rule
      */
     public function message()
     {
-        return "The field :attribute isn't valid.";
+        return "El campo :attribute no es válido.";
     }
 }

@@ -87,6 +87,8 @@ return [
     'unique'               => ':attribute ya ha sido registrado.',
     'uploaded'             => 'Subir :attribute ha fallado.',
     'url'                  => 'El formato :attribute es inválido.',
+    
+    'validSlug' => 'El :attribute no debe contener guiones ni caractéres espeiales.',
 
     /*
     |--------------------------------------------------------------------------

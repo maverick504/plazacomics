@@ -12,7 +12,7 @@
           <nuxt-link :to="{ name: 'series.edit.chapters', params: { id: serie.id } }">Capítulos</nuxt-link>
         </li>
         <li class="breadcrumb-item">
-          <nuxt-link :to="{ name: 'chapters.create', params: { serieId: serie.id, chapterId: chapter.id } }">{{ chapter.title }}</nuxt-link>
+          <nuxt-link :to="{ name: 'chapters.edit', params: { serieId: serie.id, chapterId: chapter.id } }">{{ chapter.title }}</nuxt-link>
         </li>
       </ul>
       <h2>{{ chapter.title }}</h2>

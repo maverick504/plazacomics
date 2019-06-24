@@ -8,6 +8,7 @@ use DateTime;
 use Image;
 use Storage;
 use Hashids;
+use App\Rules\ValidSlug;
 use App\Rules\ValidBase64Image;
 
 class ProfileController extends Controller
@@ -23,8 +24,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'username' => 'required|string|unique:users,username,'.$user->id,
-            'name' => 'nullable|string',
+            'username' => [ 'required', new ValidSlug, 'unique:users,username,'.$user->id ],
+            'name' => 'nullable',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'gender' => 'nullable|in:M,F',
             'birth_date' => 'nullable|date_format:d/m/Y',
