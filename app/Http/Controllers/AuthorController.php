@@ -16,11 +16,12 @@ class AuthorController extends Controller
    */
   public function index()
   {
-      return User::with([
+      return User::has('series', '>', '0')->with([
           'series' => function($query) {
-              $query->select('series.id', 'series.name');
+              $query->select('series.id', 'series.name')->public();
           }
-      ])->simplePaginate(RESULTS_PER_PAGE);
+      ])
+      ->simplePaginate(RESULTS_PER_PAGE);
   }
 
   /**
@@ -31,7 +32,9 @@ class AuthorController extends Controller
    */
   public function show($id)
   {
-      $user = User::find($id);
+      $user = User::has('series', '>', '0')
+      ->where('id', '=', $id)
+      ->first();
 
       if(!$user) {
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
