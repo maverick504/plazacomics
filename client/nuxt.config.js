@@ -19,7 +19,7 @@ module.exports = {
 
   env: {
     apiUrl: process.env.APP_URL || 'http://localhost:8000/',
-    appName: process.env.APP_NAME || 'Plaza.li',
+    appName: process.env.APP_NAME || 'PlazaComics',
     appLocale: process.env.APP_LOCALE || 'es',
     cdnUrl: process.env.CDN_URL
   },
@@ -30,7 +30,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'PlazaComics es donde los lectores encuentran los mejores cómics. Lee nuevos cómics o publica el tuyo y alcanza una audiencia más grande.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
