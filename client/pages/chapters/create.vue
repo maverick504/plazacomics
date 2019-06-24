@@ -88,9 +88,10 @@
 </template>
 
 <script>
-import axios from 'axios'
-import draggable from 'vuedraggable'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+import swal from 'sweetalert2'
+import draggable from 'vuedraggable'
 import Form from 'vform'
 import CalendarTodayIcon from "vue-material-design-icons/CalendarToday.vue"
 import UploadIcon from "vue-material-design-icons/Upload.vue"
@@ -198,6 +199,13 @@ export default {
 
     async save() {
       const { data } = await this.form.post('/chapters/')
+
+      swal({
+        type: 'success',
+        title: 'Capítulo creado!',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
       // Redirect to the Chapter Edition page
       this.$router.push({ name: 'chapters.edit', params: { serieId: this.serie.id, chapterId: data.id } })

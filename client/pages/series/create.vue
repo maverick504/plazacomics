@@ -101,6 +101,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import swal from 'sweetalert2'
 import Form from 'vform'
 
 export default {
@@ -189,6 +190,13 @@ export default {
 
     async save() {
       const { data } = await this.form.post('/series/')
+
+      swal({
+        type: 'success',
+        title: 'Serie creada!',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
       this.$router.push({ name: 'series.edit.details', params: { id: data.id } })
     }
