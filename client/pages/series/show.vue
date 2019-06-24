@@ -84,8 +84,8 @@
         </section>
         <section class="my-xl" v-if="activeTab=='chapters'">
           <div class="columns mb-lg">
-            <div class="column col-6 col-md-12 pb-sm" v-for="chapter in chapters" :key="chapter.id">
-              <chapter-card :serieSlug="serie.slug" :chapter="chapter"/>
+            <div class="column col-6 col-md-12 pb-sm" v-for="(chapter, index) in chapters" :key="chapter.id">
+              <chapter-card :serie-slug="serie.slug" :chapter-number="index+1" :chapter="chapter"/>
             </div>
           </div>
         </section>

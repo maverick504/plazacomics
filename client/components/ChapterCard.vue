@@ -5,7 +5,7 @@
     </div>
     <div class="card-header">
       <div class="card-title">
-        {{ chapter.title }}
+        <b>#{{ chapterNumber }}</b> | {{ chapter.title }}
       </div>
       <div class="card-subtitle text-gray">
         {{ chapter.total_pages }} páginas | {{ chapter.relase_date | moment('DD/MM/YYYY') }}
@@ -18,6 +18,7 @@
 export default {
   props: {
     serieSlug: { default: null, type: String },
+    chapterNumber: { default: null, type: Number },
     chapter: { default: null }
   }
 }
