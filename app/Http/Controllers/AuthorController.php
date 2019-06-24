@@ -16,7 +16,10 @@ class AuthorController extends Controller
    */
   public function index()
   {
-      return User::has('series', '>', '0')->with([
+      return User::whereHas('series', function($q){
+          $q->public();
+      })
+      ->with([
           'series' => function($query) {
               $query->select('series.id', 'series.name')->public();
           }
@@ -32,7 +35,9 @@ class AuthorController extends Controller
    */
   public function show($id)
   {
-      $user = User::has('series', '>', '0')
+      $user = User::whereHas('series', function($q){
+          $q->public();
+      })
       ->where('id', '=', $id)
       ->first();
 
