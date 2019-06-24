@@ -27,7 +27,7 @@
                       <img class="avatar" :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Avatar">
                     </div>
                     <div class="tile-content">
-                      <div class="tile-title">emilianomangaka</div>
+                      <div class="tile-title">{{ user.username }}</div>
                     </div>
                   </div>
                 </li>
