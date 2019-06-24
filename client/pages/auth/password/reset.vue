@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-body">
           <form @submit.prevent="reset" @keydown="form.onKeydown($event)">
-            <alert :show="form.successful">
+            <alert type="success" :show="form.successful">
               {{ status }}
             </alert>
             <!-- Email -->
