@@ -173,13 +173,13 @@ export default {
 
       if(this.serie.user_is_follower) {
         const { value } = await swal({
-          title: '¿Anular suscripión?',
+          title: '¿Dejar de seguir?',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#32b643',
           cancelButtonColor: '#e85600',
-          confirmButtonText: 'Si, anular!',
-          cancelButtonText: 'Seguir suscrito'
+          confirmButtonText: 'Si',
+          cancelButtonText: 'Cancelar'
         })
 
         if(value) {
