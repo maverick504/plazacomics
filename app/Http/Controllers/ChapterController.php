@@ -147,23 +147,27 @@ class ChapterController extends Controller
         }
 
         // Get chapter number
-        $chapter->number = Chapter::where('relase_date', '<', $chapter->relase_date)
-        ->orwhere(function($query) use($chapter) {
-            $query->where('relase_date', '=', $chapter->relase_date)
-            ->where('created_at', '<', $chapter->created_at);
+        $chapter->number = Chapter::where('serie_id', '=', $serie->id)
+        ->where(function($query) use($chapter) {
+          $query->where('relase_date', '<', $chapter->relase_date)
+          ->orwhere(function($query) use($chapter) {
+              $query->where('relase_date', '=', $chapter->relase_date)
+              ->where('created_at', '<', $chapter->created_at);
+          });
         })
-        ->where('serie_id', '=', $serie->id)
         ->count()+1;
 
         // Get previous chapter.
         // Please don't touch this query, is an evil query xD
         $chapter->previous_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
-        ->where('relase_date', '<', $chapter->relase_date)
-        ->orwhere(function($query) use($chapter) {
-            $query->where('relase_date', '=', $chapter->relase_date)
-            ->where('created_at', '<', $chapter->created_at);
-        })
         ->where('serie_id', '=', $serie->id)
+        ->where(function($query) use($chapter) {
+          $query->where('relase_date', '<', $chapter->relase_date)
+          ->orwhere(function($query) use($chapter) {
+              $query->where('relase_date', '=', $chapter->relase_date)
+              ->where('created_at', '<', $chapter->created_at);
+          });
+        })
         ->orderBy('relase_date', 'desc')
         ->orderBy('created_at', 'desc')
         ->first();
@@ -171,12 +175,14 @@ class ChapterController extends Controller
         // Get next chapter.
         // This query is evil as well, don't touch it
         $chapter->next_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
-        ->where('relase_date', '>', $chapter->relase_date)
-        ->orwhere(function($query) use($chapter) {
-            $query->where('relase_date', '=', $chapter->relase_date)
-            ->where('created_at', '>', $chapter->created_at);
-        })
         ->where('serie_id', '=', $serie->id)
+        ->where(function($query) use($chapter) {
+          $query->where('relase_date', '>', $chapter->relase_date)
+          ->orwhere(function($query) use($chapter) {
+              $query->where('relase_date', '=', $chapter->relase_date)
+              ->where('created_at', '>', $chapter->created_at);
+          });
+        })
         ->orderBy('relase_date', 'asc')
         ->orderBy('created_at', 'asc')
         ->first();
