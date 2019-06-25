@@ -123,7 +123,7 @@ export default {
       var { data } = await axios.get(`user/chapters/${params.chapterId}`)
       const chapter = data
 
-      var { data } = await axios.get(`user/series/1`)
+      var { data } = await axios.get(`user/series/${chapter.serie_id}`)
       const serie = data
 
       return {
