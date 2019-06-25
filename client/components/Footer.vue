@@ -12,9 +12,7 @@
       </form>
       <div class="links">
         <nuxt-link class="text-gray" :to="{ name: 'info.privacyPolicy' }">Política de Privacidad</nuxt-link>
-        <!--
-        <nuxt-link class="text-gray" :to="{ name: 'info.termsOfService' }">Términos de Servicio</nuxt-link>
-        -->
+        <nuxt-link class="text-gray" :to="{ name: 'info.faq' }">Preguntas Frecuentes</nuxt-link>
       </div>
       <div class="d-block mb-md">
         <span>síguenos en:</span>

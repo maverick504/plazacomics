@@ -35,7 +35,7 @@ const ShowAuthor = () => import('~/pages/authors/show').then(m => m.default || m
 
 const InfoPublishing = () => import('~/pages/info/publishing').then(m => m.default || m)
 const InfoPrivacyPolicy = () => import('~/pages/info/privacyPolicy').then(m => m.default || m)
-// const InfoTermsOfService = () => import('~/pages/info/termsOfService').then(m => m.default || m)
+const InfoFaq = () => import('~/pages/info/faq').then(m => m.default || m)
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -75,8 +75,8 @@ const routes = [
   { path: '/authors/:id/:username', name: 'authors.show', component: ShowAuthor },
 
   { path: '/publishing', name: 'info.publishing', component: InfoPublishing },
-  { path: '/privacyPolicy', name: 'info.privacyPolicy', component: InfoPrivacyPolicy }
-  // { path: '/termsOfService', name: 'info.termsOfService', component: InfoTermsOfService }
+  { path: '/privacy-policy', name: 'info.privacyPolicy', component: InfoPrivacyPolicy },
+  { path: '/faq', name: 'info.faq', component: InfoFaq }
 ]
 
 export function createRouter () {

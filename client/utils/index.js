@@ -22,20 +22,31 @@ export function cookieFromRequest (req, key) {
 /**
  * https://router.vuejs.org/en/advanced/scroll-behavior.html
  */
-export function scrollBehavior (to, from, savedPosition) {
+export async function scrollBehavior (to, from, savedPosition) {
   if (savedPosition) {
     return savedPosition
   }
 
-  let position = {}
-
-  if (to.matched.length < 2) {
-    position = { x: 0, y: 0 }
-  } else if (to.matched.some(r => r.components.default.options.scrollToTop)) {
-    position = { x: 0, y: 0 }
-  } if (to.hash) {
-    position = { selector: to.hash }
+  const findEl = async (hash, x) => {
+    return document.querySelector(hash) ||
+      new Promise((resolve, reject) => {
+        if (x > 50) {
+          return resolve()
+        }
+        setTimeout(() => { resolve(findEl(hash, ++x || 1)) }, 100)
+      })
   }
 
-  return position
+  if (to.hash) {
+    let el = await findEl(to.hash)
+    const navbarHeight = 72
+    const padding = 24
+    if ('scrollBehavior' in document.documentElement.style) {
+      return window.scrollTo({ top: el.offsetTop - navbarHeight - padding, behavior: 'smooth' })
+    } else {
+      return window.scrollTo(0, el.offsetTop - navbarHeight - padding)
+    }
+  }
+
+  return { x: 0, y: 0 }
 }
