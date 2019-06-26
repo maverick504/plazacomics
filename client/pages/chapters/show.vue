@@ -53,7 +53,7 @@
       </section>
     </header>
     <!-- /Navbar -->
-    <div class="reader-navbar-space"></div>
+    <div class="read-mode-navbar-space"></div>
     <section style="width: 100%; max-width: 600px; margin-left: auto; margin-right: auto;" @contextmenu.prevent>
       <figure class="figure" style="margin: 0px;" v-for="page in chapter.pages" v-key="page.id">
         <v-lazy-image class="img-responsive" style="width: 100%;" :src="`${cdnUrl}/${page.image_url}`" src-placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8+PHPfwAJmAPfukq/1AAAAABJRU5ErkJggg==" />
