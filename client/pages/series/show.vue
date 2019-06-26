@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="divider"></div>
-        <ul class="tab">
+        <ul class="tab" style="overflow-x: auto; flex-wrap: nowrap;">
           <li class="tab-item" :class="{ 'active': activeTab=='information' }">
             <a href="javascript:void(0)" style="font-size: 24px; padding-left: 16px; padding-right: 16px;" @click="activeTab='information'">
               Información
