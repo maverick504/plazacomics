@@ -1,16 +1,19 @@
 <template>
-  <router-link class="card card-link" :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }"
-  style="border: none;">
+  <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="card card-link"
+               style="border: none;"
+  >
     <div class="card-image" style="position: relative;">
-      <img class="img-responsive s-rounded" :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'">
-      <div class="corner-label" v-if="serie.explicit_content">
+      <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" class="img-responsive s-rounded">
+      <div v-if="serie.explicit_content" class="corner-label">
         <span class="content">+18</span>
       </div>
     </div>
     <div class="card-header" style="padding: 8px 0px 0px 0px;">
-      <div class="card-title h5">{{ serie.name }}</div>
+      <div class="card-title h5">
+        {{ serie.name }}
+      </div>
       <div class="card-subtitle text-gray">
-        <span v-for="author in serie.authors">
+        <span v-for="author in serie.authors" :key="author.id">
           {{ author.username }}
         </span>
       </div>
@@ -25,7 +28,7 @@
 <script>
 export default {
   props: {
-    serie: { default: null }
+    serie: { default: null, type: Object }
   }
 }
 </script>

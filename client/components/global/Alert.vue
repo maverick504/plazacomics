@@ -1,9 +1,10 @@
 <template>
   <div v-if="show && !closed" :class="{
     [`toast-${type}`]: true
-  }" class="toast">
-    <button type="button" class="btn btn-clear float-right" @click="closed = true" v-if="closable"></button>
-    <slot/>
+  }" class="toast"
+  >
+    <button v-if="closable" type="button" class="btn btn-clear float-right" @click="closed = true" />
+    <slot />
   </div>
 </template>
 

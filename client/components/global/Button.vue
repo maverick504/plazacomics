@@ -5,8 +5,9 @@
     'btn-block': block,
     'btn-lg': large,
     'loading': loading
-  }" class="btn">
-    <slot/>
+  }" class="btn"
+  >
+    <slot />
   </button>
 </template>
 

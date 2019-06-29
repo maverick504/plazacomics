@@ -4,13 +4,19 @@
       <div class="container">
         <header class="navbar">
           <section class="navbar-section">
-            <router-link class="mr-md" :to="{ name: 'home' }"><img class="img-responsive logo" src="~/assets/logo.png"></router-link>
-            <router-link class="btn btn-link hide-sm" :to="{ name: 'series.index' }">Series</router-link>
-            <router-link class="btn btn-link hide-sm" :to="{ name: 'authors.index' }">Autores</router-link>
+            <router-link :to="{ name: 'home' }" class="mr-md">
+              <img class="img-responsive logo" src="~/assets/logo.png">
+            </router-link>
+            <router-link :to="{ name: 'series.index' }" class="btn btn-link hide-sm">
+              Series
+            </router-link>
+            <router-link :to="{ name: 'authors.index' }" class="btn btn-link hide-sm">
+              Autores
+            </router-link>
           </section>
           <section v-if="user" class="navbar-section">
-            <router-link class="btn btn-primary mr-sm hide-sm" :to="{ name: 'series.create' }">
-              <plus-icon/> Publicar
+            <router-link :to="{ name: 'series.create' }" class="btn btn-primary mr-sm hide-sm">
+              <plus-icon /> Publicar
             </router-link>
             <!-- dropdown -->
             <div class="dropdown dropdown-right">
@@ -24,25 +30,33 @@
                 <li class="menu-item">
                   <div class="tile tile-centered">
                     <div class="tile-icon">
-                      <img class="avatar" :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Avatar">
+                      <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" class="avatar" alt="Avatar">
                     </div>
                     <div class="tile-content">
-                      <div class="tile-title">{{ user.username }}</div>
+                      <div class="tile-title">
+                        {{ user.username }}
+                      </div>
                     </div>
                   </div>
                 </li>
-                <li class="divider"></li>
+                <li class="divider" />
                 <li class="menu-item">
-                  <router-link :to="{ name: 'settings.profile' }">Ajustes</router-link>
+                  <router-link :to="{ name: 'settings.profile' }">
+                    Ajustes
+                  </router-link>
                 </li>
-                <li class="divider"></li>
+                <li class="divider" />
                 <li class="menu-item">
-                  <router-link :to="{ name: 'library' }">Mi biblioteca</router-link>
+                  <router-link :to="{ name: 'library' }">
+                    Mi biblioteca
+                  </router-link>
                 </li>
                 <li class="menu-item">
-                  <router-link :to="{ name: 'dashboard' }">Mis series</router-link>
+                  <router-link :to="{ name: 'dashboard' }">
+                    Mis series
+                  </router-link>
                 </li>
-                <li class="divider"></li>
+                <li class="divider" />
                 <li class="menu-item">
                   <a href="#" @click.prevent="logout">
                     Cerrar sesión
@@ -53,25 +67,25 @@
             <!-- /menu -->
           </section>
           <section v-else class="navbar-section">
-            <router-link class="btn btn-primary mr-sm hide-sm" :to="{ name: 'info.publishing' }">
-              <information-outline-icon class="mr-sm"/> Publica aquí!
+            <router-link :to="{ name: 'info.publishing' }" class="btn btn-primary mr-sm hide-sm">
+              <information-outline-icon class="mr-sm" /> Publica aquí!
             </router-link>
-            <router-link class="btn" :to="{ name: 'login' }">
+            <router-link :to="{ name: 'login' }" class="btn">
               Iniciar sesión
             </router-link>
           </section>
         </header>
       </div>
     </div>
-    <div class="navbar-shadow"></div>
+    <div class="navbar-shadow" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import InformationOutlineIcon from "vue-material-design-icons/InformationOutline.vue"
-import PlusIcon from "vue-material-design-icons/Plus.vue"
-import BellOutlineIcon from "vue-material-design-icons/BellOutline.vue"
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import BellOutlineIcon from 'vue-material-design-icons/BellOutline.vue'
 
 export default {
   components: {

@@ -50,7 +50,8 @@ class Chapter extends Model
      */
     public function isOwnedBy($userId)
     {
-        $authors = $this->serie->authors;
+        $serie = $this->serie()->first();
+        $authors = $serie->authors()->get();
         foreach($authors as $author) {
           if($author->id == $userId) {
             return true;

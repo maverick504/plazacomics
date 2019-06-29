@@ -48,5 +48,15 @@ export async function scrollBehavior (to, from, savedPosition) {
     }
   }
 
+  /*
+  if (to.path.split('/')[1] === 'settings' && from.path.split('/')[1] === 'settings') {
+    return false
+  }
+
+  if (to.path.split('/')[1] === 'series' && from.path.split('/')[1] === 'series' && to.path.split('/').length <= 4) {
+    return false
+  }
+  */
+
   return { x: 0, y: 0 }
 }

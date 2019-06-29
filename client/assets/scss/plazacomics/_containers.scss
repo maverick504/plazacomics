@@ -1,0 +1,22 @@
+.container {
+  width: 80vw;
+}
+.chapter-pages-container {
+  width: 50vw;
+  padding: 0px;
+}
+
+.mini-container {
+  margin-top: 48px;
+  margin-bottom: 48px;
+  max-width: 400px;
+}
+
+@media only screen and (max-width: 840px) {
+  .container {
+    width: 95vw;
+  }
+  .chapter-pages-container {
+    width: 100vw;
+  }
+}

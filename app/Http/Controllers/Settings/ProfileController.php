@@ -9,7 +9,6 @@ use Image;
 use Storage;
 use Hashids;
 use App\Rules\ValidSlug;
-use App\Rules\ValidBase64Image;
 
 class ProfileController extends Controller
 {
@@ -61,14 +60,14 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $validator = \Validator::make($request->all(), [
-            'image'=> [ 'required', new ValidBase64Image ],
+            'image'=> [ 'required', 'image' ],
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message'=>$validator->errors('image')], 400);
         }
 
-        $image = Image::make($request->image);
+        $image = Image::make($request->file('image'));
 
         // Validate image size.
         if($image->width()!==AVATAR_WIDTH || $image->height()!==AVATAR_HEIGHT) {

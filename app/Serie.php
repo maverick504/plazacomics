@@ -67,7 +67,7 @@ class Serie extends Model
      */
     public function isOwnedBy($userId)
     {
-        $authors = $this->authors;
+        $authors = $this->authors()->get();
         foreach($authors as $author) {
           if($author->id == $userId) {
             return true;

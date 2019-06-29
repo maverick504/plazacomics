@@ -6,7 +6,7 @@
       -->
       <div class="container">
         <div class="hero-body" style="padding: 60px 0px;">
-          <h1  style="display: block; margin: 0px;">
+          <h1 style="display: block; margin: 0px;">
             <span class="bg-primary">Autores en PlazaComics</span>
           </h1>
           <p style="display: block; margin: 0px;">
@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-    <div class="container mt-xl mb-xl">
+    <div class="container my-xl">
       <div class="columns">
-        <div class="column col-6 col-md-12" v-for="author in authors.data" :key="author.id">
+        <div v-for="author in authors.data" :key="author.id" class="column col-6 col-md-12">
           <author-card :author="author" />
         </div>
       </div>
@@ -28,7 +28,6 @@
 <script>
 import axios from 'axios'
 import AuthorCard from '~/components/AuthorCard'
-import PackageVariantIcon from "vue-material-design-icons/PackageVariant.vue"
 
 export default {
   head () {
@@ -39,17 +38,21 @@ export default {
     AuthorCard
   },
 
-  async asyncData ({ error }) {
-    var { data } = await axios.get(`/authors`)
-
-    return {
-      authors: data
-    }
-  },
-
   data: function () {
     return {
       authors: null
+    }
+  },
+
+  async asyncData ({ error }) {
+    try {
+      var authors = await axios.get(`/authors`)
+
+      return {
+        authors: authors.data
+      }
+    } catch (err) {
+      return error({ statusCode: err.response.status })
     }
   }
 }

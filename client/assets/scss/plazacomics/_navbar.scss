@@ -6,6 +6,7 @@
   z-index: 3;
   opacity: 1.0;
   transition: opacity 1s;
+  height: 72px;
   .navbar {
     padding: 16px;
     .logo {
@@ -38,10 +39,6 @@
   }
 }
 
-.navbar-wrapper.is-hidden {
-  opacity: 0.0;
-}
-
 .navbar-shadow {
   position: fixed;
   width: 100%;
@@ -49,60 +46,9 @@
   z-index: 2;
   opacity: 1.0;
   transition: opacity 1s;
-}
-
-.navbar-shadow.is-hidden {
-  opacity: 0.0;
-}
-
-.navbar-shadow {
   height: 72px;
 }
 
 .navbar-space {
   height: 72px;
-}
-
-.read-mode-navbar-space {
-  width: 100%;
-  height: 80px;
-}
-
-.container {
-  width: 80vw;
-}
-.pages-container {
-  width: 50vw;
-  padding: 0px;
-}
-
-@media only screen and (max-width: 840px) {
-  .container {
-    width: 95vw;
-  }
-  .pages-container {
-    width: 100vw;
-  }
-}
-
-.footer {
-  padding: 48px 0px;
-}
-.footer .container {
-  text-align: center;
-}
-.footer .links {
-  margin-bottom: 16px;
-}
-.footer .links a {
-  margin: 0px 8px;
-}
-
-.footer .suggestions-box {
-  .caption {
-    font-size: 12px;
-  }
-  textarea {
-    width: 100%; height: 80px;
-  }
 }

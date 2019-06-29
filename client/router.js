@@ -36,6 +36,7 @@ const ShowAuthor = () => import('~/pages/authors/show').then(m => m.default || m
 const InfoPublishing = () => import('~/pages/info/publishing').then(m => m.default || m)
 const InfoPrivacyPolicy = () => import('~/pages/info/privacyPolicy').then(m => m.default || m)
 const InfoFaq = () => import('~/pages/info/faq').then(m => m.default || m)
+const InfoCommunityGuide = () => import('~/pages/info/communityGuide').then(m => m.default || m)
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -62,8 +63,8 @@ const routes = [
   { path: '/series/:id/edit',
     component: EditSerie,
     children: [
-      { path: '/series/:id/edit', name: 'series.edit.details', component: EditSerieDetails },
-      { path: '/series/:id/chapters', name: 'series.edit.chapters', component: EditSerieChapters }
+      { path: '/series/:id/edit', name: 'series.edit.details', component: EditSerieDetails, group: 'editChapter' },
+      { path: '/series/:id/chapters', name: 'series.edit.chapters', component: EditSerieChapters, group: 'editChapter' }
     ] },
   { path: '/series/:id/:slug', name: 'series.show', component: ShowSerie },
 
@@ -76,6 +77,7 @@ const routes = [
 
   { path: '/publishing', name: 'info.publishing', component: InfoPublishing },
   { path: '/privacy-policy', name: 'info.privacyPolicy', component: InfoPrivacyPolicy },
+  { path: '/community-guide', name: 'info.communityGuide', component: InfoCommunityGuide },
   { path: '/faq', name: 'info.faq', component: InfoFaq }
 ]
 

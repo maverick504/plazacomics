@@ -15,7 +15,6 @@ use App\Chapter;
 use App\Page;
 use App\Rules\ValidSlug;
 use App\Rules\ValidSerieState;
-use App\Rules\ValidBase64Image;
 use Auth;
 use Image;
 use Storage;
@@ -222,14 +221,14 @@ class SerieController extends Controller
         }
 
         $validator = \Validator::make($request->all(), [
-            'image'=> [ 'required', new ValidBase64Image ],
+            'image'=> [ 'required', 'image' ],
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message'=>$validator->errors('image')], 400);
         }
 
-        $image = Image::make($request->image);
+        $image = Image::make($request->file('image'));
 
         // Validate image size.
         if($image->width()!==COMIC_COVER_WIDTH || $image->height()!==COMIC_COVER_HEIGHT) {
@@ -268,14 +267,14 @@ class SerieController extends Controller
         }
 
         $validator = \Validator::make($request->all(), [
-            'image'=> [ 'required', new ValidBase64Image ],
+            'image'=> [ 'required', 'image' ]
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message'=>$validator->errors('image')], 400);
         }
 
-        $image = Image::make($request->image);
+        $image = Image::make($request->file('image'));
 
         // Validate image size.
         if($image->width()!==COMIC_BANNER_WIDTH || $image->height()!==COMIC_BANNER_HEIGHT) {
@@ -358,7 +357,8 @@ class SerieController extends Controller
     {
         $serie = Serie::with([
             'genre1',
-            'genre2'
+            'genre2',
+            'licence'
         ])->where('id', '=', $id)->first();
 
         if(!$serie) {

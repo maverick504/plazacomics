@@ -40,7 +40,7 @@ module.exports = {
     ]
   },
 
-  loading: { color: '#007bff' },
+  loading: { color: '#ff6b6b', failedColor: '#feca57' },
 
   router: {
     middleware: ['locale', 'check-auth']
@@ -67,11 +67,24 @@ module.exports = {
   ],
 
   modules: [
-    '@nuxtjs/router',
-    '~/modules/spa'
+    '@nuxtjs/router'
   ],
 
   build: {
-    extractCSS: true
+    extractCSS: true,
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: "pre",
+          test: /\.(js|vue)$/,
+          loader: "eslint-loader",
+          exclude: /(node_modules)/,
+          options: {
+            fix: true
+          }
+        })
+      }
+    }
   }
 }

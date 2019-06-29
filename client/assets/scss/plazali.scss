@@ -1,72 +1,76 @@
-@import "spectre/spectre";
+/* IMPORT SPECTRE CSS */
 
-@import "plazali/spectre_override";
-@import "plazali/layout";
-@import "plazali/helpers";
-@import "plazali/carousel_3d_override";
-@import "plazali/croppie_override";
-@import "plazali/material_icons_override";
-@import "plazali/sweet_alert_override";
+// Variables and mixins
+// @import "spectre/variables";
+@import "spectre_override/variables";
+@import "spectre/mixins";
 
-@import "plazali/elements/label";
+// Reset and dependencies
+@import "spectre/normalize";
+@import "spectre/base";
 
-.auth-page-container {
-  margin-top: 48px;
-  margin-bottom: 48px;
-  max-width: 400px;
-}
+// Elements
+@import "spectre/typography";
+@import "spectre/asian";
+@import "spectre/tables";
+@import "spectre/buttons";
+@import "spectre/forms";
+@import "spectre/labels";
+@import "spectre/codes";
+@import "spectre/media";
 
-.btn-facebook {
-  background: #3B5998 !important;
-  border-color: #3B5998 !important;
-  color: #fff !important;
-}
+// Layout
+@import "spectre/layout";
+@import "spectre/hero";
+@import "spectre/navbar";
 
-a.card {
-  text-decoration: none;
-  color: #3b4351;
-}
+// Components
+@import "spectre/accordions";
+@import "spectre/avatars";
+@import "spectre/badges";
+@import "spectre/breadcrumbs";
+@import "spectre/bars";
+@import "spectre/cards";
+@import "spectre/chips";
+@import "spectre/dropdowns";
+@import "spectre/empty";
+@import "spectre/menus";
+@import "spectre/modals";
+@import "spectre/navs";
+@import "spectre/pagination";
+@import "spectre/panels";
+@import "spectre/popovers";
+@import "spectre/steps";
+@import "spectre/tabs";
+@import "spectre/tiles";
+@import "spectre/toasts";
+@import "spectre/tooltips";
 
-.card-link .card-image {
-  overflow: hidden;
-}
+// Utility classes
+@import "spectre/animations";
+@import "spectre/utilities";
 
-.card-link .card-image img {
-  transition: transform .2s;
-}
+/* SPECRE OVERRIDE */
+@import "spectre_override/base";
+@import "spectre_override/buttons";
+@import "spectre_override/cards";
+@import "spectre_override/forms";
+@import "spectre_override/menu";
+@import "spectre_override/modals";
+@import "spectre_override/navs";
+@import "spectre_override/typography";
 
-.card-link:hover .card-image img {
-  transform: scale(1.05);
-}
+/* OTHER OVERRIDES */
+@import "other_overrides/carousel_3d_override";
+@import "other_overrides/croppie_override";
+@import "other_overrides/material_icons_override";
+@import "other_overrides/sweet_alert_override";
 
-.card-shadow {
-  box-shadow: 0px 8px 8px rgba(0, 0, 0, .01) !important;
-}
-
-.chapter-card {
-  transition: all .2s;
-}
-
-.chapter-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 8px 8px rgba(0, 0, 0, .1) !important;
-}
-
-.card .corner-label {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 64px 64px 0 0;
-  border-color: $primary-color transparent transparent transparent;
-}
-
-.card .corner-label .content {
-  position: relative;
-  top: -60px;
-  left: 6px;
-  font-weight: bold;
-  color: $light-color;
-}
+/* PLAZACOMICS */
+@import "plazacomics/bottom_nav";
+@import "plazacomics/containers";
+@import "plazacomics/footer";
+@import "plazacomics/helpers";
+@import "plazacomics/layout";
+@import "plazacomics/navbar";
+@import "plazacomics/read_mode_navbar";

@@ -2,13 +2,14 @@
   <div class="form-group custom-control custom-checkbox">
     <label :for="id || name" :class="type=='switch'?'form-switch':'form-checkbox'">
       <input
+        :id="id || name"
         :name="name"
         :checked="internalValue"
-        :id="id || name"
         type="checkbox"
         class="custom-control-input"
-        @click="handleClick">
-      <i class="form-icon"></i> <slot/>
+        @click="handleClick"
+      >
+      <i class="form-icon" /> <slot />
     </label>
   </div>
 </template>

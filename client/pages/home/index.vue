@@ -3,7 +3,7 @@
     <div class="container mt-xl mb-xl">
       <h2>Series nuevas en PlazaComics</h2>
       <div class="columns">
-        <div class="column col-3 col-md-6" v-for="serie in newSeries" :key="serie.id">
+        <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6">
           <serie-card :serie="serie" />
         </div>
       </div>
@@ -27,7 +27,7 @@
 <script>
 import axios from 'axios'
 import SerieCard from '../../components/SerieCard.vue'
-import InformationOutlineIcon from "vue-material-design-icons/InformationOutline.vue"
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 export default {
   head () {
@@ -39,21 +39,21 @@ export default {
     InformationOutlineIcon
   },
 
-  async asyncData ({ error }) {
-    try {
-      var { data } = await axios.get(`newSeries/`)
-
-      return {
-        newSeries: data
-      }
-    } catch (err) {
-      return error({ statusCode: err.response.status })
-    }
-  },
-
   data: function () {
     return {
       newSeries: []
+    }
+  },
+
+  async asyncData ({ error }) {
+    try {
+      var newSeries = await axios.get(`newSeries/`)
+
+      return {
+        newSeries: newSeries.data
+      }
+    } catch (err) {
+      return error({ statusCode: err.response.status })
     }
   }
 }

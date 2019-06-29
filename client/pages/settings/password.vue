@@ -2,22 +2,26 @@
   <div>
     <form class="pt-no pb-no" @submit.prevent="update" @keydown="form.onKeydown($event)">
       <!-- Password -->
-      <div class="form-group" :class="{ 'has-error': form.errors.has('password') }">
+      <div :class="{ 'has-error': form.errors.has('password') }" class="form-group">
         <label class="form-label">Nueva Contraseña</label>
         <div class="has-icon-left col-12">
-          <input type="password" class="form-input" placeholder="Nueva Contraseña" v-model="form.password" />
+          <input v-model="form.password" type="password" class="form-input" placeholder="Nueva Contraseña">
           <lock-icon class="form-icon" />
         </div>
-        <p class="form-input-hint">{{ form.errors.get('password') }}</p>
+        <p class="form-input-hint">
+          {{ form.errors.get('password') }}
+        </p>
       </div>
       <!-- Password Confirmation -->
-      <div class="form-group" :class="{ 'has-error': form.errors.has('password_confirmation') }">
+      <div :class="{ 'has-error': form.errors.has('password_confirmation') }" class="form-group">
         <label class="form-label">Confirmar Contraseña</label>
         <div class="has-icon-left col-12">
-          <input type="password" class="form-input" placeholder="Confirmar Contraseña" v-model="form.password_confirmation" />
+          <input v-model="form.password_confirmation" type="password" class="form-input" placeholder="Confirmar Contraseña">
           <lock-icon class="form-icon" />
         </div>
-        <p class="form-input-hint">{{ form.errors.get('password_confirmation') }}</p>
+        <p class="form-input-hint">
+          {{ form.errors.get('password_confirmation') }}
+        </p>
       </div>
       <!-- Submit Button -->
       <div class="form-group mt-lg">
@@ -32,7 +36,7 @@
 <script>
 import swal from 'sweetalert2'
 import Form from 'vform'
-import LockIcon from "vue-material-design-icons/Lock.vue"
+import LockIcon from 'vue-material-design-icons/Lock.vue'
 
 export default {
   scrollToTop: false,

@@ -1,52 +1,64 @@
 <template>
   <div>
-    <div class="container auth-page-container">
-      <h1 class="text-center">Registrarse</h1>
+    <div class="container mini-container">
+      <h1 class="text-center">
+        Registrarse
+      </h1>
       <p class="align-center mt-no mb-md">
-        ¿Ya estás registrado? <router-link :to="{ name: 'login' }">Inicia Sesión</router-link>
+        ¿Ya estás registrado? <router-link :to="{ name: 'login' }">
+          Inicia Sesión
+        </router-link>
       </p>
       <div class="card">
         <div class="card-body">
           <form class="pt-no pb-no" @submit.prevent="register" @keydown="form.onKeydown($event)">
             <!-- Email -->
-            <div class="form-group" :class="{ 'has-error': form.errors.has('username') }">
+            <div :class="{ 'has-error': form.errors.has('username') }" class="form-group">
               <label class="form-label">Nombre de Usuario</label>
               <div class="has-icon-left col-12">
-                <input type="text" class="form-input" placeholder="Nombre de Usuario" v-model="form.username" />
+                <input v-model="form.username" type="text" class="form-input" placeholder="Nombre de Usuario">
                 <email-icon class="form-icon" />
               </div>
-              <p class="form-input-hint">{{ form.errors.get('username') }}</p>
+              <p class="form-input-hint">
+                {{ form.errors.get('username') }}
+              </p>
             </div>
             <!-- Email -->
-            <div class="form-group" :class="{ 'has-error': form.errors.has('email') }">
+            <div :class="{ 'has-error': form.errors.has('email') }" class="form-group">
               <label class="form-label">Email</label>
               <div class="has-icon-left col-12">
-                <input type="email" class="form-input" placeholder="Email" v-model="form.email" />
+                <input v-model="form.email" type="email" class="form-input" placeholder="Email">
                 <email-icon class="form-icon" />
               </div>
-              <p class="form-input-hint">{{ form.errors.get('email') }}</p>
+              <p class="form-input-hint">
+                {{ form.errors.get('email') }}
+              </p>
             </div>
             <!-- Password -->
-            <div class="form-group" :class="{ 'has-error': form.errors.has('password') }">
+            <div :class="{ 'has-error': form.errors.has('password') }" class="form-group">
               <label class="form-label">Contraseña</label>
               <div class="has-icon-left col-12">
-                <input type="password" class="form-input" placeholder="Contraseña" v-model="form.password" />
+                <input v-model="form.password" type="password" class="form-input" placeholder="Contraseña">
                 <lock-icon class="form-icon" />
               </div>
-              <p class="form-input-hint">{{ form.errors.get('password') }}</p>
+              <p class="form-input-hint">
+                {{ form.errors.get('password') }}
+              </p>
             </div>
             <!-- Password Confirmation -->
-            <div class="form-group" :class="{ 'has-error': form.errors.has('password_confirmation') }">
+            <div :class="{ 'has-error': form.errors.has('password_confirmation') }" class="form-group">
               <label class="form-label">Confirmar Contraseña</label>
               <div class="has-icon-left col-12">
-                <input type="password" class="form-input" placeholder="Confirmar Contraseña" v-model="form.password_confirmation" />
+                <input v-model="form.password_confirmation" type="password" class="form-input" placeholder="Confirmar Contraseña">
                 <lock-icon class="form-icon" />
               </div>
-              <p class="form-input-hint">{{ form.errors.get('password_confirmation') }}</p>
+              <p class="form-input-hint">
+                {{ form.errors.get('password_confirmation') }}
+              </p>
             </div>
             <!-- Submit Button -->
             <div class="form-group">
-              <v-button type="primary" large block :loading="form.busy">
+              <v-button :loading="form.busy" type="primary" large block>
                 Registrarse
               </v-button>
             </div>
@@ -54,7 +66,9 @@
         </div>
       </div>
       <p class="align-center mt-md mb-no">
-        Al continuar, aceptas nuestra <router-link :to="{ name: 'info.privacyPolicy' }">Política de Privacidad</router-link>
+        Al continuar, aceptas nuestra <router-link :to="{ name: 'info.privacyPolicy' }">
+          Política de Privacidad
+        </router-link>
       </p>
       <!--
       <p class="align-center mt-md mb-no">
@@ -67,8 +81,8 @@
 
 <script>
 import Form from 'vform'
-import EmailIcon from "vue-material-design-icons/Email.vue"
-import LockIcon from "vue-material-design-icons/Lock.vue"
+import EmailIcon from 'vue-material-design-icons/Email.vue'
+import LockIcon from 'vue-material-design-icons/Lock.vue'
 
 export default {
   head () {

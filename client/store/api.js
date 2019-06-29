@@ -25,12 +25,12 @@ export const mutations = {
 
 // actions
 export const actions = {
-  async fetchGenres({ commit }) {
+  async fetchGenres ({ commit }) {
     const genres = await axios.get('/genres')
     commit('SET_GENRES', genres.data)
   },
 
-  async fetchLicences({ commit }) {
+  async fetchLicences ({ commit }) {
     const licences = await axios.get('/licences')
     commit('SET_LICENCES', licences.data)
   }

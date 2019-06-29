@@ -1,0 +1,13 @@
+.has-icon-left input,
+.has-icon-left textarea, {
+  padding-left: 34px !important;
+}
+.has-icon-left .form-icon {
+  width: 24px;
+  text-align: center;
+  top: 14px;
+}
+
+textarea {
+  resize: vertical;
+}

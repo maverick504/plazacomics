@@ -1,19 +1,21 @@
 <template>
   <div>
-    <div class="layout-banner bg-primary"></div>
+    <div class="layout-banner bg-primary" />
     <div class="container">
       <div class="layout-head">
         <div class="image-column">
-          <img class="img-responsive s-circle c-hand" @click="$refs.avatarFile.click()" :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" />
-          <input class="d-none" type="file" accept="image/*" ref="avatarFile" @change="avatarFileChanged()">
+          <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" class="img-responsive s-circle c-hand" @click="$refs.avatarFile.click()">
+          <input ref="avatarFile" class="d-none" type="file" accept="image/*" @change="avatarFileChanged()">
         </div>
         <div class="content-column">
-          <h1 class="mt-md mb-sm">{{ user.username }}</h1>
+          <h1 class="mt-md mb-sm">
+            {{ user.username }}
+          </h1>
           <span class="d-block mb-sm">{{ user.name }}</span>
         </div>
       </div>
     </div>
-    <div class="divider"></div>
+    <div class="divider" />
     <div class="container mb-xl">
       <ul class="tab mb-md">
         <li class="tab-item">
@@ -28,7 +30,7 @@
         </li>
       </ul>
       <transition name="fade" mode="out-in">
-        <router-view/>
+        <router-view />
       </transition>
     </div>
     <!-- Avatar cropping modal -->
@@ -36,13 +38,13 @@
       <template v-slot:content>
         <vue-croppie
           ref="avatarCroppie"
-          :enableResize="false"
+          :enable-resize="false"
           :viewport="{ width: 150, height: 150, type: 'square' }"
-          :boundary="{ height: 340 }">
-        </vue-croppie>
+          :boundary="{ height: 340 }"
+        />
       </template>
       <template v-slot:footer>
-        <v-button type="primary" nativeType="button" :loading="busy" @click.native="cropAvatar">
+        <v-button :loading="busy" type="primary" native-type="button" @click.native="cropAvatar">
           Confirmar
         </v-button>
       </template>
@@ -70,24 +72,27 @@ export default {
   }),
 
   methods: {
-    avatarFileChanged() {
+    avatarFileChanged () {
       const file = this.$refs.avatarFile.files[0]
       this.$refs.avatarCroppie.bind({
-        url: URL.createObjectURL(file),
+        url: URL.createObjectURL(file)
       })
       this.$refs.avatarFile.value = null
       this.showAvatarCroppingModal = true
     },
 
-    async cropAvatar() {
+    async cropAvatar () {
       this.busy = true
 
-      // Get the cropped image result
+      // Get the cropped avatar result
       const output = await this.$refs.avatarCroppie.result({ format: 'jpeg', size: { width: 200, height: 200 }, quality: 1 })
+      const res = await fetch(output)
+      const blob = await res.blob()
+      const file = new File([blob], 'avatar.jpeg')
 
       // Submit the new avatar
       const fd = new FormData()
-      fd.append('image', output)
+      fd.append('image', file)
       const { data } = await axios.post(`/settings/updateAvatar`, fd)
 
       // Update the user in the vuex store

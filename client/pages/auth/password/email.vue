@@ -1,25 +1,29 @@
 <template>
   <div>
-    <div class="container auth-page-container">
-      <h1 class="text-center">{{ $t('reset_password') }}</h1>
+    <div class="container mini-container">
+      <h1 class="text-center">
+        {{ $t('reset_password') }}
+      </h1>
       <div class="card">
         <div class="card-body">
           <form @submit.prevent="send" @keydown="form.onKeydown($event)">
-            <alert type="success" :show="form.successful">
+            <alert :show="form.successful" type="success">
               {{ status }}
             </alert>
             <!-- Email -->
-            <div class="form-group" :class="{ 'has-error': form.errors.has('email') }">
+            <div :class="{ 'has-error': form.errors.has('email') }" class="form-group">
               <label class="form-label">Email</label>
               <div class="has-icon-left col-12">
-                <input type="email" class="form-input" placeholder="Email" v-model="form.email" />
+                <input v-model="form.email" type="email" class="form-input" placeholder="Email">
                 <email-icon class="form-icon" />
               </div>
-              <p class="form-input-hint">{{ form.errors.get('email') }}</p>
+              <p class="form-input-hint">
+                {{ form.errors.get('email') }}
+              </p>
             </div>
             <!-- Submit Button -->
             <div class="form-group">
-              <v-button type="primary" large block :loading="form.busy">
+              <v-button :loading="form.busy" type="primary" large block>
                 {{ $t('send_password_reset_link') }}
               </v-button>
             </div>
@@ -32,7 +36,7 @@
 
 <script>
 import Form from 'vform'
-import EmailIcon from "vue-material-design-icons/Email.vue"
+import EmailIcon from 'vue-material-design-icons/Email.vue'
 
 export default {
   head () {
