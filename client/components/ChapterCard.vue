@@ -1,7 +1,7 @@
 <template>
-  <router-link :to="{ name: 'chapters.show', params: { serieSlug: serieSlug, chapterId: chapter.id, chapterSlug: chapter.slug } }" class="card chapter-card">
+  <router-link :to="to" class="card chapter-card">
     <div v-if="chapter.thumbnail_url" class="card-image">
-      <img :src="chapter.thumbnail_url" class="img-responsive">
+      <img :src="`${cdnUrl}/${chapter.thumbnail_url}`" class="img-responsive" style="width: 100%;">
     </div>
     <div class="card-header">
       <div class="card-title">
@@ -20,6 +20,22 @@ export default {
     serieSlug: { default: null, type: String },
     chapterNumber: { default: null, type: Number },
     chapter: { default: null, type: Object }
+  },
+
+  computed: {
+    to () {
+      if (this.serieSlug) {
+        return {
+          name: 'chapters.show',
+          params: {
+            serieSlug: this.serieSlug,
+            chapterId: this.chapter.id,
+            chapterSlug: this.chapter.slug
+          }
+        }
+      }
+      return {}
+    }
   }
 }
 </script>

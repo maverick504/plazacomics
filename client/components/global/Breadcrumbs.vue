@@ -1,6 +1,6 @@
 <template>
   <ul class="breadcrumb mb-no">
-    <li v-for="item in items" :key="item.text" class="breadcrumb-item">
+    <li v-for="(item, index) in items" :key="index" class="breadcrumb-item">
       <nuxt-link :to="item.to">
         {{ item.text }}
       </nuxt-link>

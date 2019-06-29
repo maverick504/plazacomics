@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/series/{id}/chapters', 'ChapterController@userSerieIndex');
     Route::get('user/chapters/{id}', 'ChapterController@userShow');
     Route::delete('user/chapters/{id}', 'ChapterController@destroy');
+    Route::post('chapters/{id}/updateThumbnail', 'ChapterController@updateThumbnail');
+    Route::post('chapters/{id}/removeThumbnail', 'ChapterController@removeThumbnail');
 
     // Pages
     Route::post('pages/uploadImage', 'PageController@uploadImage');

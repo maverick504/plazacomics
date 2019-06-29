@@ -1,9 +1,40 @@
 <template>
   <div>
-    <div class="container mt-xl mb-xl">
-      <breadcrumbs :items="breadcrumbs" />
-      <h2>{{ chapter.title }}</h2>
-      <form class="py-no" @submit.prevent="save" @keydown="form.onKeydown($event)">
+    <form class="py-no" @submit.prevent="save" @keydown="form.onKeydown($event)">
+      <div class="container mt-xl mb-xl">
+        <breadcrumbs :items="breadcrumbs" />
+        <h2>{{ chapter.title }}</h2>
+      </div>
+      <div class="bg-primary text-light py-xl">
+        <div class="container">
+          <div class="columns">
+            <div class="column col-6 col-md-12">
+              <strong>Vista Previa:</strong>
+              <chapter-card :chapter="modifiedChapter" :chapter-number="1" class="mt-sm"/>
+            </div>
+            <div class="column col-6"/>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-xl mb-xl">
+        <div :class="{ 'has-error': form.errors.has('thumbnail_image') }" class="form-group">
+          <label class="form-label">Thumbnail (540x240, opcional)</label>
+          <input ref="thumbnailFile" class="d-none" type="file" accept="image/*" @change="thumbnailFileChanged()">
+          <template v-if="thumbnail_url">
+            <v-button type="primary" native-type="button" class="mr-sm" @click.native="$refs.thumbnailFile.click()">
+              <upload-icon/>Cambiar
+            </v-button>
+            <v-button type="primary" native-type="button" class="mr-sm" @click.native="removeThumbnail">
+              <close-icon/>Quitar
+            </v-button>
+          </template>
+          <v-button v-else type="primary" native-type="button" class="mr-sm" @click.native="$refs.thumbnailFile.click()">
+            <upload-icon/>Subir
+          </v-button>
+          <p class="form-input-hint">
+            {{ form.errors.get('thumbnail_image') }}
+          </p>
+        </div>
         <div class="columns">
           <div class="column col-9 col-sm-12">
             <!-- Title -->
@@ -86,8 +117,25 @@
             Eliminar
           </v-button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
+    <!-- Thumbnail cropping modal -->
+    <modal :active.sync="showThumbnailCroppingModal" title="Cambiar Thumbnail">
+      <template v-slot:content>
+        <vue-croppie
+          ref="thumbnailCroppie"
+          :enable-resize="false"
+          :viewport="{ width: 540, height: 240, type: 'square' }"
+          :boundary="{ height: 340 }"
+        />
+      </template>
+      <template v-slot:footer>
+        <v-button :loading="uploadingThumbnail" type="primary" native-type="button" @click.native="cropThumbnail">
+          Confirmar
+        </v-button>
+      </template>
+    </modal>
+    <!-- /Thumbnail cropping modal -->
     <!-- Upload Progress modal -->
     <modal :active.sync="uploadingFiles" :closable="false" title="Subiendo Páginas...">
       <template v-slot:content>
@@ -107,6 +155,7 @@ import swal from 'sweetalert2'
 import moment from 'moment'
 import draggable from 'vuedraggable'
 import Form from 'vform'
+import ChapterCard from '../../components/ChapterCard.vue'
 import CalendarTodayIcon from 'vue-material-design-icons/CalendarToday.vue'
 import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
@@ -120,6 +169,7 @@ export default {
   },
 
   components: {
+    ChapterCard,
     draggable,
     CalendarTodayIcon,
     UploadIcon,
@@ -128,12 +178,12 @@ export default {
   },
 
   data: () => ({
+    breadcrumbs: null,
     serie: null,
     chapter: null,
     form: new Form({
       title: '',
       slug: '',
-      synopsis: '',
       relase_date: '',
       pages: []
     }),
@@ -142,7 +192,10 @@ export default {
       percentage: null,
       filesUploadedCount: null,
       totalFiles: null
-    }
+    },
+    thumbnail_url: null,
+    showThumbnailCroppingModal: false,
+    uploadingThumbnail: false
   }),
 
   async asyncData ({ params, error }) {
@@ -159,16 +212,30 @@ export default {
     }
   },
 
+  computed: {
+    modifiedChapter () {
+      return {
+        thumbnail_url: this.thumbnail_url,
+        title: this.form.title,
+        slug: this.form.slug,
+        relase_date: this.form.relase_date,
+        total_pages: this.form.pages.length
+      }
+    }
+  },
+
   created () {
     this.$nextTick(() => {
       // Fill the form with serie data.
       this.form.keys().forEach(key => {
         if (key === 'relase_date' && this.chapter[key] !== null) {
           this.form[key] = moment(this.chapter[key]).format('DD/MM/YYYY')
-        } else {
+        } else if (key !== 'thumbnail_url') {
           this.form[key] = this.chapter[key]
         }
       })
+
+      this.thumbnail_url = this.chapter.thumbnail_url
 
       this.breadcrumbs = [
         {
@@ -254,6 +321,50 @@ export default {
           this.form.pages.splice(i, 1)
         }
       }
+    },
+
+    thumbnailFileChanged () {
+      const file = this.$refs.thumbnailFile.files[0]
+      this.$refs.thumbnailCroppie.bind({
+        url: URL.createObjectURL(file)
+      })
+      this.$refs.thumbnailFile.value = null
+      this.showThumbnailCroppingModal = true
+    },
+
+    async cropThumbnail () {
+      this.uploadingThumbnail = true
+
+      // Get the cropped thumbnail result
+      const output = await this.$refs.thumbnailCroppie.result({ format: 'jpeg', size: { width: 540, height: 240 }, quality: 1 })
+      const res = await fetch(output)
+      const blob = await res.blob()
+      const file = new File([blob], 'thumbnail.jpeg')
+
+      // Submit the new thumbnail
+      const fd = new FormData()
+      fd.append('image', file)
+      const { data } = await axios.post(`/chapters/${this.chapter.id}/updateThumbnail`, fd)
+
+      // Submit the new thumbnail
+      this.thumbnail_url = data.thumbnail_url + '?' + new Date().getTime() // Cache-breaker
+
+      // Close the cropping modal
+      this.showThumbnailCroppingModal = false
+
+      this.uploadingThumbnail = false
+    },
+
+    async removeThumbnail () {
+      await axios.post(`/chapters/${this.chapter.id}/removeThumbnail`)
+      this.thumbnail_url = null
+
+      swal({
+        type: 'success',
+        title: 'Thumbnail actualizado!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     },
 
     async save () {

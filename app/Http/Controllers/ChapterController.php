@@ -298,6 +298,79 @@ class ChapterController extends Controller
     }
 
     /**
+     * Update the chapter's thubmanil image.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateThumbnail(Request $request, $id)
+    {
+        $chapter = Chapter::find($id);
+
+        if(!$chapter) {
+            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
+
+        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
+        }
+
+        $validator = \Validator::make($request->all(), [
+            'image' => [ 'required', 'image' ],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message'=>$validator->errors('image')], 400);
+        }
+
+        $image = Image::make($request->file('image'));
+
+        // Validate image size.
+        if($image->width()!==COMIC_CHAPTER_THUMBNAIL_WIDTH || $image->height()!==COMIC_CHAPTER_THUMBNAIL_HEIGHT) {
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+               'image' => ['The image size is not valid']
+            ]);
+        }
+
+        // Save the image in the server
+        $image->stream();
+        $filePath = 'chapters/' . Hashids::encode($chapter->id) . '/thumbnail.jpg';
+        Storage::disk('spaces')->put($filePath, $image, 'public');
+
+        // Update the chapter
+        return tap($chapter)->update([
+            'thumbnail_url' => $filePath
+        ]);
+    }
+
+    /**
+     * Removes the chapter's thumbnail image.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeThumbnail(Request $request, $id)
+    {
+        $chapter = Chapter::find($id);
+
+        if(!$chapter) {
+            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
+
+        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
+        }
+
+        // Remove the file from storage
+        Storage::disk('spaces')->delete($chapter->thumbnail_url);
+
+        // Update the chapter
+        return tap($chapter)->update([
+            'thumbnail_url' => null
+        ]);
+    }
+
+    /**
      * Remove the specified chapter from storage.
      *
      * @param  \Illuminate\Http\Request  $request

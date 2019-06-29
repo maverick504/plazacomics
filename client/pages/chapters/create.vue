@@ -126,7 +126,6 @@ export default {
       serie_id: null,
       title: '',
       slug: '',
-      synopsis: '',
       relase_date: '',
       pages: []
     }),
