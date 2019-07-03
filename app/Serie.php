@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanBeSubscribed;
+use Overtrue\LaravelFollow\Traits\CanBeLiked;
 
 class Serie extends Model
 {
-    use CanBeFollowed;
+    use CanBeSubscribed;
+    use CanBeLiked;
 
     protected $table = 'series';
     public $timestamps = true;

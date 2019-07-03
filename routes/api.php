@@ -33,6 +33,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/password', 'Settings\PasswordController@update');
     Route::post('settings/updateAvatar', 'Settings\ProfileController@updateAvatar');
 
+    // Notifications
+    Route::get('user/notifications', 'NotificationController@index');
+    Route::get('user/notifications/{id}', 'NotificationController@show');
+    Route::put('user/notifications/{id}/markAsRead', 'NotificationController@markAsRead');
+    Route::delete('user/notifications/{id}', 'NotificationController@destroy');
+
     // Series
     Route::post('series/', 'SerieController@store');
     Route::put('series/{id}', 'SerieController@update');
@@ -42,10 +48,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/series', 'SerieController@userIndex');
     Route::get('user/series/{id}', 'SerieController@userShow');
 
-    // Serie Following
-    Route::get('user/followings', 'FollowController@userIndex');
-    Route::post('user/follow/{serieId}', 'FollowController@follow');
-    Route::post('user/unfollow/{serieId}', 'FollowController@unfollow');
+    // Serie Like System
+    Route::post('user/like/{serieId}', 'LikeController@like');
+    Route::post('user/unlike/{serieId}', 'LikeController@unlike');
+
+    // Serie Subscriber System
+    Route::get('user/subscriptions', 'SubscribeController@userIndex');
+    Route::post('user/subscribe/{serieId}', 'SubscribeController@subscribe');
+    Route::post('user/unsubscribe/{serieId}', 'SubscribeController@unsubscribe');
 
     // Chapters
     Route::post('chapters/', 'ChapterController@store');
@@ -103,8 +113,8 @@ Route::get('series/{id}', 'SerieController@show');
 Route::get('authors/{id}/series', 'SerieController@authorIndex');
 Route::get('series/', 'SerieController@index');
 
-// Serie following
-Route::get('series/{id}/followers', 'FollowController@serieIndex');
+// Serie Subscriber System
+Route::get('series/{id}/subscribers', 'SubscribeController@serieIndex');
 
 // Chapters
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');

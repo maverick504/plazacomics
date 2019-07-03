@@ -31,10 +31,15 @@
               <nuxt-link :class="{ 'is-loading': busy }" :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
                 Comenzar a leer
               </nuxt-link>
-              <v-button :loading="busy" large @click.native="toggleFollowing">
-                <check-icon v-if="serie.user_is_follower" class="mr-xs" />
-                <plus-icon v-if="!serie.user_is_follower" class="mr-xs" />
-                {{ serie.user_is_follower?'Siguiendo':'Seguir' }}
+              <v-button :loading="busy" class="mr-sm" large @click.native="toggleLike">
+                <heart-icon v-if="serie.user_liked" />
+                <heart-outline-icon v-if="!serie.user_liked" />
+                {{ serie.likes_count }}
+              </v-button>
+              <v-button :loading="busy" large @click.native="toggleSubscribed">
+                <check-icon v-if="serie.user_is_subscriber" />
+                <plus-icon v-if="!serie.user_is_subscriber" />
+                {{ serie.user_is_subscriber?'Suscrito':'Suscribirse' }}
               </v-button>
             </div>
           </div>
@@ -73,14 +78,14 @@
             <img :src="`/licences/${serie.licence.language_key}.png`" class="img-responsive" style="height: 40px; width: auto;">
           </figure>
           <h3 :data-badge="followers.length" class="h5 mt-md mb-md badge">
-            Seguidores
+            Suscriptores
           </h3>
           <div class="my-no">
             <span v-if="followers.length == 0">
-              Esta seria todavía no tiene seguidores.
+              Esta serie todavía no tiene suscriptores.
             </span>
             <template v-else>
-              <figure v-for="user in followers" :key="user.id" :data-tooltip="user.username" class="avatar avatar-md mr-sm tooltip">
+              <figure v-for="user in followers" :key="user.id" :data-tooltip="user.username" class="avatar mr-sm tooltip">
                 <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="user.username">
               </figure>
             </template>
@@ -95,9 +100,51 @@
         </section>
         <div class="divider" />
         <!-- Commments -->
-        <div class="container pb-xl">
-          <vue-disqus shortname="plazacomics" />
-        </div>
+        <!--
+        <section class="comments-container my-xl">
+          <h3 class="comments-title">999 comentarios</h3>
+          <div class="comments">
+            <div class="comment">
+              <div class="comment-avatar">
+                <figure class="avatar">
+                  <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
+                </figure>
+              </div>
+              <div class="comment-content">
+                <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
+                <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
+                <a href="#">Responder</a>
+                <div class="comments">
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <figure class="avatar">
+                        <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
+                      </figure>
+                    </div>
+                    <div class="comment-content">
+                      <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
+                      <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
+                      <a href="#">Responder</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="comment-avatar">
+                <figure class="avatar">
+                  <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
+                </figure>
+              </div>
+              <div class="comment-content">
+                <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
+                <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
+                <a href="#">Responder</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        -->
         <!-- /Commments -->
       </div>
     </div>
@@ -124,6 +171,8 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import swal from 'sweetalert2'
 import ChapterCard from '../../components/ChapterCard.vue'
+import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
+import HeartIcon from 'vue-material-design-icons/Heart.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 
@@ -134,6 +183,8 @@ export default {
 
   components: {
     ChapterCard,
+    HeartOutlineIcon,
+    HeartIcon,
     PlusIcon,
     CheckIcon
   },
@@ -151,7 +202,7 @@ export default {
     try {
       var serie = await axios.get(`/series/${params.id}`)
       var chapters = await axios.get(`/series/${params.id}/chapters`)
-      var followers = await axios.get(`/series/${params.id}/followers`)
+      var followers = await axios.get(`/series/${params.id}/subscribers`)
 
       return {
         serie: serie.data,
@@ -185,15 +236,15 @@ export default {
   },
 
   methods: {
-    async toggleFollowing () {
+    async toggleSubscribed () {
       if (this.user == null) {
         this.showMustLoginModal = true
         return
       }
 
-      if (this.serie.user_is_follower) {
+      if (this.serie.user_is_subscriber) {
         const { value } = await swal({
-          title: '¿Dejar de seguir?',
+          title: '¿Desuscribirse?',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#32b643',
@@ -205,19 +256,40 @@ export default {
         if (value) {
           this.busy = true
 
-          await axios.post(`user/unfollow/${this.serie.id}`)
-          this.serie.user_is_follower = false
+          await axios.post(`user/unsubscribe/${this.serie.id}`)
+          this.serie.user_is_subscriber = false
 
           this.busy = false
         }
       } else {
         this.busy = true
 
-        await axios.post(`user/follow/${this.serie.id}`)
-        this.serie.user_is_follower = true
+        await axios.post(`user/subscribe/${this.serie.id}`)
+        this.serie.user_is_subscriber = true
 
         this.busy = false
       }
+    },
+
+    async toggleLike () {
+      if (this.user == null) {
+        this.showMustLoginModal = true
+        return
+      }
+
+      this.busy = true
+
+      if (this.serie.user_liked) {
+        await axios.post(`user/unlike/${this.serie.id}`)
+        this.serie.user_liked = false
+        this.serie.likes_count--
+      } else {
+        await axios.post(`user/like/${this.serie.id}`)
+        this.serie.user_liked = true
+        this.serie.likes_count++
+      }
+
+      this.busy = false
     }
   }
 }

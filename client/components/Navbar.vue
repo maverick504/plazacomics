@@ -18,7 +18,29 @@
             <router-link :to="{ name: 'series.create' }" class="btn btn-primary mr-sm hide-sm">
               <plus-icon /> Publicar
             </router-link>
-            <!-- dropdown -->
+            <!-- notifications -->
+            <router-link :to="{ name: 'notifications' }" class="btn btn-link btn-action mr-sm show-sm">
+              <bell-outline-icon />
+            </router-link>
+            <div class="dropdown dropdown-right">
+              <a href="javascript:void(0);" class="btn btn-link badge dropdown-toggle btn-action mr-sm hide-sm" tabindex="0" data-badge="999">
+                <bell-outline-icon />
+              </a>
+              <ul class="menu" style="width: 400px;">
+                <li class="menu-item py-xs">
+                  <strong>Notificaciones</strong>
+                  <a href="javascript:void(0);" class="float-right py-no">Marcar todas como leídas</a>
+                </li>
+                <li class="menu-item">
+                  <p class="my-xl text-center">No tienes notificaciones.</p>
+                </li>
+                <li class="menu-item mt-sm">
+                  <nuxt-link :to="{ name: 'notifications', params: { filter: 'unread' } }" class="text-center bg-gray">Ver todas</nuxt-link>
+                </li>
+              </ul>
+            </div>
+            <!-- /notifications -->
+            <!-- menu -->
             <div class="dropdown dropdown-right">
               <a href="javascript:void(0);" class="btn btn-link dropdown-toggle" tabindex="0">
                 <figure class="avatar avatar-sm">

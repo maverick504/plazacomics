@@ -61,9 +61,7 @@
           </router-link>
         </li>
       </ul>
-      <transition name="fade" mode="out-in">
-        <router-view :serie="serie" />
-      </transition>
+      <router-view :serie="serie" />
     </div>
     <!-- Cover cropping modal -->
     <modal :active.sync="showCoverCroppingModal" title="Cambiar Portada">

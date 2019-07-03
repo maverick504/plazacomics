@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="container mt-xl mb-xl">
-      <h2>Mi biblioteca</h2>
-      <div v-if="followings.length == 0" class="empty">
+      <h2>Mi Biblioteca</h2>
+      <div v-if="subscriptions.length == 0" class="empty">
         <div class="empty-icon">
           <package-variant-icon class="icon-10x" />
         </div>
@@ -10,7 +10,7 @@
           Tu biblioteca está vacía!
         </p>
         <p class="empty-subtitle">
-          Para agregar series a tu biblioteca busca el botón "Seguir" cuando veas una serie que te gusta.
+          Para agregar series a tu biblioteca busca el botón "Suscribirse" cuando veas una serie que te gusta.
         </p>
         <div class="empty-action">
           <nuxt-link :to="{ name: 'series.index' }" class="btn btn-primary">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div v-else class="columns">
-        <div v-for="serie in followings" :key="serie.id" class="column col-3 col-md-6">
+        <div v-for="serie in subscriptions" :key="serie.id" class="column col-3 col-md-6">
           <serie-card :serie="serie" />
         </div>
       </div>
@@ -46,16 +46,16 @@ export default {
 
   data: function () {
     return {
-      followings: []
+      subscriptions: []
     }
   },
 
   async asyncData ({ error }) {
     try {
-      var followings = await axios.get(`user/followings`)
+      var subscriptions = await axios.get(`user/subscriptions`)
 
       return {
-        followings: followings.data
+        subscriptions: subscriptions.data
       }
     } catch (err) {
       return error({ statusCode: err.response.status })

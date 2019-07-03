@@ -6,12 +6,14 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanSubscribe;
+use Overtrue\LaravelFollow\Traits\CanLike;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    use CanFollow;
+    use CanSubscribe;
+    use CanLike;
 
     /**
      * The attributes that are mass assignable.

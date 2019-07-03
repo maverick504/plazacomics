@@ -2,12 +2,15 @@
   <div>
     <navbar />
     <div class="navbar-space" />
-    <transition name="fade" mode="out-in">
-      <nuxt />
-    </transition>
+    <nuxt />
     <v-footer />
     <bottom-nav />
     <div class="botton-nav-space show-sm" />
+    <cookie-law theme="blood-orange" button-text="Si, está bien!">
+      <div slot="message">
+        En este sitio usamos cookies 🍪 para brindarte una mejor experiencia.
+      </div>
+    </cookie-law>
   </div>
 </template>
 

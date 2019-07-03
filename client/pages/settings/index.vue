@@ -29,9 +29,7 @@
           </router-link>
         </li>
       </ul>
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+      <router-view />
     </div>
     <!-- Avatar cropping modal -->
     <modal :active.sync="showAvatarCroppingModal" title="Cambiar Avatar">

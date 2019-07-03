@@ -61,7 +61,7 @@ module.exports = {
     { src: '~plugins/vue-moment.js', ssr: false },
     { src: '~plugins/vue-croppie.js', ssr: false },
     { src: '~plugins/vue-lazy-image.js', ssr: false },
-    { src: '~plugins/vue-disqus.js', ssr: false },
+    { src: '~plugins/vue-cookie-law.js', ssr: false },
     { src: '~plugins/ga.js', ssr: false }
     // '~plugins/nuxt-client-init'
   ],

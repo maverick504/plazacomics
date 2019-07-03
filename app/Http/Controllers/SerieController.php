@@ -125,8 +125,10 @@ class SerieController extends Controller
         }
 
         if(Auth::user()) {
-            $serie->user_is_follower = $serie->isFollowedBy(Auth::user()->id);
+            $serie->user_is_subscriber = $serie->isSubscribedBy(Auth::user()->id);
+            $serie->user_liked = $serie->isLikedBy(Auth::user()->id);
         }
+        $serie->likes_count = $serie->likers()->count();
 
         return $serie;
     }
@@ -290,7 +292,7 @@ class SerieController extends Controller
 
         // Update the serie,
         return tap($serie)->update([
-          'banner_url' => $filePath
+            'banner_url' => $filePath
         ]);
     }
 
@@ -319,6 +321,17 @@ class SerieController extends Controller
         return tap($serie)->update([
             'banner_url' => null
         ]);
+    }
+
+    /**
+     * Remove the specified serie from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        // ...
     }
 
     /**

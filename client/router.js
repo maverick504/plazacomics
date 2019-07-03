@@ -16,8 +16,8 @@ const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.def
 const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m)
 
 const Dashboard = () => import('~/pages/dashboard/index').then(m => m.default || m)
-
 const Library = () => import('~/pages/library/index').then(m => m.default || m)
+const Notifications = () => import('~/pages/notifications/index').then(m => m.default || m)
 
 const SeriesIndex = () => import('~/pages/series/index').then(m => m.default || m)
 const CreateSerie = () => import('~/pages/series/create').then(m => m.default || m)
@@ -49,22 +49,21 @@ const routes = [
   { path: '/settings',
     component: Settings,
     children: [
-      { path: '', redirect: { name: 'settings.profile' } },
       { path: 'profile', name: 'settings.profile', component: SettingsProfile },
       { path: 'password', name: 'settings.password', component: SettingsPassword }
     ] },
 
   { path: '/dashboard', name: 'dashboard', component: Dashboard },
-
   { path: '/library', name: 'library', component: Library },
+  { path: '/notifications/:filter', name: 'notifications', component: Notifications },
 
   { path: '/series', name: 'series.index', component: SeriesIndex },
   { path: '/series/create', name: 'series.create', component: CreateSerie },
   { path: '/series/:id/edit',
     component: EditSerie,
     children: [
-      { path: '/series/:id/edit', name: 'series.edit.details', component: EditSerieDetails, group: 'editChapter' },
-      { path: '/series/:id/chapters', name: 'series.edit.chapters', component: EditSerieChapters, group: 'editChapter' }
+      { path: 'details', name: 'series.edit.details', component: EditSerieDetails },
+      { path: 'chapters', name: 'series.edit.chapters', component: EditSerieChapters }
     ] },
   { path: '/series/:id/:slug', name: 'series.show', component: ShowSerie },
 

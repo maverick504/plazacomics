@@ -37,6 +37,7 @@ export async function scrollBehavior (to, from, savedPosition) {
       })
   }
 
+  // Smooth scroll if route has hash. Example: Privacy Policy or Community Guide.
   if (to.hash) {
     let el = await findEl(to.hash)
     const navbarHeight = 72
@@ -48,15 +49,17 @@ export async function scrollBehavior (to, from, savedPosition) {
     }
   }
 
-  /*
-  if (to.path.split('/')[1] === 'settings' && from.path.split('/')[1] === 'settings') {
-    return false
+  // If two routes are in the same group, keep scroll.
+  const groups = {
+    'settings.profile': 1,
+    'settings.password': 1,
+    'series.edit.details': 2,
+    'series.edit.chapters': 2
   }
 
-  if (to.path.split('/')[1] === 'series' && from.path.split('/')[1] === 'series' && to.path.split('/').length <= 4) {
+  if ((groups[to.name] !== undefined && groups[from.name] !== undefined && groups[to.name] === groups[from.name]) || to.name === from.name) {
     return false
   }
-  */
 
   return { x: 0, y: 0 }
 }
