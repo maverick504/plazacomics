@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Overtrue\LaravelFollow\Traits\CanBeSubscribed;
 use Overtrue\LaravelFollow\Traits\CanBeLiked;
+use BeyondCode\Comments\Traits\HasComments;
 
 class Serie extends Model
 {
     use CanBeSubscribed;
     use CanBeLiked;
+    use HasComments;
 
     protected $table = 'series';
     public $timestamps = true;

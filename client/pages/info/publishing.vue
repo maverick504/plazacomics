@@ -26,10 +26,10 @@
         <div class="columns">
           <div class="column col-8 pa-xl">
             <h2 style="font-size: 40px;">
-              ¡Sistema de seguidores!
+              ¡Sistema de suscriptores!
             </h2>
             <p style="font-size: 20px;">
-              Los fans de tu cómic seguir tu trabajo y recibir actualizaciones cuando publiques nuevos capítulos.
+              Los fans de tu cómic seguir tu trabajo y recibir notificaciones cuando publiques nuevos capítulos.
             </p>
           </div>
           <div class="column col-4">

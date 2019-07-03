@@ -3,7 +3,7 @@
     [`btn-${type}`]: true,
     'btn-action': action,
     'btn-block': block,
-    'btn-lg': large,
+    [`btn-${size}`]: true,
     'loading': loading
   }" class="btn"
   >
@@ -41,9 +41,9 @@ export default {
       default: false
     },
 
-    large: {
-      type: Boolean,
-      default: false
+    size: {
+      type: String,
+      default: 'md'
     }
   }
 }

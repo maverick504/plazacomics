@@ -3,13 +3,14 @@
 namespace App;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use BeyondCode\Comments\Contracts\Commentator;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Overtrue\LaravelFollow\Traits\CanLike;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, Commentator
 {
     use Notifiable;
     use CanSubscribe;
@@ -68,6 +69,16 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Check if a comment for a specific model needs to be approved.
+     * @param mixed $model
+     * @return bool
+     */
+    public function needsCommentApproval($model): bool
+    {
+        return false;
     }
 
     public function series()

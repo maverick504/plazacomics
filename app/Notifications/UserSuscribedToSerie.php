@@ -48,7 +48,7 @@ class UserSuscribedToSerie extends Notification
             'user_id' => $this->user->id,
             'serie_id' => $this->serie->id,
             'icon_url' => $this->user->avatar_url,
-            'message' => '**' . $this->user->username . '** se ha suscrito a tu serie, **' . $this->serie->name . '**.'
+            'message' => '**' . $this->user->username . '** se ha suscrito a tu cómic, **' . $this->serie->name . '**.'
         ];
     }
 

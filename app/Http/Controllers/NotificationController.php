@@ -47,6 +47,75 @@ class NotificationController extends Controller
     }
 
     /**
+     * Marks a notification as read.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function markMultipleAsRead()
+    {
+        $filter = 'all';
+
+        if(array_key_exists('filter', $_GET)) {
+            $filter = $_GET['filter'];
+        }
+
+        switch($filter) {
+          case 'unread':
+            Auth::user()->unreadNotifications()->update(['read_at' => now()]);
+            break;
+          case 'likes':
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserLikedSerie')->update(['read_at' => now()]);
+            break;
+          case 'subscriptions':
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSerie')->update(['read_at' => now()]);
+            break;
+          default:
+            Auth::user()->notifications()->update(['read_at' => now()]);
+        };
+
+        return response()->json(null, 200);
+    }
+
+    /**
+     * Marks a notification as read.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function markAsRead($id)
+    {
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
+
+        if(!$notification) {
+            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
+
+        $notification->update(['read_at' => now()]);
+
+        return response()->json($notification, 200);
+    }
+
+    /**
+     * Unmarks a notification as read.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unmarkAsRead($id)
+    {
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
+
+        if(!$notification) {
+            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
+
+        $notification->update(['read_at' => null]);
+
+        return response()->json($notification, 200);
+    }
+
+    /**
      * Remove the notification from storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="card-body" style="padding: 0px;">
-      <span class="chip">{{ $t('genre_' + serie.genre1.language_key) }}</span>
+      <span class="chip ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
       <span v-if="serie.genre2" class="chip">{{ $t('genre_' + serie.genre2.language_key) }}</span>
     </div>
   </router-link>

@@ -36,7 +36,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Notifications
     Route::get('user/notifications', 'NotificationController@index');
     Route::get('user/notifications/{id}', 'NotificationController@show');
+    Route::put('user/markNotificationsAsRead', 'NotificationController@markMultipleAsRead');
     Route::put('user/notifications/{id}/markAsRead', 'NotificationController@markAsRead');
+    Route::put('user/notifications/{id}/unmarkAsRead', 'NotificationController@unmarkAsRead');
     Route::delete('user/notifications/{id}', 'NotificationController@destroy');
 
     // Series

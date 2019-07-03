@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b1c8ab676a9513fd8cccc49e793251c",
+    "content-hash": "62eadb74b507affe176c6b31aa04f6e3",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -88,6 +88,62 @@
                 "sdk"
             ],
             "time": "2019-07-02T18:21:12+00:00"
+        },
+        {
+            "name": "beyondcode/laravel-comments",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beyondcode/laravel-comments.git",
+                "reference": "c7d599349d6063860280dafb07e9757106428b76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beyondcode/laravel-comments/zipball/c7d599349d6063860280dafb07e9757106428b76",
+                "reference": "c7d599349d6063860280dafb07e9757106428b76",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.6",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BeyondCode\\Comments\\CommentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeyondCode\\Comments\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "marcel@beyondco.de",
+                    "homepage": "https://beyondcode.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add comments to your Laravel application",
+            "homepage": "https://github.com/beyondcode/laravel-comments",
+            "keywords": [
+                "beyondcode",
+                "comments",
+                "laravel-comments"
+            ],
+            "time": "2019-02-28T13:36:52+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

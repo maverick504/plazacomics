@@ -13,7 +13,7 @@ class UserLikedSerie extends Notification
 
     protected $user;
     protected $serie;
-    
+
     /**
      * Create a new notification instance.
      *
@@ -48,7 +48,7 @@ class UserLikedSerie extends Notification
             'user_id' => $this->user->id,
             'serie_id' => $this->serie->id,
             'icon_url' => $this->user->avatar_url,
-            'message' => 'A **' . $this->user->username . '** le gusta tu serie, **' . $this->serie->name . '**.'
+            'message' => 'A **' . $this->user->username . '** le gusta tu cómic, **' . $this->serie->name . '**.'
         ];
     }
 
