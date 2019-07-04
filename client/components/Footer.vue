@@ -30,7 +30,7 @@
       <div class="mb-md">
         síguenos en:
         <div class="d-block mt-sm">
-          <a class="btn btn-link" href="https://www.facebook.com/plazacomicsofficial/" target="_blank"><facebook-icon /></a>
+          <a class="btn btn-link btn-action" href="https://www.facebook.com/plazacomicsofficial/" target="_blank"><facebook-icon /></a>
         </div>
       </div>
       <p class="my-no">

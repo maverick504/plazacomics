@@ -19,11 +19,11 @@
               <plus-icon /> Publicar
             </router-link>
             <!-- notifications -->
-            <router-link :to="{ name: 'notifications', params: { filter: 'all' } }" :data-badge="notifications.length" class="btn btn-link btn-action badge mr-sm show-sm">
+            <router-link :to="{ name: 'notifications', params: { filter: 'all' } }" :class="{ 'badge': notifications.length>0 }" :data-badge="notifications.length" class="btn btn-link btn-action mr-sm show-sm">
               <bell-outline-icon />
             </router-link>
             <div class="dropdown dropdown-right">
-              <a :data-badge="notifications.length" href="javascript:void(0);" class="btn btn-link badge dropdown-toggle btn-action mr-sm hide-sm" tabindex="0">
+              <a :class="{ 'badge': notifications.length>0 }" :data-badge="notifications.length" href="javascript:void(0);" class="btn btn-link dropdown-toggle btn-action mr-sm hide-sm" tabindex="0">
                 <bell-outline-icon />
               </a>
               <div class="menu" style="width: 400px;">
