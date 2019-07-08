@@ -32,7 +32,7 @@
             <td>{{ chapter.total_pages }}</td>
             <td>{{ chapter.relase_date | moment('DD/MM/YYYY') }}</td>
             <td class="text-center">
-              <nuxt-link :to="{ name: 'chapters.edit', params: { serieId: serie.id, chapterId: chapter.id } }" class="btn btn-link">
+              <nuxt-link :to="{ name: 'chapters.edit', params: { serieId: serie.id, chapterId: chapter.id } }" class="btn btn-link btn-action">
                 <pencil-icon />
               </nuxt-link>
             </td>

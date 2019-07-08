@@ -65,10 +65,13 @@ class NotificationController extends Controller
             Auth::user()->unreadNotifications()->update(['read_at' => now()]);
             break;
           case 'likes':
-            Auth::user()->notifications()->where('type', 'App\Notifications\UserLikedSerie')->update(['read_at' => now()]);
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserLikedSeries')->update(['read_at' => now()]);
             break;
           case 'subscriptions':
-            Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSerie')->update(['read_at' => now()]);
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSeries')->update(['read_at' => now()]);
+            break;
+          case 'comments':
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserCommentedToSeries')->update(['read_at' => now()]);
             break;
           default:
             Auth::user()->notifications()->update(['read_at' => now()]);

@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravelista\Comments\Commentable;
 
 class Chapter extends Model
 {
+    use Commentable;
+    
     protected $table = 'chapters';
     public $timestamps = true;
 

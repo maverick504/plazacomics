@@ -7,22 +7,26 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserSuscribedToSerie extends Notification
+class UserCommentedChapter extends Notification
 {
     use Queueable;
 
     protected $user;
     protected $serie;
+    protected $chapter;
+    protected $comment;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $serie)
+    public function __construct($user, $serie, $chapter, $comment)
     {
-        $this->user = $user;
-        $this->serie = $serie;
+      $this->user = $user;
+      $this->serie = $serie;
+      $this->chapter = $chapter;
+      $this->comment = $comment;
     }
 
     /**
@@ -47,8 +51,9 @@ class UserSuscribedToSerie extends Notification
         return [
             'user_id' => $this->user->id,
             'serie_id' => $this->serie->id,
+            'chapter_id' => $this->serie->id,
             'icon_url' => $this->user->avatar_url,
-            'message' => '**' . $this->user->username . '** se ha suscrito a tu cómic, **' . $this->serie->name . '**.'
+            'message' => '**' . $this->user->username . '** comentó en **' . $this->chapter->title . '** de tu cómic, **' . $this->serie->name . '**: "' . $this->comment->comment . '".'
         ];
     }
 
@@ -61,7 +66,7 @@ class UserSuscribedToSerie extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+                                                                                              //
         ];
     }
 }

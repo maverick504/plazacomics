@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Serie;
-use App\Notifications\UserLikedSerie;
+use App\Notifications\UserLikedSeries;
 use Illuminate\Support\Facades\Notification;
 use Auth;
 
@@ -36,7 +36,7 @@ class LikeController extends Controller
           if(!$userLikedPreviously) {
               // Send notification.
               $authors = $serie->authors()->get();
-              Notification::send($authors, new UserLikedSerie(Auth::user(), $serie));
+              Notification::send($authors, new UserLikedSeries(Auth::user(), $serie));
           }
 
           Auth::user()->like($serie);

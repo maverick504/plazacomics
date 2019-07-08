@@ -75,7 +75,8 @@ export default {
       { name: 'unread', text: 'Sin leer', emptyMessage: 'No hay notificaciones sin leer' },
       { name: 'all', text: 'Todas', emptyMessage: 'No hay notificaciones' },
       { name: 'likes', text: 'Likes', emptyMessage: 'No hay notificaciones de likes' },
-      { name: 'subscriptions', text: 'Suscripciones', emptyMessage: 'No hay notificaciones de suscripciones' }
+      { name: 'subscriptions', text: 'Suscripciones', emptyMessage: 'No hay notificaciones de suscripciones' },
+      { name: 'comments', text: 'Comentarios', emptyMessage: 'No hay notificaciones de comentarios' }
     ],
     currentFilter: null,
     notifications: null
@@ -104,6 +105,9 @@ export default {
           break
         case 'subscriptions':
           notifications = await axios.get(`user/notifications?filter=subscriptions`)
+          break
+        case 'comments':
+          notifications = await axios.get(`user/notifications?filter=comments`)
           break
         default:
           notifications = await axios.get(`user/notifications`)

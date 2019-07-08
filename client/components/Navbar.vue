@@ -40,7 +40,7 @@
                       <figure class="avatar"><img :src="notification.data.icon_url?`${cdnUrl}/${notification.data.icon_url}`:'/placeholders/notification_placeholder_56x56.png'" alt="Ícono"></figure>
                     </div>
                     <div class="tile-content">
-                      <span class="tile-title">
+                      <span class="tile-title" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                         {{ notification.data.message }}
                       </span>
                       <div class="tile-subtitle text-gray-dark">
@@ -58,9 +58,9 @@
             <!-- /notifications -->
             <!-- menu -->
             <div class="dropdown dropdown-right">
-              <a href="javascript:void(0);" class="btn btn-link dropdown-toggle" tabindex="0">
-                <figure class="avatar avatar-sm">
-                  <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Avatar">
+              <a href="javascript:void(0);" class="btn btn-link dropdown-toggle" tabindex="0" style="padding: 2px 0px;">
+                <figure class="avatar">
+                  <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="user.username">
                 </figure>
                 <span class="ml-sm hide-md">{{ user.username }}</span>
               </a>
@@ -145,7 +145,6 @@ export default {
     this.fetchNotifications()
 
     const self = this
-
     setInterval(async function () {
       self.fetchNotifications()
     }, 30000) // Fetch notifications every 30 seconds.
@@ -153,8 +152,10 @@ export default {
 
   methods: {
     async fetchNotifications () {
-      const notifications = await axios.get(`user/notifications?filter=unread`)
-      this.notifications = notifications.data
+      if (this.user) {
+        const notifications = await axios.get(`user/notifications?filter=unread`)
+        this.notifications = notifications.data
+      }
     },
 
     async markNotificationsAsRead () {

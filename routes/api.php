@@ -70,6 +70,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Pages
     Route::post('pages/uploadImage', 'PageController@uploadImage');
+
+    // Comments System
+    Route::post('comments', 'CommentController@store');
+    // Route::put('comments/{comment}', 'CommentController@update');
+    Route::delete('comments/{comment}', 'CommentController@destroy');
+    Route::post('comments/{comment}', 'CommentController@reply');
 });
 
 /*
@@ -121,6 +127,9 @@ Route::get('series/{id}/subscribers', 'SubscribeController@serieIndex');
 // Chapters
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');
 Route::get('chapters/{id}', 'ChapterController@show');
+
+// Chapter Comments
+Route::get('chapters/{id}/comments', 'CommentController@chapterIndex');
 
 // Suggestions
 Route::post('suggestions', 'SuggestionController@store');

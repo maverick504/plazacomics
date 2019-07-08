@@ -4,7 +4,7 @@
     <div class="container">
       <div class="layout-head">
         <div class="image-column">
-          <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" class="img-responsive s-circle c-hand" @click="$refs.avatarFile.click()">
+          <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="user.username" class="img-responsive s-circle c-hand" @click="$refs.avatarFile.click()">
           <input ref="avatarFile" class="d-none" type="file" accept="image/*" @change="avatarFileChanged()">
         </div>
         <div class="content-column">

@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserLikedSerie extends Notification
+class UserLikedSeries extends Notification
 {
     use Queueable;
 

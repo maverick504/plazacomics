@@ -3,15 +3,15 @@ a.card {
   color: #3b4351;
 }
 
-.card-link .card-image {
+.link-card .card-image {
   overflow: hidden;
 }
 
-.card-link .card-image img {
+.link-card .card-image img {
   transition: transform .2s;
 }
 
-.card-link:hover .card-image img {
+.link-card:hover .card-image img {
   transform: scale(1.05);
 }
 
@@ -20,27 +20,25 @@ a.card {
 }
 
 .chapter-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0px 8px 8px rgba(0, 0, 0, .1) !important;
 }
 
-.card {
-  .corner-label {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 64px 64px 0 0;
-    border-color: $primary-color transparent transparent transparent;
-    .content {
-      position: relative;
-      top: -60px;
-      left: 6px;
-      font-weight: bold;
-      color: $light-color;
-    }
+.corner-label {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 64px 64px 0 0;
+  border-color: $dark-color transparent transparent transparent;
+  .content {
+    position: relative;
+    top: -60px;
+    left: 6px;
+    font-weight: bold;
+    color: $light-color;
   }
 }
 

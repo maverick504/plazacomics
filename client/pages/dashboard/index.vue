@@ -19,8 +19,8 @@
     </div>
     <template v-else>
       <div v-for="serie in series" :key="serie.id" class="card mb-sm" style="flex-direction: row;">
-        <div class="card-image">
-          <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" class="img-responsive" alt="Thumbnail">
+        <div class="card-image" style="width: 180px;">
+          <v-image :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" :alt="serie.name" ratio-width="3" ratio-height="4" />
         </div>
         <div class="card-body pb-md" style="display: flex; flex-direction: column;">
           <div style="flex-grow: 1;">
@@ -29,7 +29,7 @@
             </div>
             <span class="label">{{ $t('serie_state_' + serie.state) }}</span>
             <div class="mt-md">
-              <span class="d-block">
+              <span class="d-block hide-sm">
                 <calendar-today-icon class="mr-sm v-align-middle" />
                 Creada el {{ serie.created_at | moment("DD [de] MMMM [de] YYYY") }}
               </span>

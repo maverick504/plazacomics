@@ -3,18 +3,19 @@
 namespace App;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use BeyondCode\Comments\Contracts\Commentator;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Overtrue\LaravelFollow\Traits\CanLike;
+use Laravelista\Comments\Commenter;
 
-class User extends Authenticatable implements JWTSubject, Commentator
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use CanSubscribe;
     use CanLike;
+    use Commenter;
 
     /**
      * The attributes that are mass assignable.

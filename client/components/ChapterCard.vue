@@ -1,7 +1,7 @@
 <template>
   <router-link :to="to" class="card chapter-card">
     <div v-if="chapter.thumbnail_url" class="card-image">
-      <img :src="`${cdnUrl}/${chapter.thumbnail_url}`" class="img-responsive" style="width: 100%;">
+      <v-image :src="`${cdnUrl}/${chapter.thumbnail_url}`" :alt="chapter.title" :ratio-width="9" :ratio-height="4" />
     </div>
     <div class="card-header">
       <div class="card-title">
@@ -33,8 +33,9 @@ export default {
             chapterSlug: this.chapter.slug
           }
         }
+      } else {
+        return {}
       }
-      return {}
     }
   }
 }

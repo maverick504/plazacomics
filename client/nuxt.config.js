@@ -30,10 +30,11 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'PlazaComics es donde los lectores encuentran los mejores cómics. Lee nuevos cómics o publica el tuyo y alcanza una audiencia más grande.' }
+      { hid: 'description', name: 'description', content: 'PlazaComics es donde los lectores encuentran los mejores cómics. Lee cómics en español o publica el tuyo y alcanza una audiencia más grande.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' }
     ],
     script: [
       { src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` }
@@ -58,11 +59,12 @@ module.exports = {
     '~plugins/vform',
     '~plugins/vmask',
     '~plugins/mixins',
-    { src: '~plugins/vue-moment.js', ssr: false },
-    { src: '~plugins/vue-croppie.js', ssr: false },
-    { src: '~plugins/vue-lazy-image.js', ssr: false },
+    { src: '~plugins/ga.js', ssr: false },
     { src: '~plugins/vue-cookie-law.js', ssr: false },
-    { src: '~plugins/ga.js', ssr: false }
+    { src: '~plugins/vue-croppie.js', ssr: false },
+    { src: '~plugins/vue-lazyload.js', ssr: false },
+    { src: '~plugins/vue-moment.js', ssr: false },
+    { src: '~plugins/vue-social-sharing.js', ssr: false }
     // '~plugins/nuxt-client-init'
   ],
 

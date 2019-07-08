@@ -6,13 +6,16 @@
         :style="{ 'background-image': serie.banner_url?`url(${cdnUrl}/${serie.banner_url})`:'none' }"
         class="layout-banner p-relative"
       >
-        <img v-if="serie.banner_url" :src="`${cdnUrl}/${serie.banner_url}`" class="img-responsive">
+        <img v-if="serie.banner_url" :src="`${cdnUrl}/${serie.banner_url}`" :alt="serie.name" class="img-responsive" >
       </div>
       <div class="container mt-no">
         <div class="layout-head">
           <div class="image-column">
             <figure class="figure layout-cover">
-              <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" class="img-responsive s-rounded">
+              <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" :alt="serie.name" class="img-responsive s-rounded">
+              <div v-if="serie.explicit_content" class="corner-label">
+                <span class="content">+18</span>
+              </div>
             </figure>
           </div>
           <div class="content-column">
@@ -24,23 +27,39 @@
               <span class="chip">{{ $t('genre_' + serie.genre1.language_key) }}</span>
               <span v-if="serie.genre2" class="chip">{{ $t('genre_' + serie.genre2.language_key) }}</span>
             </div>
-            <span class="d-block mb-sm">
+            <span class="d-block">
               {{ $t('serie_state_' + serie.state) }} | {{ serie.total_chapters }} capítulos
             </span>
             <div class="d-block">
-              <nuxt-link :class="{ 'is-loading': busy }" :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
+              <nuxt-link :class="{ 'is-loading': busy }" :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mt-sm mr-sm">
                 Comenzar a leer
               </nuxt-link>
-              <v-button :loading="busy" class="mr-sm" large @click.native="toggleLike">
+              <v-button :loading="busy" class="mt-sm mr-sm" large @click.native="toggleLike">
                 <heart-icon v-if="serie.user_liked" />
                 <heart-outline-icon v-if="!serie.user_liked" />
                 {{ serie.likes_count }}
               </v-button>
-              <v-button :loading="busy" large @click.native="toggleSubscribed">
+              <v-button :loading="busy" class="mt-sm mr-sm" large @click.native="toggleSubscribed">
                 <check-icon v-if="serie.user_is_subscriber" />
                 <plus-icon v-if="!serie.user_is_subscriber" />
                 {{ serie.user_is_subscriber?'Suscrito':'Suscribirse' }}
               </v-button>
+              <!--
+              <social-sharing
+                :url="'http://www.plazacomics.com' + $router.resolve({ route: { name: 'series.show', params: { id: serie.id, slug: serie.slug } } }).href"
+                :title="serie.title + ' - PlazaComics'"
+                :description="'PlazaComics es donde los lectores encuentran los mejores cómics. Lee cómics en español o publica el tuyo y alcanza una audiencia más grande.'"
+                :quote="serie.synopsis"
+                hashtags="comics,mangas"
+                twitter-user="plazacomics"
+                inline-template>
+                <network network="facebook">
+                  <button class="btn btn-action s-circle tooltip mt-sm mr-sm" data-tooltip="Compartir en Facebook">
+                    <i class="fa fa-facebook"/>
+                  </button>
+                </network>
+              </social-sharing>
+              -->
             </div>
           </div>
         </div>
@@ -63,7 +82,7 @@
           </h3>
           <nuxt-link v-for="author in serie.authors" :key="author.id" :to="{ name: 'authors.show', params: { id: author.id, username: author.username } }" class="d-inline">
             <figure class="avatar avatar-lg">
-              <img :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" alt="Avatar">
+              <img :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="author.username">
             </figure>
             <span class="ml-sm">{{ author.username }}</span>
           </nuxt-link>
@@ -74,7 +93,7 @@
           <h3 class="h5 mt-lg mb-md">
             Licencia
           </h3>
-          <figure :data-tooltip="$t('licence_' + serie.licence.language_key)" class="figure my-no tooltip" style="display: inline-block;">
+          <figure :data-tooltip="$t('licence_' + serie.licence.language_key)" class="figure my-no tooltip tooltip-right" style="display: inline-block;">
             <img :src="`/licences/${serie.licence.language_key}.png`" class="img-responsive" style="height: 40px; width: auto;">
           </figure>
           <h3 :data-badge="followers.length" class="h5 mt-md mb-md badge">
@@ -98,54 +117,6 @@
             </div>
           </div>
         </section>
-        <div class="divider" />
-        <!-- Commments -->
-        <!--
-        <section class="comments-container my-xl">
-          <h3 class="comments-title">999 comentarios</h3>
-          <div class="comments">
-            <div class="comment">
-              <div class="comment-avatar">
-                <figure class="avatar">
-                  <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
-                </figure>
-              </div>
-              <div class="comment-content">
-                <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
-                <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
-                <a href="#">Responder</a>
-                <div class="comments">
-                  <div class="comment">
-                    <div class="comment-avatar">
-                      <figure class="avatar">
-                        <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
-                      </figure>
-                    </div>
-                    <div class="comment-content">
-                      <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
-                      <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
-                      <a href="#">Responder</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="comment">
-              <div class="comment-avatar">
-                <figure class="avatar">
-                  <img src="https://picturepan2.github.io/spectre/img/avatar-2.png" alt="Avatar">
-                </figure>
-              </div>
-              <div class="comment-content">
-                <strong class="username">emilianomangaka</strong><span class="time">hace 43 minutos</span>
-                <p>The Strategic Homeland Intervention, Enforcement, and Logistics Division...</p>
-                <a href="#">Responder</a>
-              </div>
-            </div>
-          </div>
-        </section>
-        -->
-        <!-- /Commments -->
       </div>
     </div>
     <!-- Must login modal -->
@@ -178,7 +149,9 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
   head () {
-    return { title: 'Series' }
+    return {
+      title: this.serie.name
+    }
   },
 
   components: {
@@ -200,9 +173,9 @@ export default {
 
   async asyncData ({ params, error }) {
     try {
-      var serie = await axios.get(`/series/${params.id}`)
-      var chapters = await axios.get(`/series/${params.id}/chapters`)
-      var followers = await axios.get(`/series/${params.id}/subscribers`)
+      const serie = await axios.get(`/series/${params.id}`)
+      const chapters = await axios.get(`/series/${params.id}/chapters`)
+      const followers = await axios.get(`/series/${params.id}/subscribers`)
 
       return {
         serie: serie.data,

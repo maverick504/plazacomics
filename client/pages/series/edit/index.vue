@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="{ 'bg-primary': serie.banner_url==null }" :style="{ 'background-image': serie.banner_url?`url(${cdnUrl}/${serie.banner_url})`:'none' }" class="layout-banner p-relative">
-      <img v-if="serie.banner_url" :src="`${cdnUrl}/${serie.banner_url}`" class="img-responsive">
+      <img v-if="serie.banner_url" :src="`${cdnUrl}/${serie.banner_url}`" :alt="serie.name" class="img-responsive">
       <div class="layout-banner__overlay">
         <button v-if="serie.banner_url" type="button" class="btn btn-action btn-link s-circle btn-remove-banner" @click="removeBanner">
           <close-icon />
@@ -18,7 +18,7 @@
       <div class="layout-head">
         <div class="image-column">
           <figure class="figure layout-cover">
-            <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" class="img-responsive s-rounded c-hand">
+            <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" :alt="serie.name" class="img-responsive s-rounded c-hand">
             <div class="layout-cover__overlay" @click="$refs.coverFile.click()">
               <div class="layout-cover__overlay-content">
                 <cloud-upload-outline-icon class="icon-2x" />

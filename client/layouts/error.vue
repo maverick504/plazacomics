@@ -29,6 +29,10 @@
 </template>
 <script>
 export default {
+  head () {
+    return { title: 'Error' }
+  },
+
   layout: 'default',
 
   error: { type: Object }

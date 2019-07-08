@@ -58,7 +58,7 @@
                     <close-icon class="icon-1-2x" style="position: relative; top: 2px;" />
                   </div>
                   <div class="card-image" style="padding: 0px;">
-                    <img :src="`${cdnUrl}/${page.image_url}`" class="img-responsive">
+                    <img :src="`${cdnUrl}/${page.image_url}`" :alt="page.id" class="img-responsive">
                   </div>
                   <div v-if="page.client_file_name" class="card-header pa-sm">
                     <div class="card-title">

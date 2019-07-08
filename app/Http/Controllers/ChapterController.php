@@ -50,15 +50,8 @@ class ChapterController extends Controller
             'pages' => 'required|array|min:1|max:30'
         ]);
 
-        // Validate that the specified serie exists and is owned by the user.
+        // Validate that the specified serie is owned by the user.
         $serie = Serie::find($request->get('serie_id'));
-
-        if(!$serie) {
-            $error = \Illuminate\Validation\ValidationException::withMessages([
-               'serie' => [ MESSAGE_NOT_FOUND ]
-            ]);
-            throw $error;
-        }
 
         if(!$serie->isOwnedBy(Auth::user()->id)) {
             $error = \Illuminate\Validation\ValidationException::withMessages([
@@ -393,6 +386,8 @@ class ChapterController extends Controller
             // Remove images from disk
             Storage::disk('spaces')->deleteDirectory('chapters/' . Hashids::encode($chapter->id));
             Page::where('chapter_id', $chapter->id)->delete();
+
+            // Remove the chapter itself
             $chapter->delete();
 
             DB::commit();

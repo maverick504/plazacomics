@@ -20,6 +20,15 @@ use Image;
 use Storage;
 use Hashids;
 
+/**
+ * Notice: 'Serie' is not a valid word in english language, it should be 'Series'.
+ * Now I know it but I didn't know it back when I chosed table and model names.
+ * When I noticed that mistake, it was too late to rename; So when you see something
+ * called 'Serie', it means one of 'Series'.
+ *
+ * Emiliano
+ */
+
 class SerieController extends Controller
 {
     /**
@@ -197,7 +206,7 @@ class SerieController extends Controller
         }
 
         // Success! Return the serie
-        return response()->json($serie, 201);
+        return response()->json($serie, 200);
     }
 
     /**
@@ -285,7 +294,7 @@ class SerieController extends Controller
             ]);
         }
 
-        // Save the image in the server,
+        // Save the image in the server.
         $image->stream();
         $filePath = 'series/' . Hashids::encode($serie->id) . '/banner.jpg';
         Storage::disk('spaces')->put($filePath, $image, 'public');

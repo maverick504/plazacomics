@@ -1,9 +1,7 @@
 <template>
-  <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="card card-link"
-               style="border: none;"
-  >
+  <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="card serie-card link-card" style="border: none;">
     <div class="card-image" style="position: relative;">
-      <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" class="img-responsive s-rounded">
+      <v-image :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" :alt="serie.name" :ratio-width="3" :ratio-height="4" />
       <div v-if="serie.explicit_content" class="corner-label">
         <span class="content">+18</span>
       </div>

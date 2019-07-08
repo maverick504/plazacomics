@@ -1,9 +1,9 @@
 <template>
-  <router-link :to="{ name: 'authors.show', params: { id: author.id, username: author.username } }" class="card mb-sm" style="flex-direction: row;">
+  <router-link :to="{ name: 'authors.show', params: { id: author.id, username: author.username } }" class="card author-card mb-sm">
     <div class="card-image pa-sm">
-      <img :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" class="img-responsive" style="width: 140px; height: auto; border-radius: 50% !important;" alt="Thumbnail">
+      <v-image :src="author.avatar_url?`${cdnUrl}/${author.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="author.username" :ratio-width="1" :ratio-height="1" />
     </div>
-    <div class="card-body pb-md" style="display: flex; flex-direction: column;">
+    <div class="card-body pb-md">
       <div style="flex-grow: 1;">
         <div class="card-title h5">
           {{ author.username }}
@@ -58,3 +58,31 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.author-card {
+  flex-direction: row;
+  .card-image {
+    width: 140px;
+    img {
+      border-radius: 50% !important;
+    }
+    img[lazy=loading] {
+      /* 1-1 aspect ratio */
+      background: #ff6b6b;
+      width: 100%;
+      height: 0px;
+      padding-top: 100%;
+    }
+    img[lazy=loaded] {
+      width: 100%;
+      height: auto;
+      padding-top: 0px;
+    }
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+}
+</style>
