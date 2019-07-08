@@ -220,8 +220,6 @@ export default {
           title: '¿Desuscribirse?',
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#32b643',
-          cancelButtonColor: '#e85600',
           confirmButtonText: 'Si',
           cancelButtonText: 'Cancelar'
         })

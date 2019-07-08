@@ -1,3 +1,8 @@
 .swal2-confirm {
   background: $primary-color !important;
 }
+.swal2-cancel {
+  background: $light-color !important;
+  border: 2px solid $primary-color !important;
+  color: $primary-color !important;
+}

@@ -384,8 +384,6 @@ export default {
         text: 'Cuidado, no vas a poder revertirlo después',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#32b643',
-        cancelButtonColor: '#e85600',
         confirmButtonText: 'Si, elimínalo!',
         cancelButtonText: 'Cancelar'
       }).then((result) => {
