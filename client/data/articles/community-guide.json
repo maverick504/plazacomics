@@ -1,0 +1,27 @@
+{
+  "title": "Guia de Contenidos y de la Comunidad",
+  "subtitle": "Sigue esta guía para hacer un buen uso de la plataforma.",
+  "sections": [
+    {
+      "content": [
+        "Esta guia cubre el comportamiento apropiado que se espera de los usuarios de la plataforma y va dirigido a todos los usuarios, tanto a autores como lectores."
+      ]
+    },
+    {
+      "id": "respeto",
+      "title": "Respeto",
+      "content": [
+        "Siempre sé respetuoso con los usuarios del la plataforma. No agredas o fomentes agresiones."
+      ]
+    },
+    {
+      "id": "contenido",
+      "title": "Contenido",
+      "content": [
+        "No se aceptarán en la plataforma los siguientes tipos de contenido:",
+        "* Material que infrinja derechos de autor. El material publicado debe ser todo de tu autoría o debes estar autorizado por el autor original para publicar dicho contenido.",
+        "* Material con exceso de violencia o sexo, por ejemplo gore extremo o hentai directamente. Si tu obra tiene contenido adulto, no olvides marcar la casilla \"contenido explícito\" antes de publicar."
+      ]
+    }
+  ]
+}

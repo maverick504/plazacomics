@@ -1,0 +1,48 @@
+{
+  "title": "Preguntas Frecuentes",
+  "subtitle": "Algunas de las preguntas que nos han hecho los usuarios.",
+  "sections": [
+    {
+      "id": "que-es-plazacomics",
+      "title": "¿Qué es PlazaComics?",
+      "content": [
+        "PlazaComics es una plataforma donde dibujantes de cómics pueden, de forma totalmente gratuita subir sus obras y darlas a conocer al mundo. Ponemos mucho esfuerzo para que la plataforma sea súper intuitiva tanto para creadores de contenido como para lectores."
+      ]
+    },
+    {
+      "id": "plazacomics-se-queda-con-los-derechos-de-mi-obra",
+      "title": "¿PlazaComics se queda con los derechos de mi obra?",
+      "content": [
+        "Claro que no! No nos quedamos con los derechos de tu obra, los derechos siguen siendo tuyos y eres libre de publicar tu obra en otros sitios web."
+      ]
+    },
+    {
+      "id": "puedo-monetizar-mi-obra",
+      "title": "¿Puedo monetizar mi obra?",
+      "content": [
+        "No directamente en la plataforma(por ahora), sin embargo, eres libre de anexar links a una cuenta en Patreon, página web, página de Facebook o cualquier otra red social de tu obra."
+      ]
+    },
+    {
+      "id": "por-que-publicar-mi-obra-aqui",
+      "title": "¿Por qué publicar mi obra aquí?",
+      "content": [
+        "PlazaComics es una plataforma diseñada para que la lectura de cómics sea una experiencia agradable para los lectores, no contiene anuncios y tiene una interfáz amigable para los usuarios. PlazaComics cuenta también con sistemas que dificultan crawlear, es decir, robar imágenes de las páginas de tus cómics para resubirlos en otros sitios."
+      ]
+    },
+    {
+      "id": "como-sobrevive-plazacomics",
+      "title": "¿Cómo sobrevive PlazaComics?",
+      "content": [
+        "De momento PlazaComics no genera ingresos, los costos del servidor, marketing y demás los paga el fundador de la plataforma. PlazaComics está diseñado para implementar en el futuro un sistema que permita a PlazaComics como tal y a sus autores generar ingresos."
+      ]
+    },
+    {
+      "id": "como-puedo-apoyar-a-plazacomics",
+      "title": "¿Cómo puedo apoyar a PlazaComics?",
+      "content": [
+        "Déjanos saber que aspectos de la plataforma podemos mejorar, tanto si eres lector como creador de contenido, también nos puedes ayudar siguiéndonos en las redes sociales y contándole a tus amigos!"
+      ]
+    }
+  ]
+}

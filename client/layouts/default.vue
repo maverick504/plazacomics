@@ -6,13 +6,13 @@
     <v-footer />
     <bottom-nav />
     <div class="botton-nav-space show-sm" />
-    <!--
-    <cookie-law theme="blood-orange" button-text="Si, está bien!">
-      <template slot="message">
-        En este sitio usamos cookies 🍪 para brindarte una mejor experiencia.
-      </template>
-    </cookie-law>
-    -->
+    <no-ssr>
+      <cookie-law theme="blood-orange" button-text="Si, está bien!">
+        <template slot="message">
+          En este sitio usamos cookies 🍪 para brindarte una mejor experiencia.
+        </template>
+      </cookie-law>
+    </no-ssr>
   </div>
 </template>
 

@@ -17,13 +17,13 @@
         </v-button>
       </form>
       <div class="links my-md">
-        <nuxt-link :to="{ name: 'info.privacyPolicy' }" class="text-gray">
+        <nuxt-link :to="{ name: 'legal', params: { article: 'privacy-policy' } }" class="text-gray">
           Política de Privacidad
         </nuxt-link>
-        <nuxt-link :to="{ name: 'info.communityGuide' }" class="text-gray">
+        <nuxt-link :to="{ name: 'help', params: { article: 'community-guide' } }" class="text-gray">
           Guía de la Comunidad
         </nuxt-link>
-        <nuxt-link :to="{ name: 'info.faq' }" class="text-gray">
+        <nuxt-link :to="{ name: 'help', params: { article: 'faq' } }" class="text-gray">
           Preguntas Frecuentes
         </nuxt-link>
       </div>

@@ -57,7 +57,7 @@ export async function scrollBehavior (to, from, savedPosition) {
     'series.edit.chapters': 2
   }
 
-  if ((groups[to.name] !== undefined && groups[from.name] !== undefined && groups[to.name] === groups[from.name]) || to.name === from.name) {
+  if ((groups[to.name] !== undefined && groups[from.name] !== undefined && groups[to.name] === groups[from.name])) {
     return false
   }
 

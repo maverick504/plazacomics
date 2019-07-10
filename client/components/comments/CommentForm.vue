@@ -53,11 +53,15 @@ export default {
 
   methods: {
     activate () {
-      this.active = true
-      var self = this
-      setTimeout(function () {
-        self.$refs.content.focus()
-      })
+      if (this.user) {
+        this.active = true
+        var self = this
+        setTimeout(function () {
+          self.$refs.content.focus()
+        })
+      } else {
+        this.$router.push({ name: 'login' })
+      }
     },
 
     deactivate () {

@@ -66,7 +66,7 @@
         </div>
       </div>
       <p class="align-center mt-md mb-no">
-        Al continuar, aceptas nuestra <router-link :to="{ name: 'info.privacyPolicy' }">
+        Al continuar, aceptas nuestra <router-link :to="{ name: 'legal', params: { article: 'privacy-policy' } }">
           Política de Privacidad
         </router-link>
       </p>

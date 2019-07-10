@@ -25,10 +25,13 @@ class NotificationController extends Controller
             return Auth::user()->unreadNotifications()->get();
             break;
           case 'likes':
-            return Auth::user()->notifications()->where('type', 'App\Notifications\UserLikedSerie')->get();
+            return Auth::user()->unreadNotifications()->where('type', 'App\Notifications\UserLikedSeries')->get();
             break;
           case 'subscriptions':
-            return Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSerie')->get();
+            return Auth::user()->unreadNotifications()->where('type', 'App\Notifications\UserSuscribedToSeries')->get();
+            break;
+          case 'comments':
+            return Auth::user()->unreadNotifications()->where('type', 'App\Notifications\UserCommentedChapter')->get();
             break;
           default:
             return Auth::user()->notifications()->get();
@@ -71,7 +74,7 @@ class NotificationController extends Controller
             Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSeries')->update(['read_at' => now()]);
             break;
           case 'comments':
-            Auth::user()->notifications()->where('type', 'App\Notifications\UserCommentedToSeries')->update(['read_at' => now()]);
+            Auth::user()->notifications()->where('type', 'App\Notifications\UserCommentedChapter')->update(['read_at' => now()]);
             break;
           default:
             Auth::user()->notifications()->update(['read_at' => now()]);
