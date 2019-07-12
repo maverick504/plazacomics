@@ -47,7 +47,7 @@ class ChapterController extends Controller
             'title' => 'required|string|max:45',
             'slug' => [ 'required', 'string', new ValidSlug, 'max:45' ], // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
-            'pages' => 'required|array|min:1|max:30'
+            'pages' => 'required|array|min:1|max:' . COMIC_CHAPTER_MAX_PAGES
         ]);
 
         // Validate that the specified serie is owned by the user.
@@ -207,7 +207,7 @@ class ChapterController extends Controller
             'title' => 'required|string|max:45',
             'slug' => [ 'required', 'string', new ValidSlug, 'max:45' ], // Unique isn't required, that's ok for chapters.
             'relase_date' => 'required|string|date_format:d/m/Y',
-            'pages' => 'required|array|min:1|max:30'
+            'pages' => 'required|array|min:1|max:' . COMIC_CHAPTER_MAX_PAGES
         ]);
 
         $pages = $request->get('pages');
