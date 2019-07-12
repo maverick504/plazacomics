@@ -40,6 +40,10 @@ export default {
   },
 
   methods: {
+    open () {
+      this.$emit('update:active', true)
+    },
+
     close () {
       if (this.closable) {
         this.$emit('update:active', false)

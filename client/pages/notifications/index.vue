@@ -23,7 +23,7 @@
             <figure class="avatar"><img :src="notification.data.icon_url?`${cdnUrl}/${notification.data.icon_url}`:'/placeholders/notification_placeholder_56x56.png'" alt="Ícono"></figure>
           </div>
           <div class="tile-content">
-            <vue-showdown :markdown="notification.data.message"/>
+            <vue-showdown :markdown="notification.data.message" class="tile-title"/>
             <div class="tile-subtitle text-gray-dark">
               <small v-if="notification.read_at">leída · </small>
               <small>{{ notification.created_at | moment('from', 'now') }}</small>
