@@ -4,6 +4,7 @@
     'btn-action': action,
     'btn-block': block,
     [`btn-${size}`]: true,
+    's-circle': circle,
     'loading': loading
   }" class="btn"
   >
@@ -44,6 +45,11 @@ export default {
     size: {
       type: String,
       default: 'md'
+    },
+
+    circle: {
+      type: Boolean,
+      default: false
     }
   }
 }

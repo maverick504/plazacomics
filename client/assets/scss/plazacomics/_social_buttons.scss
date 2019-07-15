@@ -1,0 +1,21 @@
+$facebook-color: #3b5998;
+$twitter-color: #00acee;
+$whatsapp-color: #25D366;
+
+.btn-facebook {
+  background: $facebook-color !important;
+  border-color: $facebook-color !important;
+  color: #fff !important;
+}
+
+.btn-twitter {
+  background: $twitter-color !important;
+  border-color: $twitter-color !important;
+  color: #fff !important;
+}
+
+.btn-whatsapp {
+  background: $whatsapp-color !important;
+  border-color: $whatsapp-color !important;
+  color: #fff !important;
+}

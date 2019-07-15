@@ -1,33 +1,15 @@
 <template>
-  <div>
-    <div v-if="readMode === 'vertical'">
-      <div style="max-width: 720px; padding: 32px 0px; margin: auto;">
-        <figure v-for="(page, index) in chapter.pages" :key="index" class="figure">
-          <v-image :src="`${cdnUrl}/${page.image_url}`" :ratio-width="3" :ratio-height="5" />
-        </figure>
-      </div>
+  <div class="bg-dark text-dark" @contextmenu.prevent>
+    <div v-if="readMode === 'vertical'" class="reader-vertical">
+      <figure v-for="(page, index) in chapter.pages" :key="index" class="figure">
+        <v-image :src="`${cdnUrl}/${page.image_url}`" :ratio-width="3" :ratio-height="5" />
+      </figure>
     </div>
-    <div v-else class="reader-vertical">
+    <div v-else class="reader-horizontal">
       <no-ssr placeholder="Cargando...">
-        <flipbook :pages="flipbookPages" :zooms="[ 1, 2 ]" class="flipbook"/>
+        <flipbook :pages="flipbookPages" :zooms="[ 1, 1.5, 2 ]" :n-polygons="nPolygons" class="flipbook"/>
       </no-ssr>
     </div>
-    <v-button type="primary" action size="large" style="position: fixed; right: 32px; bottom: 32px;" @click.native="showingConfigurationModal=true">
-      <chevron-top-icon/>
-    </v-button>
-    <!-- Configuration modal -->
-    <modal ref="configurationModal" :active.sync="showingConfigurationModal" title="Ajustes">
-      <template v-slot:content>
-        <div class="form-group">
-          <label class="form-label">Dirección de lectura</label>
-          <select v-model="readMode" class="form-select">
-            <option value="horizontal">Horizontal (Flipbook)</option>
-            <option value="vertical">Vertical</option>
-          </select>
-        </div>
-      </template>
-    </modal>
-    <!-- /Configuration modal -->
   </div>
 </template>
 
@@ -46,13 +28,12 @@ export default {
   },
 
   props: {
-    chapter: { default: null, type: Object }
+    chapter: { default: null, type: Object },
+    readMode: { default: 'vertical', type: String }
   },
 
   data: () => ({
-    pages: [],
-    readMode: 'vertical',
-    showingConfigurationModal: false
+    nPolygons: 4 // Number of polygons that flipbook-vue will use.
   }),
 
   computed: {
@@ -67,6 +48,11 @@ export default {
 
       return pages
     }
+  },
+
+  created () {
+    // On mobile and tablet, flipbook-vue will only use 4 polygons for better performance.
+    this.nPolygons = this.$device.isMobileOrTablet ? 4 : 8
   }
 }
 </script>
@@ -74,6 +60,15 @@ export default {
 <style lang="scss">
 
 .reader-vertical {
+  margin: auto;
+  padding: 32px 0px;
+  figure {
+    max-width: 720px;
+    margin: auto;
+  }
+}
+
+.reader-horizontal {
   .flipbook {
     height: 100vh;
     .viewport {
@@ -89,6 +84,17 @@ export default {
       transform-origin: center;
       transition: transform 0.06s;
     }
+  }
+}
+
+/* On mobile */
+@media only screen and (max-width: 840px) {
+  .reader-vertical {
+    padding: 0px;
+    background: #fff !important;
+  }
+  .reader-horizontal .flipbook {
+    height: calc(100vh - 80px);
   }
 }
 
