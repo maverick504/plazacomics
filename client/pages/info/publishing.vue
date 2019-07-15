@@ -3,14 +3,14 @@
     <section class="bg-light">
       <div class="container py-xl">
         <div class="columns">
-          <div class="column col-4">
+          <div class="column col-4 col-md-12">
             <div class="card">
               <div class="card-body pa-no">
                 <img class="img-responsive" src="~/assets/publishing/1.png">
               </div>
             </div>
           </div>
-          <div class="column col-8 pa-xl">
+          <div class="column col-8 col-md-12 pa-xl">
             <h2 style="font-size: 40px;">
               ¡Publica en menos de dos minutos!
             </h2>
@@ -24,15 +24,15 @@
     <section class="bg-gray">
       <div class="container py-xl">
         <div class="columns">
-          <div class="column col-8 pa-xl">
+          <div class="column col-8 col-md-12 pa-xl">
             <h2 style="font-size: 40px;">
               ¡Sistema de suscriptores!
             </h2>
             <p style="font-size: 20px;">
-              Los fans de tu cómic seguir tu trabajo y recibir notificaciones cuando publiques nuevos capítulos.
+              Los fans de tu cómic pueden seguir tu trabajo y recibir notificaciones cuando publiques nuevos capítulos.
             </p>
           </div>
-          <div class="column col-4">
+          <div class="column col-4 col-md-12">
             <div class="card">
               <div class="card-body pa-no">
                 <img class="img-responsive" src="~/assets/publishing/2.png">
