@@ -160,7 +160,7 @@ export default {
     return {
       title: this.serie.name,
       meta: [
-        { hid: 'description', name: 'description', content: this.serie.synopsis }
+        { hid: 'description', name: 'description', content: this.serie.synopsis !== null ? this.serie.synopsis : '' }
       ]
     }
   },
