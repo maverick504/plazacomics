@@ -17,10 +17,11 @@
     </div>
     <div class="container my-xl">
       <div class="columns">
-        <div v-for="serie in series.data" :key="serie.id" class="column col-3 col-md-6">
+        <div v-for="(serie, index) in results.data" :key="index" class="column col-3 col-md-6 pb-md">
           <serie-card :serie="serie" />
         </div>
       </div>
+      <Pagination :current-page="results.current_page" :last-page="results.last_page" route-name="series.page"/>
     </div>
   </div>
 </template>
@@ -40,16 +41,22 @@ export default {
 
   data: function () {
     return {
-      series: null
+      results: null
     }
   },
 
-  async asyncData ({ error }) {
+  async asyncData ({ params, error }) {
     try {
-      var series = await axios.get(`/series`)
+      var results
+
+      if (params.page) {
+        results = await axios.get(`/series?page=${params.page}`)
+      } else {
+        results = await axios.get(`/series`)
+      }
 
       return {
-        series: series.data
+        results: results.data
       }
     } catch (err) {
       return error({ statusCode: err.response.status })

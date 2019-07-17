@@ -23,7 +23,7 @@ class SubscribeController extends Controller
             'genre2'
         ])
         ->public()
-        ->get();
+        ->paginate(RESULTS_PER_PAGE);
     }
 
     /**

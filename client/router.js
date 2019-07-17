@@ -33,6 +33,8 @@ const ShowChapter = () => import('~/pages/chapters/show').then(m => m.default ||
 const AuthorsIndex = () => import('~/pages/authors/index').then(m => m.default || m)
 const ShowAuthor = () => import('~/pages/authors/show').then(m => m.default || m)
 
+// const ShowIllustration = () => import('~/pages/illustrations/show').then(m => m.default || m)
+
 const InfoPublishing = () => import('~/pages/info/publishing').then(m => m.default || m)
 const Article = () => import('~/pages/articles/index').then(m => m.default || m)
 
@@ -53,9 +55,11 @@ const routes = [
 
   { path: '/dashboard', name: 'dashboard', component: Dashboard },
   { path: '/library', name: 'library', component: Library },
+  { path: '/library/page/:page', name: 'library.page', component: Library },
   { path: '/notifications/:filter', name: 'notifications', component: Notifications },
 
   { path: '/series', name: 'series.index', component: SeriesIndex },
+  { path: '/series/page/:page', name: 'series.page', component: SeriesIndex },
   { path: '/series/create', name: 'series.create', component: CreateSerie },
   { path: '/series/:id/edit',
     component: EditSerie,
@@ -70,7 +74,10 @@ const routes = [
   { path: '/series/:serieSlug/chapters/:chapterId/:chapterSlug', name: 'chapters.show', component: ShowChapter },
 
   { path: '/authors', name: 'authors.index', component: AuthorsIndex },
+  { path: '/authors/page/:page', name: 'authors.page', component: AuthorsIndex },
   { path: '/authors/:id/:username', name: 'authors.show', component: ShowAuthor },
+
+  // { path: '/illustrations/:id', name: 'illustrations.show', component: ShowIllustration },
 
   { path: '/publishing', name: 'info.publishing', component: InfoPublishing },
 

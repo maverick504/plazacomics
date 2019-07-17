@@ -2,7 +2,7 @@
   <div>
     <div class="container mt-xl mb-xl">
       <h2>Mi Biblioteca</h2>
-      <div v-if="subscriptions.length == 0" class="empty">
+      <div v-if="results.data.length == 0" class="empty">
         <div class="empty-icon">
           <package-variant-icon class="icon-10x" />
         </div>
@@ -18,11 +18,14 @@
           </nuxt-link>
         </div>
       </div>
-      <div v-else class="columns">
-        <div v-for="serie in subscriptions" :key="serie.id" class="column col-3 col-md-6">
-          <serie-card :serie="serie" />
+      <template v-else>
+        <div class="columns">
+          <div v-for="(serie, index) in results.data" :key="index" class="column col-3 col-md-6">
+            <serie-card :serie="serie" />
+          </div>
         </div>
-      </div>
+        <Pagination :current-page="results.current_page" :last-page="results.last_page" route-name="library.page"/>
+      </template>
     </div>
   </div>
 </template>
@@ -46,16 +49,22 @@ export default {
 
   data: function () {
     return {
-      subscriptions: []
+      results: []
     }
   },
 
-  async asyncData ({ error }) {
+  async asyncData ({ params, error }) {
     try {
-      var subscriptions = await axios.get(`user/subscriptions`)
+      var results
+
+      if (params.page) {
+        results = await axios.get(`user/subscriptions?page=${params.page}`)
+      } else {
+        results = await axios.get(`user/subscriptions`)
+      }
 
       return {
-        subscriptions: subscriptions.data
+        results: results.data
       }
     } catch (err) {
       return error({ statusCode: err.response.status })

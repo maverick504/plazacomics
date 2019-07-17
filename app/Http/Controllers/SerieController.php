@@ -43,7 +43,7 @@ class SerieController extends Controller
             'genre2'
         ])
         ->public()
-        ->simplePaginate(RESULTS_PER_PAGE);
+        ->paginate(RESULTS_PER_PAGE);
     }
 
     /**

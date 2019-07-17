@@ -24,7 +24,7 @@ class AuthorController extends Controller
               $query->select('series.id', 'series.name')->public();
           }
       ])
-      ->simplePaginate(RESULTS_PER_PAGE);
+      ->paginate(RESULTS_PER_PAGE);
   }
 
   /**

@@ -17,10 +17,11 @@
     </div>
     <div class="container my-xl">
       <div class="columns">
-        <div v-for="author in authors.data" :key="author.id" class="column col-6 col-md-12">
+        <div v-for="(author, index) in results.data" :key="index" class="column col-6 col-md-12">
           <author-card :author="author" />
         </div>
       </div>
+      <Pagination :current-page="results.current_page" :last-page="results.last_page" route-name="authors.page"/>
     </div>
   </div>
 </template>
@@ -40,16 +41,22 @@ export default {
 
   data: function () {
     return {
-      authors: null
+      results: null
     }
   },
 
-  async asyncData ({ error }) {
+  async asyncData ({ params, error }) {
     try {
-      var authors = await axios.get(`/authors`)
+      var results
+
+      if (params.page) {
+        results = await axios.get(`/authors?page=${params.page}`)
+      } else {
+        results = await axios.get(`/authors`)
+      }
 
       return {
-        authors: authors.data
+        results: results.data
       }
     } catch (err) {
       return error({ statusCode: err.response.status })
