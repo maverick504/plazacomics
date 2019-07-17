@@ -158,7 +158,10 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 export default {
   head () {
     return {
-      title: this.serie.name
+      title: this.serie.name,
+      meta: [
+        { hid: 'description', name: 'description', content: this.serie.synopsis }
+      ]
     }
   },
 

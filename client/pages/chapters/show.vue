@@ -132,7 +132,10 @@ export default {
 
   head () {
     return {
-      title: this.serie.name + ' | ' + this.chapter.title
+      title: this.serie.name + ' | ' + this.chapter.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.serie.synopsis !== null ? this.serie.synopsis : '' }
+      ]
     }
   },
 

@@ -33,8 +33,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'PlazaComics es donde los lectores encuentran los mejores cómics. Lee cómics en español o publica el tuyo y alcanza una audiencia más grande.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ],
     script: [
       { src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` }
