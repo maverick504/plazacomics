@@ -138,6 +138,9 @@ class SerieController extends Controller
             $serie->user_liked = $serie->isLikedBy(Auth::user()->id);
         }
         $serie->likes_count = $serie->likers()->count();
+        
+        $serie->visits = visits($serie)->count();
+        visits($serie)->increment();
 
         return $serie;
     }

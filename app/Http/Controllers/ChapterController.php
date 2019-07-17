@@ -197,6 +197,9 @@ class ChapterController extends Controller
         ->orderBy('id', 'asc')
         ->first();
 
+        $chapter->visits = visits($chapter)->count();
+        visits($chapter)->increment();
+
         return $chapter;
     }
 

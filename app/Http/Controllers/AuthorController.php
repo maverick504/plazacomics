@@ -45,6 +45,9 @@ class AuthorController extends Controller
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
       }
 
+      $user->visits = visits($user)->count();
+      visits($user)->increment();
+
       return $user;
   }
 }
