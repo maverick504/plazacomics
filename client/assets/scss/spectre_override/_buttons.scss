@@ -2,6 +2,13 @@
   float: left;
 }
 
+.btn.btn-block {
+  div {
+    margin: auto;
+    display: table;
+  }
+}
+
 .btn-facebook {
   background: #3B5998 !important;
   border-color: #3B5998 !important;

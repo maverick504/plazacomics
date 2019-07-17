@@ -16,6 +16,8 @@
 
 <script>
 export default {
+  name: 'ChapterCard',
+
   props: {
     serieSlug: { default: null, type: String },
     chapterNumber: { default: null, type: Number },

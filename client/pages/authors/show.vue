@@ -58,7 +58,7 @@
             Series
           </h3>
           <div class="columns">
-            <div v-for="serie in series" :key="serie.id" class="column col-4 col-sm-6">
+            <div v-for="serie in series" :key="serie.id" class="column col-4 col-sm-6 pb-md">
               <SerieCard :serie="serie" />
             </div>
           </div>

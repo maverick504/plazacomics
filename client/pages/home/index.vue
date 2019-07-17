@@ -3,7 +3,7 @@
     <div class="container mt-xl mb-xl">
       <h2>Series nuevas en PlazaComics</h2>
       <div class="columns">
-        <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6">
+        <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6 pb-md">
           <serie-card :serie="serie" />
         </div>
       </div>

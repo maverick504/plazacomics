@@ -123,4 +123,9 @@ class Serie extends Model
     {
         return $this->hasManyThrough('App\User', 'App\SerieAuthor', 'serie_id', 'id', 'id', 'user_id');
     }
+
+    public function chapters()
+    {
+        return $this->hasMany('App\Chapter', 'serie_id', 'id');
+    }
 }

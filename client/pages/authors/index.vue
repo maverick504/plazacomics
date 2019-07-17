@@ -17,7 +17,7 @@
     </div>
     <div class="container my-xl">
       <div class="columns">
-        <div v-for="(author, index) in results.data" :key="index" class="column col-6 col-md-12">
+        <div v-for="(author, index) in results.data" :key="index" class="column col-6 col-md-12 pb-md">
           <author-card :author="author" />
         </div>
       </div>

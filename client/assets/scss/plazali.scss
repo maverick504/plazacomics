@@ -70,9 +70,13 @@
 @import "other_overrides/sweet_alert_override";
 
 /* PLAZACOMICS */
+@import "plazacomics/cards/author_card";
+@import "plazacomics/cards/chapter_card";
+@import "plazacomics/cards/link_card";
 @import "plazacomics/bottom_nav";
 @import "plazacomics/comments";
 @import "plazacomics/containers";
+@import "plazacomics/corner_label";
 @import "plazacomics/footer";
 @import "plazacomics/helpers";
 @import "plazacomics/layout";

@@ -71,17 +71,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    /**
-     * Check if a comment for a specific model needs to be approved.
-     * @param mixed $model
-     * @return bool
-     */
-    public function needsCommentApproval($model): bool
-    {
-        return false;
-    }
-
+    
     public function series()
     {
         return $this->hasManyThrough('App\Serie', 'App\SerieAuthor', 'user_id', 'id', 'id', 'serie_id');

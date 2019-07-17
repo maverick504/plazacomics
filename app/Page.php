@@ -16,4 +16,9 @@ class Page extends Model
      * @var array
      */
     protected $fillable = array('chapter_id', 'order', 'image_url');
+
+    public function chapter()
+    {
+        return $this->belongsTo('App\Chapter', 'chapter_id', 'id');
+    }
 }

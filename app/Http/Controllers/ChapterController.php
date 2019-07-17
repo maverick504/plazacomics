@@ -145,7 +145,12 @@ class ChapterController extends Controller
           $query->where('relase_date', '<', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
               $query->where('relase_date', '=', $chapter->relase_date)
-              ->where('created_at', '<', $chapter->created_at);
+              ->where('created_at', '<', $chapter->created_at)
+              ->orwhere(function($query) use($chapter) {
+                  $query->where('relase_date', '=', $chapter->relase_date)
+                  ->where('created_at', '=', $chapter->created_at)
+                  ->where('id', '<', $chapter->id);
+              });
           });
         })
         ->count()+1;
@@ -158,11 +163,17 @@ class ChapterController extends Controller
           $query->where('relase_date', '<', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
               $query->where('relase_date', '=', $chapter->relase_date)
-              ->where('created_at', '<', $chapter->created_at);
+              ->where('created_at', '<', $chapter->created_at)
+              ->orwhere(function($query) use($chapter) {
+                  $query->where('relase_date', '=', $chapter->relase_date)
+                  ->where('created_at', '=', $chapter->created_at)
+                  ->where('id', '<', $chapter->id);
+              });
           });
         })
         ->orderBy('relase_date', 'desc')
         ->orderBy('created_at', 'desc')
+        ->orderBy('id', 'desc')
         ->first();
 
         // Get next chapter.
@@ -173,11 +184,17 @@ class ChapterController extends Controller
           $query->where('relase_date', '>', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
               $query->where('relase_date', '=', $chapter->relase_date)
-              ->where('created_at', '>', $chapter->created_at);
+              ->where('created_at', '>', $chapter->created_at)
+              ->orwhere(function($query) use($chapter) {
+                  $query->where('relase_date', '=', $chapter->relase_date)
+                  ->where('created_at', '=', $chapter->created_at)
+                  ->where('id', '>', $chapter->id);
+              });
           });
         })
         ->orderBy('relase_date', 'asc')
         ->orderBy('created_at', 'asc')
+        ->orderBy('id', 'asc')
         ->first();
 
         return $chapter;

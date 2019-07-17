@@ -20,7 +20,7 @@
       </div>
       <template v-else>
         <div class="columns">
-          <div v-for="(serie, index) in results.data" :key="index" class="column col-3 col-md-6">
+          <div v-for="(serie, index) in results.data" :key="index" class="column col-3 col-md-6 pb-md">
             <serie-card :serie="serie" />
           </div>
         </div>
