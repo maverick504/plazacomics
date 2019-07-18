@@ -59,8 +59,31 @@ class SerieController extends Controller
         ])
         ->public()
         ->orderBy('created_at', 'asc')
-        ->limit(8)
+        ->limit(4)
         ->get();
+    }
+
+    /**
+     * Display a listing of the series sorted by popularity.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popular()
+    {
+        $topIds = visits('App\Serie')->top(4)->pluck('id')->toArray();
+
+        $query = Serie::with([
+            'genre1',
+            'genre2'
+        ])
+        ->public()
+        ->whereIn('id', $topIds);
+
+        foreach($topIds as $id) {
+          $query->orderByRaw('id=' . $id . ' DESC');
+        }
+
+        return $query->get();
     }
 
     /**
@@ -138,7 +161,7 @@ class SerieController extends Controller
             $serie->user_liked = $serie->isLikedBy(Auth::user()->id);
         }
         $serie->likes_count = $serie->likers()->count();
-        
+
         $serie->visits = visits($serie)->count();
         visits($serie)->increment();
 

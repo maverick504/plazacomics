@@ -116,6 +116,10 @@
           <figure :data-tooltip="$t('licence_' + serie.licence.language_key)" class="figure my-no tooltip tooltip-right" style="display: inline-block;">
             <img :src="`/licences/${serie.licence.language_key}.png`" class="img-responsive" style="height: 40px; width: auto;">
           </figure>
+          <h3 class="h5 mt-lg mb-md">
+            Estadísticas
+          </h3>
+          <p class="my-no">{{ serie.visits }} visitas</p>
         </section>
         <section v-if="activeTab=='chapters'" class="my-xl">
           <div class="columns mb-lg">

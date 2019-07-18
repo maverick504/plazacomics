@@ -117,6 +117,7 @@ Route::get('authors/{id}', 'AuthorController@show');
 // Series
 Route::get('series/', 'SerieController@index');
 Route::get('newSeries/', 'SerieController@new');
+Route::get('popularSeries/', 'SerieController@popular');
 Route::get('series/{id}', 'SerieController@show');
 Route::get('authors/{id}/series', 'SerieController@authorIndex');
 Route::get('series/', 'SerieController@index');

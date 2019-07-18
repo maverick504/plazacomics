@@ -1,6 +1,12 @@
 <template>
   <div>
     <div class="container mt-xl mb-xl">
+      <h2>Series populares en PlazaComics</h2>
+      <div class="columns">
+        <div v-for="serie in popularSeries" :key="serie.id" class="column col-3 col-md-6 pb-md">
+          <serie-card :serie="serie" />
+        </div>
+      </div>
       <h2>Series nuevas en PlazaComics</h2>
       <div class="columns">
         <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6 pb-md">
@@ -39,15 +45,18 @@ export default {
 
   data: function () {
     return {
+      popularSeries: [],
       newSeries: []
     }
   },
 
   async asyncData ({ error }) {
     try {
+      var popularSeries = await axios.get(`popularSeries/`)
       var newSeries = await axios.get(`newSeries/`)
 
       return {
+        popularSeries: popularSeries.data,
         newSeries: newSeries.data
       }
     } catch (err) {
