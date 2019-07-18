@@ -13,7 +13,7 @@
       </p>
       <div class="empty-action">
         <nuxt-link :to="{ name: 'series.create' }" class="btn btn-primary">
-          Crear mi primera serie
+          <plus-icon /> Crear mi primera serie
         </nuxt-link>
       </div>
     </div>
@@ -66,6 +66,11 @@
             <eye-icon />Vista pública
           </router-link>
         </div>
+      </div>
+      <div class="align-right">
+        <nuxt-link :to="{ name: 'series.create' }" class="btn btn-primary mt-sm">
+          <plus-icon /> Crear una nueva serie
+        </nuxt-link>
       </div>
     </template>
   </div>
