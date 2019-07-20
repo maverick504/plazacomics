@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Rules\ValidBase64Image;
 use Image;
 use Storage;
 
@@ -27,10 +26,16 @@ class PageController extends Controller
 
         $image = Image::make($request->image);
 
+        if($image->width() > COMIC_PAGE_MAX_WIDTH) {
+            $image->resize(COMIC_PAGE_MAX_WIDTH, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+
         // Validate image size.
-        if($image->width() > COMIC_PAGE_MAX_WIDTH || $image->height() > COMIC_PAGE_MAX_HEIGHT) {
+        if($image->height() > COMIC_PAGE_MAX_HEIGHT) {
             $error = \Illuminate\Validation\ValidationException::withMessages([
-               'image' => ['The image size is not valid']
+               'image' => ['La imágen es muy alta con proporción a su ancho.']
             ]);
         }
 
@@ -40,8 +45,8 @@ class PageController extends Controller
         Storage::disk('spaces')->put('tmp/' . $fileName, $image, 'public');
 
         return response()->json([
-          'temporal_image_url' => 'tmp/'.$fileName,
-          'temporal_file_name' => $fileName
+            'temporal_image_url' => 'tmp/'.$fileName,
+            'temporal_file_name' => $fileName
         ]);
     }
 }
