@@ -287,7 +287,7 @@ class ChapterController extends Controller
                 $parts = explode('/', $file);
                 $filename = end($parts);
 
-                if(!in_array($filename, $currentPagesFiles)) {
+                if(!in_array($filename, $currentPagesFiles) && $filename !== 'thumbnail.jpg') {
                     Storage::disk('spaces')->delete('chapters/' . $chapterHashid . '/' . $filename);
                 }
             }
