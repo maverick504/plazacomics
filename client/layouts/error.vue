@@ -5,10 +5,10 @@
         <h1>{{ error.statusCode }}</h1>
         <template v-if="error.statusCode === 404 || error.statusCode === 403">
           <h2>La página que buscas no existe... (^_^;)</h2>
-          <p>Lo sentimos. Pudes volver al inicio y buscar alguna otra cosa.</p>
+          <p>Lo sentimos. Puedes volver al inicio y buscar algun otro cosa.</p>
         </template>
-        <template v-if="error.statusCode === 429">
-          <h2>Demasiadas llamadas al servidor</h2>
+        <template v-else-if="error.statusCode === 429">
+          <h2>Demasiadas llamadas al servidor... (>_&lt;)</h2>
           <p>El servidor a bloqueado el acceso porque se detectaron demasiadas llamadas en poco tiempo. Espera un minuto y vuelve a intentarlo.</p>
         </template>
         <template v-else>
@@ -35,6 +35,8 @@ export default {
 
   layout: 'default',
 
-  error: { type: Object }
+  props: {
+    error: { default: null, type: Object }
+  }
 }
 </script>
