@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rules\ValidSlug;
 use DateTime;
 use Image;
 use Storage;
 use Hashids;
-use App\Rules\ValidSlug;
 
 class ProfileController extends Controller
 {
@@ -23,9 +23,9 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'username' => [ 'required', new ValidSlug, 'unique:users,username,'.$user->id ],
+            'username' => [ 'required', 'max:255', new ValidSlug, 'unique:users,username,' . $user->id ],
             'name' => 'nullable',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'gender' => 'nullable|in:M,F',
             'birth_date' => 'nullable|date_format:d/m/Y',
             'location' => 'nullable',
