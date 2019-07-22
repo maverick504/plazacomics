@@ -58,7 +58,7 @@ class SerieController extends Controller
             'genre2'
         ])
         ->public()
-        ->orderBy('created_at', 'asc')
+        ->latest()
         ->limit(4)
         ->get();
     }
@@ -157,10 +157,11 @@ class SerieController extends Controller
         }
 
         if(Auth::user()) {
-            $serie->user_is_subscriber = $serie->isSubscribedBy(Auth::user()->id);
-            $serie->user_liked = $serie->isLikedBy(Auth::user()->id);
+            $serie->user_is_subscriber = $serie->isSubscribedBy(Auth::user());
+            $serie->user_liked = $serie->isLikedBy(Auth::user());
         }
         $serie->likes_count = $serie->likers()->count();
+        $serie->subscribers_count = $serie->subscribers()->count();
 
         $serie->visits = visits($serie)->count();
         visits($serie)->increment();
