@@ -31,21 +31,26 @@
               {{ $t('serie_state_' + serie.state) }} | {{ serie.total_chapters }} capítulos
             </span>
             <div class="d-block" style="line-height: 44px;">
-              <nuxt-link :class="{ 'is-loading': busy }" :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
+              <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
                 <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
               </nuxt-link>
-              <v-button :loading="busy" class="mr-sm" large @click.native="toggleLike">
-                <heart-icon v-if="serie.user_liked" />
-                <heart-outline-icon v-if="!serie.user_liked" />
-                {{ serie.likes_count }}
-              </v-button>
-              <v-button :loading="busy" class="mr-sm" large @click.native="toggleSubscribed">
-                <check-icon v-if="serie.user_is_subscriber" />
-                <plus-icon v-if="!serie.user_is_subscriber" />
-                {{ serie.user_is_subscriber?'Suscrito':'Suscribirse' }}
-              </v-button>
-              <figure v-for="user in followers" :key="user.id" :data-tooltip="user.username" class="avatar mr-sm tooltip">
-                <img :src="user.avatar_url?`${cdnUrl}/${user.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="user.username">
+              <toggle-follow-button
+                :follow-api-endpoint="`user/like/${serie.id}`"
+                :unfollow-api-endpoint="`user/unlike/${serie.id}`"
+                :following.sync="serie.user_liked"
+                :followers-count.sync="serie.likes_count"
+                relation="like"
+                class="mr-sm"
+              />
+              <toggle-follow-button
+                :follow-api-endpoint="`user/subscribe/${serie.id}`"
+                :unfollow-api-endpoint="`user/unsubscribe/${serie.id}`"
+                :following.sync="serie.user_is_subscriber"
+                relation="subscribe"
+                class="mr-sm"
+              />
+              <figure v-for="subscriber in subscribers" :key="subscriber.id" :data-tooltip="subscriber.username" class="avatar mr-sm tooltip">
+                <img :src="subscriber.avatar_url?`${cdnUrl}/${subscriber.avatar_url}`:'/placeholders/avatar_placeholder_150x150.png'" :alt="subscriber.username">
               </figure>
             </div>
             <div class="d-block" style="line-height: 44px;">
@@ -120,6 +125,8 @@
             Estadísticas
           </h3>
           <p class="my-no">{{ serie.visits }} visitas</p>
+          <p class="my-no">{{ serie.likes_count }} Me gusta</p>
+          <p class="my-no">{{ serie.subscribers_count }} Suscriptores</p>
         </section>
         <section v-if="activeTab=='chapters'" class="my-xl">
           <div class="columns mb-lg">
@@ -130,34 +137,14 @@
         </section>
       </div>
     </div>
-    <!-- Must login modal -->
-    <Modal :active.sync="showMustLoginModal" size="small" title="Inicia sesión o regístrate">
-      <template v-slot:content>
-        Create una cuenta para una mejor experiencia de lectura o para publicar tus propios cómics!
-      </template>
-      <template v-slot:footer>
-        <nuxt-link :to="{ name: 'register' }" class="btn btn-primary mr-sm">
-          Regístrate
-        </nuxt-link>
-        <nuxt-link :to="{ name: 'login' }" class="btn">
-          Inicia sesión
-        </nuxt-link>
-      </template>
-    </Modal>
-    <!-- /Must login modal -->
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import axios from 'axios'
-import swal from 'sweetalert2'
+import ToggleFollowButton from '../../components/ToggleFollowButton.vue'
 import ChapterCard from '../../components/ChapterCard.vue'
 import BookOpenPageVariantIcon from 'vue-material-design-icons/BookOpenPageVariant.vue'
-import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
-import HeartIcon from 'vue-material-design-icons/Heart.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
   head () {
@@ -170,42 +157,33 @@ export default {
   },
 
   components: {
+    ToggleFollowButton,
     ChapterCard,
-    BookOpenPageVariantIcon,
-    HeartOutlineIcon,
-    HeartIcon,
-    PlusIcon,
-    CheckIcon
+    BookOpenPageVariantIcon
   },
 
   data: () => ({
     serie: null,
     chapters: [],
-    followers: [],
-    activeTab: 'information',
-    busy: false,
-    showMustLoginModal: false
+    subscribers: [],
+    activeTab: 'information'
   }),
 
   async asyncData ({ params, error }) {
     try {
       const serie = await axios.get(`/series/${params.id}`)
       const chapters = await axios.get(`/series/${params.id}/chapters`)
-      const followers = await axios.get(`/series/${params.id}/subscribers`)
+      const subscribers = await axios.get(`/series/${params.id}/subscribers`)
 
       return {
         serie: serie.data,
         chapters: chapters.data,
-        followers: followers.data
+        subscribers: subscribers.data
       }
     } catch (err) {
       return error({ statusCode: err.response.status })
     }
   },
-
-  computed: mapGetters({
-    user: 'auth/user'
-  }),
 
   created () {
     this.breadcrumbs = [
@@ -222,62 +200,6 @@ export default {
         to: { name: 'series.show', params: { 'id': this.serie.id, 'slug': this.serie.slug } }
       }
     ]
-  },
-
-  methods: {
-    async toggleSubscribed () {
-      if (this.user == null) {
-        this.showMustLoginModal = true
-        return
-      }
-
-      if (this.serie.user_is_subscriber) {
-        const { value } = await swal({
-          title: '¿Desuscribirse?',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si',
-          cancelButtonText: 'Cancelar'
-        })
-
-        if (value) {
-          this.busy = true
-
-          await axios.post(`user/unsubscribe/${this.serie.id}`)
-          this.serie.user_is_subscriber = false
-
-          this.busy = false
-        }
-      } else {
-        this.busy = true
-
-        await axios.post(`user/subscribe/${this.serie.id}`)
-        this.serie.user_is_subscriber = true
-
-        this.busy = false
-      }
-    },
-
-    async toggleLike () {
-      if (this.user == null) {
-        this.showMustLoginModal = true
-        return
-      }
-
-      this.busy = true
-
-      if (this.serie.user_liked) {
-        await axios.post(`user/unlike/${this.serie.id}`)
-        this.serie.user_liked = false
-        this.serie.likes_count--
-      } else {
-        await axios.post(`user/like/${this.serie.id}`)
-        this.serie.user_liked = true
-        this.serie.likes_count++
-      }
-
-      this.busy = false
-    }
   }
 }
 </script>

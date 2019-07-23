@@ -35,19 +35,20 @@ class AuthorController extends Controller
    */
   public function show($id)
   {
-      $user = User::whereHas('series', function($q){
-          $q->public();
-      })
-      ->where('id', '=', $id)
-      ->first();
+      $author = User::where('id', '=', $id)->first();
 
-      if(!$user) {
+      if(!$author) {
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
       }
 
-      $user->visits = visits($user)->count();
-      visits($user)->increment();
+      if(auth()->user()) {
+          $author->user_is_follower = $author->isFollowedBy(auth()->user());
+      }
+      $author->followers_count = $author->followers()->count();
 
-      return $user;
+      $author->visits = visits($author)->count();
+      visits($author)->increment();
+
+      return $author;
   }
 }

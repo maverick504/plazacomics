@@ -4,42 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Serie;
-use App\Notifications\UserLikedSeries;
-use Illuminate\Support\Facades\Notification;
-use Auth;
+use App\Post;
+// use App\Notifications\UserLikedSeries;
+// use Illuminate\Support\Facades\Notification;
 
-class LikeController extends Controller
+class PostLikeController extends Controller
 {
   /**
-   * Creates a like relation between the logged-in user and a serie.
+   * Creates a like relation between the logged-in user and a post.
    *
    * @return \Illuminate\Http\Response
    */
-  public function like($serieId)
+  public function like($postId)
   {
-      $serie = Serie::find($serieId);
+      $post = Post::find($postId);
 
-      if(!$serie) {
+      if(!$post) {
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
       }
 
       $userLikedPreviously = DB::table('followables')
-      ->where('followable_type', '=', 'App\Serie')
+      ->where('followable_type', '=', 'App\Post')
       ->where('relation', '=', 'like')
-      ->where('user_id', '=', Auth::user()->id)
-      ->where('followable_id', '=', $serie->id)
+      ->where('user_id', '=', auth()->user()->id)
+      ->where('followable_id', '=', $post->id)
       ->count()>0;
 
       DB::beginTransaction();
       try {
           if(!$userLikedPreviously) {
               // Send notification.
-              $authors = $serie->authors()->get();
-              Notification::send($authors, new UserLikedSeries(Auth::user(), $serie));
+              // $authors = $serie->authors()->get();
+              // Notification::send($authors, new UserLikedSeries(auth()->user(), $serie));
           }
 
-          Auth::user()->like($serie);
+          auth()->user()->like($post);
 
           DB::commit();
       } catch (\Exception $e) {
@@ -52,19 +51,19 @@ class LikeController extends Controller
   }
 
   /**
-   * Destroys a like relation between the logged-in user and a serie.
+   * Destroys a like relation between the logged-in user and a post.
    *
    * @return \Illuminate\Http\Response
    */
-  public function unlike($serieId)
+  public function unlike($postId)
   {
-      $serie = Serie::find($serieId);
+      $post = Post::find($postId);
 
-      if(!$serie) {
+      if(!$post) {
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
       }
 
-      Auth::user()->unlike($serie);
+      auth()->user()->unlike($post);
 
       return response()->json(null, 200);
   }

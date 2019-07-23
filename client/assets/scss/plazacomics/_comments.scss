@@ -1,3 +1,20 @@
+.comment-form {
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  .comment-form-avatar {
+    flex-grow: 0;
+    .avatar {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .comment-form-controls {
+    flex-grow: 1;
+    margin-left: 8px;
+  }
+}
+
 .comments-container {
   .comments-title {
     font-size: 1rem;

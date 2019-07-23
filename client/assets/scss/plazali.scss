@@ -83,3 +83,43 @@
 @import "plazacomics/navbar";
 @import "plazacomics/read_mode_navbar";
 @import "plazacomics/social_buttons";
+
+
+
+.menu.has-arrow {
+	position: relative;
+	background: $dark-color;
+  color: $light-color;
+  padding: 8px 0px;
+  .menu-item {
+    margin: 0px;
+    a {
+      border-radius: 0px !important;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+  }
+  .menu-item a:hover {
+    background: $gray-color-dark;
+    color: $light-color;
+  }
+  .menu-item a:focus {
+    background: $gray-color-dark;
+    color: $light-color;
+    box-shadow: none;
+  }
+}
+.menu.has-arrow.has-arrow-top:after {
+	bottom: 100%;
+	left: 24%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(48, 55, 66, 0);
+	border-bottom-color: $dark-color;
+	border-width: 8px;
+	margin-left: -8px;
+}

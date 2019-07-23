@@ -16,8 +16,18 @@ const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.def
 const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m)
 
 const Dashboard = () => import('~/pages/dashboard/index').then(m => m.default || m)
+const DashboardSeries = () => import('~/pages/dashboard/series').then(m => m.default || m)
+const DashboardPosts = () => import('~/pages/dashboard/posts').then(m => m.default || m)
+
 const Library = () => import('~/pages/library/index').then(m => m.default || m)
 const Notifications = () => import('~/pages/notifications/index').then(m => m.default || m)
+
+const Feed = () => import('~/pages/feed/index').then(m => m.default || m)
+const CreatePostIllustration = () => import('~/pages/posts/create/illustration').then(m => m.default || m)
+const EditPost = () => import('~/pages/posts/edit').then(m => m.default || m)
+const ShowPost = () => import('~/pages/posts/show').then(m => m.default || m)
+
+const IllustrationsIndex = () => import('~/pages/illustrations/index').then(m => m.default || m)
 
 const SeriesIndex = () => import('~/pages/series/index').then(m => m.default || m)
 const CreateSerie = () => import('~/pages/series/create').then(m => m.default || m)
@@ -31,9 +41,9 @@ const EditChapter = () => import('~/pages/chapters/edit').then(m => m.default ||
 const ShowChapter = () => import('~/pages/chapters/show').then(m => m.default || m)
 
 const AuthorsIndex = () => import('~/pages/authors/index').then(m => m.default || m)
-const ShowAuthor = () => import('~/pages/authors/show').then(m => m.default || m)
-
-// const ShowIllustration = () => import('~/pages/illustrations/show').then(m => m.default || m)
+const ShowAuthor = () => import('~/pages/authors/show/index').then(m => m.default || m)
+const ShowAuthorSeries = () => import('~/pages/authors/show/series').then(m => m.default || m)
+const ShowAuthorIllustrations = () => import('~/pages/authors/show/illustrations').then(m => m.default || m)
 
 const InfoPublishing = () => import('~/pages/info/publishing').then(m => m.default || m)
 const Article = () => import('~/pages/articles/index').then(m => m.default || m)
@@ -53,10 +63,23 @@ const routes = [
       { path: 'password', name: 'settings.password', component: SettingsPassword }
     ] },
 
-  { path: '/dashboard', name: 'dashboard', component: Dashboard },
-  { path: '/library', name: 'library', component: Library },
+  { path: '/dashboard',
+    component: Dashboard,
+    children: [
+      { path: 'series', name: 'dashboard', component: DashboardSeries },
+      { path: 'posts', name: 'dashboard.posts', component: DashboardPosts }
+    ] },
+
+  { path: '/library', name: 'library.index', component: Library },
   { path: '/library/page/:page', name: 'library.page', component: Library },
   { path: '/notifications/:filter', name: 'notifications', component: Notifications },
+
+  { path: '/feed', name: 'feed', component: Feed },
+  { path: '/posts/create/illustration', name: 'posts.create.illustration', component: CreatePostIllustration },
+  { path: '/posts/:id/edit', name: 'posts.edit', component: EditPost },
+  { path: '/posts/:id', name: 'posts.show', component: ShowPost },
+
+  { path: '/illustrations', name: 'illustrations.index', component: IllustrationsIndex },
 
   { path: '/series', name: 'series.index', component: SeriesIndex },
   { path: '/series/page/:page', name: 'series.page', component: SeriesIndex },
@@ -75,9 +98,12 @@ const routes = [
 
   { path: '/authors', name: 'authors.index', component: AuthorsIndex },
   { path: '/authors/page/:page', name: 'authors.page', component: AuthorsIndex },
-  { path: '/authors/:id/:username', name: 'authors.show', component: ShowAuthor },
-
-  // { path: '/illustrations/:id', name: 'illustrations.show', component: ShowIllustration },
+  { path: '/authors/:id/:username',
+    component: ShowAuthor,
+    children: [
+      { path: '', name: 'authors.show', component: ShowAuthorSeries },
+      { path: 'illustrations', name: 'authors.show.illustrations', component: ShowAuthorIllustrations }
+    ] },
 
   { path: '/publishing', name: 'info.publishing', component: InfoPublishing },
 

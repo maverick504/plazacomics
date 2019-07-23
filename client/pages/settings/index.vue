@@ -29,7 +29,7 @@
           </router-link>
         </li>
       </ul>
-      <router-view />
+      <nuxt-child />
     </div>
     <!-- Avatar cropping modal -->
     <modal :active.sync="showAvatarCroppingModal" title="Cambiar Avatar">

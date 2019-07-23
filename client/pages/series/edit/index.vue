@@ -61,7 +61,7 @@
           </router-link>
         </li>
       </ul>
-      <router-view :serie="serie" />
+      <nuxt-child :serie="serie" />
     </div>
     <!-- Cover cropping modal -->
     <modal :active.sync="showCoverCroppingModal" title="Cambiar Portada">
@@ -133,16 +133,18 @@ export default {
   },
 
   created () {
-    this.breadcrumbs = [
-      {
-        text: 'Mis Series',
-        to: { name: 'dashboard' }
-      },
-      {
-        text: this.serie.name,
-        to: { name: 'series.edit.details', params: { id: this.serie.id } }
-      }
-    ]
+    this.$nextTick(() => {
+      this.breadcrumbs = [
+        {
+          text: 'Mis Series',
+          to: { name: 'dashboard' }
+        },
+        {
+          text: this.serie.name,
+          to: { name: 'series.edit.details', params: { id: this.serie.id } }
+        }
+      ]
+    })
   },
 
   methods: {

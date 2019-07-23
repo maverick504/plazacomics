@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Serie;
 use App\Notifications\UserSuscribedToSeries;
 use Illuminate\Support\Facades\Notification;
-use Auth;
 
-class SubscribeController extends Controller
+class SerieSubscribeController extends Controller
 {
     /**
      * Display all the series a user is subscribed.
@@ -18,7 +17,7 @@ class SubscribeController extends Controller
      */
     public function userIndex()
     {
-        return Auth::user()->subscriptions(Serie::class)->with([
+        return auth()->user()->subscriptions(Serie::class)->with([
             'genre1',
             'genre2'
         ])
@@ -43,7 +42,7 @@ class SubscribeController extends Controller
     }
 
     /**
-     * Makes the logged-in subscriber of a serie.
+     * Makes the logged-in user subscriber of a serie.
      *
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +57,7 @@ class SubscribeController extends Controller
         $userWasSubscribed = DB::table('followables')
         ->where('followable_type', '=', 'App\Serie')
         ->where('relation', '=', 'subscribe')
-        ->where('user_id', '=', Auth::user()->id)
+        ->where('user_id', '=', auth()->user()->id)
         ->where('followable_id', '=', $serie->id)
         ->count()>0;
 
@@ -67,10 +66,10 @@ class SubscribeController extends Controller
             if(!$userWasSubscribed) {
                 // Send notification.
                 $authors = $serie->authors()->get();
-                Notification::send($authors, new UserSuscribedToSeries(Auth::user(), $serie));
+                Notification::send($authors, new UserSuscribedToSeries(auth()->user(), $serie));
             }
 
-            Auth::user()->subscribe($serie);
+            auth()->user()->subscribe($serie);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -95,7 +94,7 @@ class SubscribeController extends Controller
             return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
         }
 
-        Auth::user()->unsubscribe($serie);
+        auth()->user()->unsubscribe($serie);
 
         return response()->json(null, 200);
     }

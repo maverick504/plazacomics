@@ -31,8 +31,12 @@ export async function scrollBehavior (to, from, savedPosition) {
   const groups = {
     'settings.profile': 1,
     'settings.password': 1,
-    'series.edit.details': 2,
-    'series.edit.chapters': 2
+    'dashboard': 2,
+    'dashboard.posts': 2,
+    'series.edit.details': 3,
+    'series.edit.chapters': 3,
+    'authors.show': 4,
+    'authors.show.illustrations': 4
   }
 
   if ((groups[to.name] !== undefined && groups[from.name] !== undefined && groups[to.name] === groups[from.name])) {

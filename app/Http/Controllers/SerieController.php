@@ -101,7 +101,8 @@ class SerieController extends Controller
             'genre1' => [ 'required', 'integer', 'exists:genres,id' ],
             'genre2' => [ 'nullable', 'integer', 'exists:genres,id', 'different:genre1' ],
             'licence' => [ 'required', 'integer', 'exists:licences,id' ],
-            'synopsis' => [ 'required', 'string', 'max:1000' ]
+            'synopsis' => [ 'required', 'string', 'max:1000' ],
+            'explicit_content' => [ 'boolean' ]
         ]);
 
         DB::beginTransaction();
@@ -196,7 +197,8 @@ class SerieController extends Controller
             'genre1' => [ 'required', 'integer', 'exists:genres,id' ],
             'genre2' => [ 'nullable', 'integer', 'exists:genres,id', 'different:genre1' ],
             'licence' => [ 'required', 'integer', 'exists:licences,id' ],
-            'synopsis' => [ 'required', 'string', 'max:1000' ]
+            'synopsis' => [ 'required', 'string', 'max:1000' ],
+            'explicit_content' => [ 'boolean' ]
         ]);
 
         // It is required that the serie have more than one chapter published to change his state from draft to any other.

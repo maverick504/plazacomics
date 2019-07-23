@@ -20,9 +20,9 @@
       <table class="table table-scroll table-striped table-hover">
         <thead>
           <tr>
-            <th style="min-width: 50%;">Título</th>
-            <th style="min-width: 25%;">Páginas</th>
-            <th style="min-width: 25%;">Fecha de lanzamiento</th>
+            <th style="width: 50%;">Título</th>
+            <th style="width: 25%;">Páginas</th>
+            <th style="width: 25%;">Fecha de lanzamiento</th>
             <th style="width: 60px;"/>
           </tr>
         </thead>

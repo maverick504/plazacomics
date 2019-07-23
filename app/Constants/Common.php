@@ -34,6 +34,10 @@ const COMIC_CHAPTER_THUMBNAIL_HEIGHT = 240;
 const COMIC_PAGE_MAX_WIDTH = 940;
 const COMIC_PAGE_MAX_HEIGHT = 4000;
 
+// Image sizes - Posts
+const POST_IMAGE_MAX_WIDTH = 1920;
+const POST_IMAGE_MAX_HEIGHT = 1920;
+
 // Image sizes - Profile picture
 const AVATAR_WIDTH = 200;
 const AVATAR_HEIGHT = 200;

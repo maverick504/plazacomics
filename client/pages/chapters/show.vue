@@ -35,7 +35,7 @@
     <reader :chapter="chapter" :read-mode="readerSettings.readMode" />
     <section id="social-sharing" class="py-md">
       <div class="container text-center">
-        <b>¡Comparte este capítulo!</b>
+        <b>¡Apoya al creador compartiendo este capítulo!</b>
         <div class="mt-sm">
           <social-sharing
             :url="'http://www.plazacomics.com' + $nuxt.$route.path"
@@ -93,7 +93,7 @@
     </section>
     <section id="comments">
       <div class="container">
-        <comments-box :chapter-id="chapter.id" />
+        <comments-box :id="chapter.id" commentable="chapters" />
       </div>
     </section>
     <v-footer />

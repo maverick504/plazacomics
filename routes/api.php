@@ -41,6 +41,24 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('user/notifications/{id}/unmarkAsRead', 'NotificationController@unmarkAsRead');
     Route::delete('user/notifications/{id}', 'NotificationController@destroy');
 
+    // Serie Followers System
+    Route::get('user/following', 'AuthorFollowController@userIndex');
+    Route::post('authors/{authorId}/follow/', 'AuthorFollowController@follow');
+    Route::post('authors/{authorId}/unfollow/', 'AuthorFollowController@unfollow');
+
+    // Posts
+    Route::get('feed', 'PostController@feed');
+    Route::post('posts', 'PostController@store');
+    Route::put('posts/{id}', 'PostController@update');
+    Route::delete('posts/{id}', 'PostController@destroy');
+    Route::post('posts/uploadImage', 'PostController@uploadImage');
+    Route::get('user/posts', 'PostController@userIndex');
+    Route::get('user/posts/{id}', 'PostController@userShow');
+
+    // Post Like System
+    Route::post('posts/{postId}/like/', 'PostLikeController@like');
+    Route::post('posts/{postId}/unlike/', 'PostLikeController@unlike');
+
     // Series
     Route::post('series/', 'SerieController@store');
     Route::put('series/{id}', 'SerieController@update');
@@ -51,13 +69,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/series/{id}', 'SerieController@userShow');
 
     // Serie Like System
-    Route::post('user/like/{serieId}', 'LikeController@like');
-    Route::post('user/unlike/{serieId}', 'LikeController@unlike');
+    Route::post('series/{serieId}/like/', 'SerieLikeController@like');
+    Route::post('series/{serieId}/unlike/', 'SerieLikeController@unlike');
 
     // Serie Subscriber System
-    Route::get('user/subscriptions', 'SubscribeController@userIndex');
-    Route::post('user/subscribe/{serieId}', 'SubscribeController@subscribe');
-    Route::post('user/unsubscribe/{serieId}', 'SubscribeController@unsubscribe');
+    Route::get('user/subscriptions', 'SerieSubscribeController@userIndex');
+    Route::post('series/{serieId}/subscribe/', 'SerieSubscribeController@subscribe');
+    Route::post('user/{serieId}/unsubscribe/', 'SerieSubscribeController@unsubscribe');
 
     // Chapters
     Route::post('chapters/', 'ChapterController@store');
@@ -94,8 +112,8 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     // Social Auth
-    Route::post('oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
-    Route::get('oauth/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+    // Route::post('oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
+    // Route::get('oauth/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 });
 
 /*
@@ -114,6 +132,15 @@ Route::get('licences', 'LicenceController@index');
 Route::get('authors', 'AuthorController@index');
 Route::get('authors/{id}', 'AuthorController@show');
 
+// Serie Followers System
+Route::get('series/{id}/followers', 'AuthorFollowController@authorIndex');
+
+// Posts
+Route::get('posts', 'PostController@index');
+Route::get('randomPosts', 'PostController@random');
+Route::get('posts/{id}', 'PostController@show');
+Route::get('authors/{id}/posts/', 'PostController@authorIndex');
+
 // Series
 Route::get('series/', 'SerieController@index');
 Route::get('newSeries/', 'SerieController@new');
@@ -123,7 +150,7 @@ Route::get('authors/{id}/series', 'SerieController@authorIndex');
 Route::get('series/', 'SerieController@index');
 
 // Serie Subscriber System
-Route::get('series/{id}/subscribers', 'SubscribeController@serieIndex');
+Route::get('series/{id}/subscribers', 'SerieSubscribeController@serieIndex');
 
 // Chapters
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');

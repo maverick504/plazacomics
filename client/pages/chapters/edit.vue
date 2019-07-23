@@ -107,11 +107,12 @@
         <p class="form-input-hint text-error">
           {{ form.errors.get('pages') }}
         </p>
-        <!-- Submit Button -->
         <div class="form-group mt-lg">
+          <!-- Submit Button -->
           <v-button :loading="form.busy" type="primary" class="mr-sm">
             Guardar
           </v-button>
+          <!-- Delete Button -->
           <v-button type="link" native-type="button" @click.native="confirmDeleteChapter">
             <trash-can-outline-icon />
             Eliminar
@@ -381,7 +382,7 @@ export default {
     confirmDeleteChapter () {
       swal({
         title: '¿Eliminar capítulo?',
-        text: 'Cuidado, no vas a poder revertirlo después',
+        text: 'Cuidado, no vas a poder revertir esta acción después',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Si, elimínalo!',

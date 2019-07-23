@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Overtrue\LaravelFollow\Traits\CanLike;
+use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
 use Laravelista\Comments\Commenter;
 
 class User extends Authenticatable implements JWTSubject
@@ -15,6 +17,8 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use CanSubscribe;
     use CanLike;
+    use CanFollow;
+    use CanBeFollowed;
     use Commenter;
 
     /**
@@ -71,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    
+
     public function series()
     {
         return $this->hasManyThrough('App\Serie', 'App\SerieAuthor', 'user_id', 'id', 'id', 'serie_id');

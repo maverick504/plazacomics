@@ -23,8 +23,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'username' => [ 'required', 'max:255', new ValidSlug, 'unique:users,username,' . $user->id ],
-            'name' => 'nullable',
+            'username' => [ 'required', 'max:45', new ValidSlug, 'unique:users,username,' . $user->id ],
+            'name' => 'nullable|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'gender' => 'nullable|in:M,F',
             'birth_date' => 'nullable|date_format:d/m/Y',

@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-      <!-- Has Explicit Content? -->
+      <!-- Explicit Content -->
       <div class="form-group">
         <checkbox v-model="form.explicit_content" name="explicit_content" type="switch">
           Esta serie tiene contenido explícito

@@ -39,7 +39,7 @@ export default {
   middleware: 'auth',
 
   head () {
-    return { title: 'Mi biblioteca' }
+    return { title: 'Mi Biblioteca' }
   },
 
   components: {

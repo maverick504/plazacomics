@@ -7,17 +7,52 @@
             <router-link :to="{ name: 'home' }" class="mr-md">
               <img class="img-responsive logo" src="~/assets/logo.png">
             </router-link>
-            <router-link :to="{ name: 'series.index' }" class="btn btn-link hide-sm">
-              Series
+            <router-link v-if="user" :to="{ name: 'feed' }" class="btn btn-link hide-sm">
+              Feed
             </router-link>
-            <router-link :to="{ name: 'authors.index' }" class="btn btn-link hide-sm">
-              Autores
-            </router-link>
+            <div class="popover popover-bottom">
+              <router-link :to="{ name: 'series.index' }" class="btn btn-link hide-sm">
+                Explorar
+              </router-link>
+              <div class="popover-container" style="width: 100px;">
+                <ul class="menu has-arrow has-arrow-top">
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'series.index' }">
+                      Series
+                    </router-link>
+                  </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'illustrations.index' }">
+                      Ilustraciones
+                    </router-link>
+                  </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'authors.index' }">
+                      Autores
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </section>
           <section v-if="user" class="navbar-section">
-            <router-link :to="{ name: 'series.create' }" class="btn btn-primary mr-sm hide-sm">
-              <plus-icon /> Publicar
-            </router-link>
+            <div class="dropdown dropdown-right">
+              <v-button type="primary" class="dropdown-toggle mr-sm hide-sm">
+                <plus-icon /> Crear
+              </v-button>
+              <ul class="menu">
+                <li class="menu-item">
+                  <nuxt-link :to="{ name: 'posts.create.illustration' }">
+                    Publicar una ilustración
+                  </nuxt-link>
+                </li>
+                <li class="menu-item">
+                  <nuxt-link :to="{ name: 'series.create' }">
+                    Crear una cómic
+                  </nuxt-link>
+                </li>
+              </ul>
+            </div>
             <!-- notifications -->
             <router-link :to="{ name: 'notifications', params: { filter: 'all' } }" :class="{ 'badge': notifications.length>0 }" :data-badge="notifications.length" class="btn btn-link btn-action mr-sm show-sm">
               <bell-outline-icon />
@@ -77,19 +112,30 @@
                 </li>
                 <li class="divider" />
                 <li class="menu-item">
+                  <router-link :to="{ name: 'authors.show', params: { id: user.id, username: user.username } }">
+                    Perfil
+                  </router-link>
+                </li>
+                <li class="menu-item">
                   <router-link :to="{ name: 'settings.profile' }">
                     Ajustes
                   </router-link>
                 </li>
                 <li class="divider" />
-                <li class="menu-item">
-                  <router-link :to="{ name: 'library' }">
-                    Mi biblioteca
-                  </router-link>
+                <li class="menu-item show-sm">
+                  <nuxt-link :to="{ name: 'posts.create.illustration' }">
+                    Publicar una ilustración
+                  </nuxt-link>
                 </li>
+                <li class="menu-item show-sm">
+                  <nuxt-link :to="{ name: 'series.create' }">
+                    Crear una cómic
+                  </nuxt-link>
+                </li>
+                <li class="divider" />
                 <li class="menu-item">
                   <router-link :to="{ name: 'dashboard' }">
-                    Mis series
+                    Dashboard (mis series)
                   </router-link>
                 </li>
                 <li class="divider" />
@@ -125,6 +171,8 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import BellOutlineIcon from 'vue-material-design-icons/BellOutline.vue'
 
 export default {
+  name: 'Navbar',
+
   components: {
     InformationOutlineIcon,
     PlusIcon,

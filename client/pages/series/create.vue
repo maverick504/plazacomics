@@ -67,13 +67,13 @@
           </div>
         </div>
       </div>
-      <!-- Has Explicit Content? -->
+      <!-- Explicit Content -->
       <div class="form-group">
-        <checkbox v-model="form.hasExplicitContent" name="hasExplicitContent" type="switch">
-          Esta serie tiene contenido explícito
+        <checkbox v-model="form.explicit_content" name="explicit_content" type="switch">
+          Esta serie tiene contenido adulto/explícito
         </checkbox>
         <p class="form-input-hint">
-          {{ form.errors.get('hasExplicitContent') }}
+          {{ form.errors.get('explicit_content') }}
         </p>
       </div>
       <!-- Licence -->
