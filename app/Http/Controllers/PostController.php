@@ -282,7 +282,7 @@ class PostController extends Controller
         }
 
         // Resize the image.
-        $image->resize(100, 100, function ($constraint) {
+        $image->resize(160, 160, function ($constraint) {
             $constraint->aspectRatio();
         });
 
