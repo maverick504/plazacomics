@@ -12,6 +12,14 @@
   .comment-form-controls {
     flex-grow: 1;
     margin-left: 8px;
+    .placeholder {
+      color: $gray-color;
+      border-bottom: 1px solid $gray-color;
+      height: auto;
+      padding: 2px 0px;
+      font-size: 0.8rem;
+      cursor: text;
+    }
   }
 }
 

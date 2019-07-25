@@ -156,8 +156,8 @@ Route::get('series/{id}/subscribers', 'SerieSubscribeController@serieIndex');
 Route::get('series/{id}/chapters/', 'ChapterController@serieIndex');
 Route::get('chapters/{id}', 'ChapterController@show');
 
-// Chapter Comments
-Route::get('chapters/{id}/comments', 'CommentController@chapterIndex');
+// Comments
+Route::get('comments', 'CommentController@index');
 
 // Suggestions
 Route::post('suggestions', 'SuggestionController@store');

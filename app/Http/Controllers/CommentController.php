@@ -8,32 +8,63 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Laravelista\Comments\CommentControllerInterface;
 use Laravelista\Comments\Comment;
-use App\Notifications\UserCommentedChapter;
 use Illuminate\Support\Facades\Notification;
-use App\Chapter;
+use Response;
 
 class CommentController extends Controller implements CommentControllerInterface
 {
     use ValidatesRequests, AuthorizesRequests;
+
+    protected $commentable;
+
+    /**
+     * Checks that the GET parameters are received and valid.
+     */
+    private function getCommentable()
+    {
+        if(!array_key_exists('commentable_type', $_GET)) {
+            return Response::json([ 'message' => 'commentable_type is required.' ], 400);
+        }
+
+        if(!array_key_exists('commentable_id', $_GET)) {
+            return Response::json([ 'message' => 'commentable_id is required.' ], 400);
+        }
+
+        $commentableId = $_GET['commentable_id'];
+
+        switch($_GET['commentable_type']) {
+            case 'chapter':
+                $commentable = \App\Chapter::find($commentableId);
+                break;
+            case 'post':
+                $commentable = \App\Post::find($commentableId);
+                break;
+            default:
+                return Response::json([ 'message' => 'commentable_type is not valid.' ], 400);
+        }
+
+        if(!$commentable) {
+            return Response::json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
+
+        if($commentable instanceof \App\Chapter && !$commentable->hasBeenRelased()) {
+            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
+        }
+
+        $this->commentable = $commentable;
+    }
 
     /**
      * Returns all the comments on a chapter.
      *
      * @return \Illuminate\Http\Response
      */
-    public function chapterIndex($chapterId)
+    public function index()
     {
-        $chapter = Chapter::find($chapterId);
+        $response = $this->getCommentable();
+        if($response) { return $response; }
 
-        if(!$chapter) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$chapter->hasBeenRelased()) {
-            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
-        }
-
-        return $chapter->comments()->get();
+        return $this->commentable->comments()->get();
     }
 
     /**
@@ -41,34 +72,74 @@ class CommentController extends Controller implements CommentControllerInterface
      */
     public function store(Request $request)
     {
+        $response = $this->getCommentable();
+        if($response) { return $response; }
+
         $this->validate($request, [
-            'chapter_id' => 'required|numeric',
             'message' => 'required|string|max:500'
         ]);
-
-        $chapter = Chapter::find($request->get('chapter_id'));
-
-        if(!$chapter) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$chapter->hasBeenRelased()) {
-            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
-        }
 
         DB::beginTransaction();
         try {
             $comment = new Comment;
 
             $comment->commenter()->associate(auth()->user());
-            $comment->commentable()->associate($chapter);
+            $comment->commentable()->associate($this->commentable);
             $comment->comment = $request->message;
             $comment->approved = true;
             $comment->save();
 
-            $serie = $chapter->serie()->first();
-            $authors = $serie->authors()->get();
-            Notification::send($authors, new UserCommentedChapter(auth()->user(), $serie, $chapter, $comment));
+            if($this->commentable instanceof \App\Chapter) {
+                $chapter = $this->commentable;
+                $serie = $this->commentable->serie()->first();
+                $authors = $serie->authors()->get();
+
+                $usersToNotify = array();
+
+                // We want to notify the authors of the series, but if the comment was created by
+                // an author, we don't want to notify the author who created the comment.
+                foreach($authors as $author) {
+                    if($author->id !== auth()->user()->id) {
+                        $usersToNotify[] = $author;
+                    }
+                }
+
+                $info = array(
+                    'commentable_type' => 'App\Chapter',
+                    'commenter_id' => auth()->user()->id,
+                    'icon_url' => auth()->user()->avatar_url,
+                    'message' => '**' . auth()->user()->username . '** comentó en **' . $chapter->title . '** de tu cómic, **' . $serie->name . '**: "' . $comment->comment . '".',
+                    'additional_data' => array(
+                        'serie_id' => $serie->id,
+                        'chapter_id' => $chapter->id
+                    )
+                );
+
+                Notification::send($usersToNotify, new \App\Notifications\NewComment($info));
+            }
+            elseif($this->commentable instanceof \App\Post) {
+                $post = $this->commentable()->first();
+                $author = $post->author();
+
+                $usersToNotify = array();
+
+                // We don't want to notify the user who created the comment, if it was the author.
+                if($author->id !== auth()->user()->id) {
+                    $usersToNotify[] = $author;
+                }
+
+                $info = array(
+                    'commentable_type' => 'App\Post',
+                    'commenter_id' => auth()->user()->id,
+                    'icon_url' => auth()->user()->avatar_url,
+                    'message' => '**' . auth()->user()->username . '** comentó en tu post **' . $post->title . '**: "' . $comment->comment . '".',
+                    'additional_data' => array(
+                        'post_id' => $post->id
+                    )
+                );
+
+                Notification::send($usersToNotify, new \App\Notifications\NewComment($info));
+            }
 
             DB::commit();
         } catch (\Exception $e) {
@@ -107,11 +178,11 @@ class CommentController extends Controller implements CommentControllerInterface
     public function destroy(Comment $comment)
     {
         if($comment->commenter_type != 'App\User' || $comment->commenter_id != auth()->user()->id) {
-          return response()->json(null, 403);
+            return response()->json(null, 403);
         }
 
         if($comment->children()->count() > 0) {
-          return response()->json([ 'comment' => 'This comment will not be deleted because it has replies.' ], 400);
+            return response()->json([ 'comment' => 'Este comentario no se puede eliminar porque tiene respuestas.' ], 400);
         }
 
         $comment->delete();
@@ -124,9 +195,9 @@ class CommentController extends Controller implements CommentControllerInterface
      */
     public function reply(Request $request, Comment $comment)
     {
-        if($comment.child_id !== null) {
+        if($comment->child_id !== null) {
           $error = \Illuminate\Validation\ValidationException::withMessages([
-             'comment' => [ "It is not allowed to reply to a reply." ]
+             'comment' => [ "No puedes responder a una respuesta directamente, en lugar de eso, responde el comentario original." ]
           ]);
           throw $error;
         }
@@ -135,14 +206,70 @@ class CommentController extends Controller implements CommentControllerInterface
             'message' => 'required|string|max:500'
         ]);
 
-        $reply = new Comment;
+        DB::beginTransaction();
+        try {
+            $reply = new Comment;
 
-        $reply->commenter()->associate(auth()->user());
-        $reply->commentable()->associate($comment->commentable);
-        $reply->parent()->associate($comment);
-        $reply->comment = $request->message;
-        $reply->approved = true;
-        $reply->save();
+            $reply->commenter()->associate(auth()->user());
+            $reply->commentable()->associate($comment->commentable);
+            $reply->parent()->associate($comment);
+            $reply->comment = $request->message;
+            $reply->approved = true;
+            $reply->save();
+
+            // Notify the creator of the comment.
+
+            $commentCreator = $comment->commenter()->first();
+
+            $usersToNotify = array();
+
+            // We don't want to notify the user who created the reply.
+            if($commentCreator->id !== auth()->user()->id) {
+                $usersToNotify[] = $commentCreator;
+            }
+
+            $info = array(
+                'commentable_type' => 'App\Comment',
+                'commenter_id' => auth()->user()->id,
+                'icon_url' => auth()->user()->avatar_url,
+                'message' => '**' . auth()->user()->username . '** respondió a tu comentario: **' . $reply->comment . '**.',
+                'additional_data' => array(
+                    'comment_id' => $comment->id,
+                )
+            );
+
+            Notification::send($usersToNotify, new \App\Notifications\NewComment($info));
+
+            // Notify the other users who replied to the comment.
+
+            $usersToNotify = array();
+
+            foreach($comment->children()->get() as $commentReply) { // We name it $commentReply to avoid override the $reply defined above.
+                $replier = $commentReply->commenter()->first();
+
+                if($replier->id !== auth()->user()->id && $replier->id !== $commentCreator->id) {
+                    $usersToNotify[] = $replier;
+                }
+            }
+
+            $info = array(
+                'commentable_type' => 'App\Comment',
+                'commenter_id' => auth()->user()->id,
+                'icon_url' => auth()->user()->avatar_url,
+                'message' => '**' . auth()->user()->username . '** también respondió a: **' . $reply->comment . '**.',
+                'additional_data' => array(
+                    'comment_id' => $comment->id,
+                )
+            );
+
+            Notification::send($usersToNotify, new \App\Notifications\NewComment($info));
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json([ 'message' => MESSAGE_UNKNOWN_ERROR ], 500);
+        }
 
         // Success! Return the comment
         return response()->json(Comment::find($reply->id), 201);

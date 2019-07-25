@@ -7,26 +7,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserCommentedChapter extends Notification
+class NewComment extends Notification
 {
     use Queueable;
-
-    protected $user;
-    protected $serie;
-    protected $chapter;
-    protected $comment;
+    
+    protected $info;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $serie, $chapter, $comment)
+    public function __construct($info)
     {
-      $this->user = $user;
-      $this->serie = $serie;
-      $this->chapter = $chapter;
-      $this->comment = $comment;
+      $this->info = $info;
     }
 
     /**
@@ -48,13 +42,7 @@ class UserCommentedChapter extends Notification
      */
     public function toDatabase($notifiable)
     {
-        return [
-            'user_id' => $this->user->id,
-            'serie_id' => $this->serie->id,
-            'chapter_id' => $this->serie->id,
-            'icon_url' => $this->user->avatar_url,
-            'message' => '**' . $this->user->username . '** comentó en **' . $this->chapter->title . '** de tu cómic, **' . $this->serie->name . '**: "' . $this->comment->comment . '".'
-        ];
+        return $this->info;
     }
 
     /**

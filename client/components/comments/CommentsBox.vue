@@ -1,16 +1,22 @@
 <template>
   <section class="comments-container my-xl">
     <h3 class="comments-title">{{ comments.length }} comentarios</h3>
-    <comment-form :chapter-id="chapterId" class="mb-md" @commentPosted="atCommentPosted" />
+    <comment-form
+      :commentable-type="commentableType"
+      :commentable-id="commentableId"
+      class="mb-md"
+      @commentPosted="atCommentPosted"
+    />
     <div v-if="comments.length === 0" class="empty">
       <p class="empty-title h5">Aún no hay comentarios</p>
       <p class="empty-subtitle">¡Sé el primero en comentar!</p>
     </div>
     <div v-else class="comments">
       <comment
-        v-for="comment in commentsTree"
+        v-for="(comment, index) in commentsTree"
         :comment="comment"
-        :key="comment.id"
+        :replies="comment.replies"
+        :key="index"
         @replyPosted="atCommentPosted"
         @commentDeleted="atCommentDeleted"
       />
@@ -32,7 +38,8 @@ export default {
   },
 
   props: {
-    chapterId: { default: null, type: Number }
+    commentableType: { default: null, type: String },
+    commentableId: { default: null, type: Number }
   },
 
   data: () => ({
@@ -73,7 +80,7 @@ export default {
 
   methods: {
     async fetchComments () {
-      const comments = await axios.get(`/chapters/${this.chapterId}/comments`)
+      const comments = await axios.get(`/comments?commentable_type=${this.commentableType}&commentable_id=${this.commentableId}`)
       this.comments = comments.data
     },
 
@@ -92,22 +99,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.comment-form {
-  margin: 0px;
-  display: flex;
-  flex-direction: row;
-  .comment-form-avatar {
-    flex-grow: 0;
-    .avatar {
-      width: 40px;
-      height: 40px;
-    }
-  }
-  .comment-form-controls {
-    flex-grow: 1;
-    margin-left: 8px;
-  }
-}
-</style>

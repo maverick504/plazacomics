@@ -9,7 +9,9 @@
       <strong class="username">{{ comment.commenter.username }}</strong><span class="time">{{ comment.created_at | moment('from', 'now') }}</span>
       <p class="comment-body">{{ comment.comment }}</p>
       <div class="comment-actions">
-        <a v-if="user.id===comment.commenter.id" href="javascript:void(0);" @click="deleteComment">Eliminar</a>
+        <a v-if="user.id === comment.commenter.id" href="javascript:void(0);" @click="deleteComment">
+          Eliminar
+        </a>
       </div>
     </div>
   </div>

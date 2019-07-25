@@ -9,18 +9,30 @@
       <strong class="username">{{ comment.commenter.username }}</strong><span class="time">{{ comment.created_at | moment('from', 'now') }}</span>
       <p class="comment-body">{{ comment.comment }}</p>
       <div class="comment-actions">
-        <a href="javascript:void(0);" class="mr-sm" @click="showReplyForm">Responder</a>
-        <a v-if="comment.replies.length>0 && !showingReplies" href="javascript:void(0);" class="mr-sm" @click="showingReplies=true">Ver respuestas ({{ comment.replies.length }})</a>
-        <a v-if="user && user.id===comment.commenter.id && comment.replies.length===0" href="javascript:void(0);" @click="deleteComment">Eliminar</a>
+        <a href="javascript:void(0);" class="mr-sm" @click="showReplyForm">
+          Responder
+        </a>
+        <a v-if="comment.replies.length>0 && !showingReplies" href="javascript:void(0);" class="mr-sm" @click="showReplies()">
+          Ver respuestas ({{ comment.replies.length }})
+        </a>
+        <a v-if="user && user.id === comment.commenter.id && comment.replies.length === 0" href="javascript:void(0);" @click="deleteComment">
+          Eliminar
+        </a>
       </div>
       <reply-comment-form
         v-if="showingReplyForm"
         :comment-id="comment.id"
-        @replyPosted="$emit('replyPosted', $event); showingReplyForm=false; showingReplies=true"
-        @cancelled="showingReplyForm=false" />
+        @replyPosted="$emit('replyPosted', $event); hideReplyForm(); showReplies();"
+        @cancelled="hideReplyForm" />
       <div v-if="showingReplies" class="comments">
-        <reply v-for="reply in comment.replies" :comment="reply" :key="reply.id" @commentDeleted="$emit('commentDeleted', $event)"/>
-        <a href="javascript:void(0);" @click="showingReplies=false">Ocultar respuestas</a>
+        <reply
+          v-for="reply in replies"
+          :comment="reply"
+          :key="reply.id"
+          @commentDeleted="$emit('commentDeleted', $event)" />
+        <a href="javascript:void(0);" @click="hideReplies()">
+          Ocultar respuestas
+        </a>
       </div>
     </div>
   </div>
@@ -41,7 +53,8 @@ export default {
   },
 
   props: {
-    comment: { default: null, type: Object }
+    comment: { default: null, type: Object },
+    replies: { default: null, type: Array }
   },
 
   data: () => ({
@@ -60,6 +73,18 @@ export default {
       } else {
         this.$router.push({ name: 'login' })
       }
+    },
+
+    hideReplyForm () {
+      this.showingReplyForm = false
+    },
+
+    showReplies () {
+      this.showingReplies = true
+    },
+
+    hideReplies () {
+      this.showingReplies = false
     },
 
     async deleteComment () {

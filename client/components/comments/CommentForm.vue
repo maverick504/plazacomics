@@ -15,7 +15,7 @@
           <v-button type="primary" native-type="submit">Comentar</v-button>
         </div>
       </template>
-      <div v-else style="color: #66758c; border-bottom: 1px solid #dadee4; height: auto; padding: 2px 0px; cursor: text; font-size: 0.8rem;" @click="activate">
+      <div v-else class="placeholder" @click="activate">
         Agrega un comentario...
       </div>
     </div>
@@ -30,7 +30,8 @@ export default {
   name: 'CommentForm',
 
   props: {
-    chapterId: { default: null, type: Number }
+    commentableType: { default: null, type: String },
+    commentableId: { default: null, type: Number }
   },
 
   data: () => ({
@@ -71,8 +72,7 @@ export default {
     async postComment () {
       if (this.content === '') { return }
 
-      const comment = await axios.post(`/comments`, {
-        'chapter_id': this.chapterId,
+      const comment = await axios.post(`/comments?commentable_type=${this.commentableType}&commentable_id=${this.commentableId}`, {
         'message': this.content
       })
 

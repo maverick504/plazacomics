@@ -91,10 +91,8 @@
         </template>
       </div>
     </section>
-    <section id="comments">
-      <div class="container">
-        <comments-box :id="chapter.id" commentable="chapters" />
-      </div>
+    <section id="comments" class="container">
+      <comments-box :commentable-id="chapter.id" commentable-type="chapter" />
     </section>
     <v-footer />
     <!-- Settings modal -->
