@@ -35,16 +35,16 @@
                 <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
               </nuxt-link>
               <toggle-follow-button
-                :follow-api-endpoint="`user/like/${serie.id}`"
-                :unfollow-api-endpoint="`user/unlike/${serie.id}`"
+                :follow-api-endpoint="`series/${serie.id}/like`"
+                :unfollow-api-endpoint="`series/${serie.id}/unlike`"
                 :following.sync="serie.user_liked"
                 :followers-count.sync="serie.likes_count"
                 relation="like"
                 class="mr-sm"
               />
               <toggle-follow-button
-                :follow-api-endpoint="`user/subscribe/${serie.id}`"
-                :unfollow-api-endpoint="`user/unsubscribe/${serie.id}`"
+                :follow-api-endpoint="`series/${serie.id}/subscribe`"
+                :unfollow-api-endpoint="`series/${serie.id}/unsubscribe`"
                 :following.sync="serie.user_is_subscriber"
                 relation="subscribe"
                 class="mr-sm"
