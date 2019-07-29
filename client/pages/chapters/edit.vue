@@ -18,7 +18,7 @@
       </div>
       <div class="container mt-xl mb-xl">
         <div :class="{ 'has-error': form.errors.has('thumbnail_image') }" class="form-group">
-          <label class="form-label">Thumbnail (540x240, opcional)</label>
+          <label class="form-label">Thumbnail (opcional)</label>
           <input ref="thumbnailFile" class="d-none" type="file" accept="image/*" @change="thumbnailFileChanged()">
           <template v-if="thumbnail_url">
             <v-button type="primary" native-type="button" class="mr-sm" @click.native="$refs.thumbnailFile.click()">
@@ -121,7 +121,7 @@
       </div>
     </form>
     <!-- Thumbnail cropping modal -->
-    <modal :active.sync="showThumbnailCroppingModal" title="Cambiar Thumbnail">
+    <modal :active.sync="showThumbnailCroppingModal" title="Cambiar Thumbnail (Recomendado: 540x240)">
       <template v-slot:content>
         <vue-croppie
           ref="thumbnailCroppie"

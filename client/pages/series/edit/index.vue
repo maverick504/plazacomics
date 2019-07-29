@@ -8,8 +8,7 @@
         </button>
         <div class="layout-banner__overlay-content" @click="$refs.bannerFile.click()">
           <cloud-upload-outline-icon class="icon-2x" />
-          <span class="caption">1920x480</span>
-          <span class="small-caption">(Tamaño recomendado)</span>
+          <span class="small-caption">Cambiár Banner</span>
         </div>
       </div>
     </div>
@@ -22,8 +21,7 @@
             <div class="layout-cover__overlay" @click="$refs.coverFile.click()">
               <div class="layout-cover__overlay-content">
                 <cloud-upload-outline-icon class="icon-2x" />
-                <span class="caption">900x1200</span>
-                <span class="small-caption">(Tamaño recomendado)</span>
+                <span class="small-caption">Cambiár Portada</span>
               </div>
             </div>
           </figure>
@@ -64,7 +62,7 @@
       <nuxt-child :serie="serie" />
     </div>
     <!-- Cover cropping modal -->
-    <modal :active.sync="showCoverCroppingModal" title="Cambiar Portada">
+    <modal :active.sync="showCoverCroppingModal" title="Cambiar Portada (recomendado: 900x1200)">
       <template v-slot:content>
         <vue-croppie
           ref="coverCroppie"
@@ -81,7 +79,7 @@
     </modal>
     <!-- /Cover cropping modal -->
     <!-- Banner cropping modal -->
-    <modal :active.sync="showBannerCroppingModal" title="Cambiar Banner">
+    <modal :active.sync="showBannerCroppingModal" title="Cambiar Banner (recomendado: 1920x480)">
       <template v-slot:content>
         <vue-croppie
           ref="bannerCroppie"
