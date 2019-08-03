@@ -72,7 +72,6 @@ module.exports = {
   modules: [
     '@nuxtjs/router',
     'nuxt-device-detect',
-    '@nuxtjs/ngrok',
     ['vue-scrollto/nuxt', {
       duration: 300,
       offset: -96
