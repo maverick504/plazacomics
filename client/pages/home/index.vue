@@ -14,10 +14,10 @@
         </div>
       </div>
     </div>
-    <div class="bg-primary text-light pt-xl pb-xl">
+    <div class="bg-primary text-light py-xl">
       <div class="container">
         <div class="col-6 col-md-12">
-          <h3>Publica tu cómic en PlazaComics!</h3>
+          <h3>¡Publica tu cómic en PlazaComics!</h3>
           <p>Publica tu cómic gratis en una plataforma optimizada para la lectura de cómics.</p>
           <router-link :to="{ name: 'info.publishing' }" class="btn btn-lg">
             <information-outline-icon class="mr-sm" /> Saber más
