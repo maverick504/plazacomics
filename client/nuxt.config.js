@@ -36,8 +36,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ],
     script: [
-      { type: 'text/javascript', src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` },
-      { type: 'text/javascript', src: 'https://script.crazyegg.com/pages/scripts/0088/1137.js', async: 'async' }
+      { type: 'text/javascript', src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` }
 
     ]
   },
@@ -77,6 +76,10 @@ module.exports = {
     ['vue-scrollto/nuxt', {
       duration: 300,
       offset: -96
+    }],
+    ['@netsells/nuxt-hotjar', {
+      id: '1433263',
+      sv: '6',
     }],
   ],
 
