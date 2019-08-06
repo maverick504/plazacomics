@@ -13,7 +13,7 @@ const polyfills = [
 ]
 
 module.exports = {
-  // mode: 'spa',
+  // mode: 'spa', // Comment this for SSR
 
   srcDir: __dirname,
 
@@ -36,7 +36,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ],
     script: [
-      { src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` }
+      { type: 'text/javascript', src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` },
+      { type: 'text/javascript', src: 'https://script.crazyegg.com/pages/scripts/0088/1137.js', async: 'async' }
+
     ]
   },
 
