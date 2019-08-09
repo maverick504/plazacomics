@@ -30,7 +30,8 @@
           </div>
           <div class="card-body">
             <h3 class="h4 mb-no">{{ post.title }}</h3>
-            <p v-if="post.description" class="mt-md mb-no">{{ post.description }}</p>
+            <p v-if="post.description" class="mt-md">{{ post.description }}</p>
+            <span class="text-gray">{{ post.visits }} visitas</span>
           </div>
         </div>
       </div>

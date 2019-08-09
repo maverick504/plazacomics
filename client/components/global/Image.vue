@@ -1,11 +1,12 @@
 <template>
-  <div :class="{ 'loading loading-lg': !loaded }">
+  <div :class="{ 'loading loading-lg': !loaded }" style="position: relative;">
     <img
       :src="src"
       :alt="alt"
       :style="style"
       class="img-responsive"
       @load="loaded=true">
+    <slot/>
   </div>
 </template>
 

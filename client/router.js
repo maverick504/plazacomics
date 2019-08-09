@@ -45,8 +45,10 @@ const ShowAuthor = () => import('~/pages/authors/show/index').then(m => m.defaul
 const ShowAuthorSeries = () => import('~/pages/authors/show/series').then(m => m.default || m)
 const ShowAuthorIllustrations = () => import('~/pages/authors/show/illustrations').then(m => m.default || m)
 
-const InfoPublishing = () => import('~/pages/info/publishing').then(m => m.default || m)
 const Article = () => import('~/pages/articles/index').then(m => m.default || m)
+
+const PublishingLanding = () => import('~/pages/other/publishing').then(m => m.default || m)
+const CommunityLanding = () => import('~/pages/other/community').then(m => m.default || m)
 
 const routes = [
   { path: '/', name: 'home', component: Home },
@@ -105,10 +107,11 @@ const routes = [
       { path: 'illustrations', name: 'authors.show.illustrations', component: ShowAuthorIllustrations }
     ] },
 
-  { path: '/publishing', name: 'info.publishing', component: InfoPublishing },
-
   { path: '/legal/:article', name: 'legal', component: Article },
-  { path: '/help/:article', name: 'help', component: Article }
+  { path: '/help/:article', name: 'help', component: Article },
+
+  { path: '/publishing', name: 'landing.publishing', component: PublishingLanding },
+  { path: '/community', name: 'landing.community', component: CommunityLanding }
 ]
 
 export function createRouter () {

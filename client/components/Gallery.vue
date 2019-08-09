@@ -13,8 +13,14 @@
       <div class="column col-4 grid-col grid-col--3"/>
       <!-- items -->
       <div v-for="(post, index) in posts" :key="index" class="grid-item">
-        <nuxt-link :to="{ name: 'posts.show', params: { id: post.id} }" class="card mb-md">
-          <v-image :src="`${cdnUrl}/${post.images[0].low_res.url}`" :ratio-width="post.images[0].low_res.width" :ratio-height="post.images[0].low_res.height" alt="Image"/>
+        <nuxt-link :class="{ 'has-adult-content': post.explicit_content }" :to="{ name: 'posts.show', params: { id: post.id} }" class="card mb-md">
+          <v-image :src="`${cdnUrl}/${post.images[0].low_res.url}`" :ratio-width="post.images[0].low_res.width" :ratio-height="post.images[0].low_res.height" alt="Image">
+            <template v-if="post.explicit_content">
+              <div style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; display: table;">
+                <span style="display: table-cell; text-align: center; vertical-align: middle; font-size: 2rem;">+18</span>
+              </div>
+            </template>
+          </v-image>
         </nuxt-link>
       </div>
     </div>
@@ -70,4 +76,10 @@ export default {
     }
   }
 }
+
+.has-adult-content img {
+  filter: blur(16px);
+  -webkit-filter: blur(16px);
+}
+
 </style>

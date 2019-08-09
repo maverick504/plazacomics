@@ -34,6 +34,9 @@
                 </ul>
               </div>
             </div>
+            <router-link :to="{ name: 'landing.community' }" class="btn btn-link hide-sm">
+              Comunidad
+            </router-link>
           </section>
           <section v-if="user" class="navbar-section">
             <div class="dropdown dropdown-right">
@@ -133,6 +136,11 @@
                   </nuxt-link>
                 </li>
                 <li class="divider" />
+                <li class="menu-item">
+                  <router-link :to="{ name: 'library.index' }">
+                    Mi biblioteca
+                  </router-link>
+                </li>
                 <li class="menu-item">
                   <router-link :to="{ name: 'dashboard' }">
                     Dashboard (mis series)

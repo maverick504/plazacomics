@@ -35,6 +35,7 @@ class PostController extends Controller
         ->with([ 'author' ])
         ->leftJoin('followables', 'posts.id', '=', 'followables.followable_id')
         ->whereIn('posts.user_id', $followingsIds)
+        ->where('posts.explicit_content', '=', false) // This should be temporal.
         ->latest()
         ->groupBy('posts.id')
         ->paginate(RESULTS_PER_PAGE);

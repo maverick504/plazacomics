@@ -36,8 +36,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ],
     script: [
-      { type: 'text/javascript', src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` }
-
+      { type: 'text/javascript', src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfills.join(',')}` },
     ]
   },
 
