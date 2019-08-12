@@ -44,6 +44,7 @@
   "genre_terror": "terror",
   "genre_adventure": "adventure",
   "genre_one_shot": "one shot",
+  "genre_suspense": "suspense",
 
   "serie_state_draft": "draft",
   "serie_state_active": "on course",

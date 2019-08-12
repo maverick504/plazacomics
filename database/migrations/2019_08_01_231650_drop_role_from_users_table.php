@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuggestionsTable extends Migration
+class DropRoleFromUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateSuggestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('suggestions', function(Blueprint $table) {
-      			$table->bigIncrements('id');
-            $table->timestamps();
-      			$table->text('body');
-      			$table->string('url');
-    		});
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
     }
 
     /**
@@ -28,6 +25,8 @@ class CreateSuggestionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('suggestions');
+        Schema::table('users', function (Blueprint $table) {
+            $table->char('role', 20)->default(1);
+        });
     }
 }

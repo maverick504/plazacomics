@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuggestionsTable extends Migration
+class AddSuspenseGenre extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,7 @@ class CreateSuggestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('suggestions', function(Blueprint $table) {
-      			$table->bigIncrements('id');
-            $table->timestamps();
-      			$table->text('body');
-      			$table->string('url');
-    		});
+        DB::table('genres')->insert(array('language_key' => 'suspense'));
     }
 
     /**
@@ -28,6 +23,6 @@ class CreateSuggestionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('suggestions');
+        DB::table('genres')->where('language_key', '=', 'suspense')->delete();
     }
 }
