@@ -1,26 +1,29 @@
 <template>
   <div>
     <div class="container mt-xl mb-xl">
-      <carousel-3d
-        :controls-visible="true"
-        :controls-prev-html="`<span class='text-primary'>&#10092;</span>`"
-        :controls-next-html="`<span class='text-primary'>&#10093;</span>`"
-        :controls-width="30" :controls-height="60"
-        :clickable="false" :width="300" :height="400">
-        <slide v-for="(serie, index) in trendingSeries.data" :index="index" :key="index">
-          <figure style="margin: 0px;">
-            <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" style="border-radius: 6px;">
-            <figcaption style="position: absolute; width: 100%; background: rgba(0, 0, 0, .6); color: #fff; padding: 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
-              <div style="font-size: 20px;">{{ serie.name }}</div>
-              <div>
-                <span class="chip text-dark ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
-                <span v-if="serie.genre2" class="chip text-dark">{{ $t('genre_' + serie.genre2.language_key) }}</span>
-              </div>
-            </figcaption>
-            <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="slide-link"/>
-          </figure>
-        </slide>
-      </carousel-3d>
+      <h1 class="text-center">Series que son tendencia en PlazaComics</h1>
+      <no-ssr>
+        <carousel-3d
+          :controls-visible="true"
+          :controls-prev-html="`<span class='text-primary'>&#10092;</span>`"
+          :controls-next-html="`<span class='text-primary'>&#10093;</span>`"
+          :controls-width="30" :controls-height="60"
+          :clickable="false" :width="300" :height="400">
+          <slide v-for="(serie, index) in trendingSeries.data" :index="index" :key="index">
+            <figure style="margin: 0px;">
+              <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" style="border-radius: 6px;">
+              <figcaption style="position: absolute; width: 100%; background: rgba(0, 0, 0, .6); color: #fff; padding: 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
+                <div style="font-size: 20px;">{{ serie.name }}</div>
+                <div>
+                  <span class="chip text-dark ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
+                  <span v-if="serie.genre2" class="chip text-dark">{{ $t('genre_' + serie.genre2.language_key) }}</span>
+                </div>
+              </figcaption>
+              <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="slide-link"/>
+            </figure>
+          </slide>
+        </carousel-3d>
+      </no-ssr>
       <h2>Series populares en PlazaComics</h2>
       <div class="columns">
         <div v-for="serie in popularSeries.data" :key="serie.id" class="column col-3 col-md-6 pb-md">
