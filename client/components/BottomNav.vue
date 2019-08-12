@@ -17,7 +17,7 @@
       <small>Ilustraciones</small>
     </router-link>
     <router-link :to="{ name: 'authors.index' }" class="bottom-nav-item">
-      <account-multiple-icon />
+      <face-icon />
       <small>Autores</small>
     </router-link>
   </div>
@@ -29,7 +29,7 @@ import HomeIcon from 'vue-material-design-icons/Home.vue'
 import CardTextOutlineIcon from 'vue-material-design-icons/CardTextOutline.vue'
 import BookOpenPageVariantIcon from 'vue-material-design-icons/BookOpenPageVariant.vue'
 import FountainPenTipIcon from 'vue-material-design-icons/FountainPenTip.vue'
-import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
+import FaceIcon from 'vue-material-design-icons/Face.vue'
 
 export default {
   name: 'BottomNav',
@@ -39,7 +39,7 @@ export default {
     CardTextOutlineIcon,
     BookOpenPageVariantIcon,
     FountainPenTipIcon,
-    AccountMultipleIcon
+    FaceIcon
   },
 
   computed: {

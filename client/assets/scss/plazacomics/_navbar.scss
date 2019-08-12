@@ -7,34 +7,39 @@
   opacity: 1.0;
   transition: opacity 1s;
   height: 72px;
-  .navbar {
-    padding: 16px;
-    .logo {
-      width: 108px;
-      height: 40px;
-      min-width: 108px;
-      min-height: 40px;
-    }
-    .navbar-section:first-child .btn-link {
-      font-family: 'Nunito', sans-serif;
-      font-size: 18px;
-    }
-    .btn-link {
-      color: $dark-color;
-    }
-    .popover-container a:hover,
-    .popover-container a:focus {
-      color: $dark-color;
-    }
-    .menu.arrow-top:after {
-      content: " ";
-      position: absolute;
-      bottom: 100%;
-      left: 32px;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: transparent transparent #303742 transparent;
+  .navbar-container {
+    width: 90vw;
+    margin: 0px auto;
+    .navbar {
+      padding: 16px;
+      .logo {
+        width: 108px;
+        height: 40px;
+        min-width: 108px;
+        min-height: 40px;
+      }
+      .navbar-section:first-child .btn-link {
+        font-family: 'Nunito', sans-serif;
+        font-size: 18px;
+      }
+      .btn-link {
+        color: $dark-color;
+      }
+      .popover-container {
+        a .material-design-icon {
+          vertical-align: middle;
+        }
+      }
+      .menu.arrow-top:after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 32px;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent #303742 transparent;
+      }
     }
   }
 }

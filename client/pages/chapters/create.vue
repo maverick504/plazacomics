@@ -4,6 +4,9 @@
       <breadcrumbs :items="breadcrumbs" />
       <h2>Nuevo Capítulo</h2>
       <form class="py-no" @submit.prevent="save" @keydown="form.onKeydown($event)">
+        <div class="toast toast-primary mb-sm">
+          <b>Consejo:</b> puedes verificar nuestra <nuxt-link :to="{ name: 'schedule.index' }" target="_blank">agenda</nuxt-link> para publicar este capítulo en un día que no esté muy saturado, de esta forma se nos hace más fácil promocionar tu cómic en nuestra comunidad y en nuestras redes sociales.
+        </div>
         <div class="columns">
           <div class="column col-9 col-sm-12">
             <!-- Title -->
@@ -18,7 +21,7 @@
           <div class="column col-3 col-sm-12">
             <!-- Relase Date -->
             <div :class="{ 'has-error': form.errors.has('relase_date') }" class="form-group">
-              <label class="form-label">Lanzamiento</label>
+              <label class="form-label">Fecha de lanzamiento</label>
               <div class="has-icon-left col-12">
                 <input v-mask="'##/##/####'" v-model="form.relase_date" type="text" class="form-input" placeholder="dd/mm/yyyy">
                 <calendar-today-icon class="form-icon" />
@@ -61,7 +64,7 @@
                     <img :src="`${cdnUrl}/${page.image_url}`" :alt="page.id" class="img-responsive">
                   </div>
                   <div v-if="page.client_file_name" class="card-header pa-sm">
-                    <div class="card-title">
+                    <div class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                       {{ page.client_file_name }}
                     </div>
                   </div>
@@ -170,6 +173,20 @@ export default {
         to: { name: 'chapters.create', params: { serieId: this.serie.id } }
       }
     ]
+
+    this.$nextTick(() => {
+      // Put today as default value for relase date.
+      // We don't want to use moment.js for this simple task
+      var dateNow = new Date()
+      var day = dateNow.getDate()
+      var month = dateNow.getMonth() + 1
+      var year = 1900 + dateNow.getYear()
+
+      day = day < 10 ? ('0' + day) : day
+      month = month < 10 ? ('0' + month) : month
+
+      this.form.relase_date = day + '/' + month + '/' + year
+    })
   },
 
   methods: {

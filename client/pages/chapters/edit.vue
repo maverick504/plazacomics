@@ -18,7 +18,7 @@
       </div>
       <div class="container mt-xl mb-xl">
         <div :class="{ 'has-error': form.errors.has('thumbnail_image') }" class="form-group">
-          <label class="form-label">Thumbnail (opcional)</label>
+          <label class="form-label">Miniatura (opcional)</label>
           <input ref="thumbnailFile" class="d-none" type="file" accept="image/*" @change="thumbnailFileChanged()">
           <template v-if="thumbnail_url">
             <v-button type="primary" native-type="button" class="mr-sm" @click.native="$refs.thumbnailFile.click()">
@@ -92,7 +92,7 @@
                     <img :src="`${cdnUrl}/${page.image_url}`" :alt="page.id" class="img-responsive">
                   </div>
                   <div v-if="page.client_file_name" class="card-header pa-sm">
-                    <div class="card-title">
+                    <div class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                       {{ page.client_file_name }}
                     </div>
                   </div>
@@ -362,7 +362,7 @@ export default {
 
       swal({
         type: 'success',
-        title: 'Thumbnail actualizado!',
+        title: 'Miniatura actualizada!',
         showConfirmButton: false,
         timer: 1500
       })

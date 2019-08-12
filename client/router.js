@@ -45,6 +45,8 @@ const ShowAuthor = () => import('~/pages/authors/show/index').then(m => m.defaul
 const ShowAuthorSeries = () => import('~/pages/authors/show/series').then(m => m.default || m)
 const ShowAuthorIllustrations = () => import('~/pages/authors/show/illustrations').then(m => m.default || m)
 
+const ScheduleIndex = () => import('~/pages/schedule/index').then(m => m.default || m)
+
 const Article = () => import('~/pages/articles/index').then(m => m.default || m)
 
 const PublishingLanding = () => import('~/pages/other/publishing').then(m => m.default || m)
@@ -104,6 +106,8 @@ const routes = [
       { path: '', name: 'authors.show', component: ShowAuthorSeries },
       { path: 'illustrations', name: 'authors.show.illustrations', component: ShowAuthorIllustrations }
     ] },
+
+  { path: '/schedule', name: 'schedule.index', component: ScheduleIndex },
 
   { path: '/legal/:article', name: 'legal', component: Article },
   { path: '/help/:article', name: 'help', component: Article },

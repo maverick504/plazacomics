@@ -239,9 +239,9 @@ class SerieController extends Controller
             'explicit_content' => [ 'boolean' ]
         ]);
 
-        // It is required that the serie have more than one chapter published to change his state from draft to any other.
+        // It is required that the serie have more than one chapter to change his state from draft to any other.
         if($request->get('state') != SERIE_STATE_DRAFT) {
-            $availableChaptersCount = Chapter::where('serie_id', $serie->id)->where('relase_date', '<=', date('Y-m-d') . ' 00:00:00')->count();
+            $availableChaptersCount = Chapter::where('serie_id', $serie->id)->count();
             if($availableChaptersCount == 0) {
                 $error = \Illuminate\Validation\ValidationException::withMessages([
                    'state' => [ "No puedes cambiar el estado de esta serie porque no tiene capítulos publicados aún." ]

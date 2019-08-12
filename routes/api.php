@@ -204,3 +204,6 @@ Route::get('comments', 'CommentController@index');
 
 // Suggestions
 Route::post('suggestions', 'SuggestionController@store');
+
+// Schedule
+Route::get('schedule', 'ScheduleController@index');

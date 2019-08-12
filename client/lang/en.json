@@ -77,5 +77,13 @@
   "licence_link_cc_by-nd": "https://creativecommons.org/licenses/by-nd/4.0",
   "licence_link_cc_by-nc": "https://creativecommons.org/licenses/by-nc/4.0",
   "licence_link_cc_by-nc-sa": "https://creativecommons.org/licenses/by-nc-sa/4.0",
-  "licence_link_cc_by-nc-nd": "https://creativecommons.org/licenses/by-nc-nd/4.0"
+  "licence_link_cc_by-nc-nd": "https://creativecommons.org/licenses/by-nc-nd/4.0",
+
+  "weekday_monday": "monday",
+  "weekday_tuesday": "tuesday",
+  "weekday_wednesday": "wednesday",
+  "weekday_thursday": "thursday",
+  "weekday_friday": "friday",
+  "weekday_saturday": "saturday",
+  "weekday_sunday": "sunday"
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="navbar-wrapper">
-      <div class="container">
+      <div class="navbar-container">
         <header class="navbar">
           <section class="navbar-section">
             <router-link :to="{ name: 'home' }" class="mr-md">
@@ -18,22 +18,25 @@
                 <ul class="menu has-arrow has-arrow-top">
                   <li class="menu-item">
                     <router-link :to="{ name: 'series.index' }">
-                      Series
+                      <book-open-page-variant-icon class="mr-sm"/>Series
                     </router-link>
                   </li>
                   <li class="menu-item">
                     <router-link :to="{ name: 'illustrations.index' }">
-                      Ilustraciones
+                      <fountain-pen-tip-icon class="mr-sm"/>Ilustraciones
                     </router-link>
                   </li>
                   <li class="menu-item">
                     <router-link :to="{ name: 'authors.index' }">
-                      Autores
+                      <face-icon class="mr-sm"/>Autores
                     </router-link>
                   </li>
                 </ul>
               </div>
             </div>
+            <router-link :to="{ name: 'schedule.index' }" class="btn btn-link hide-sm">
+              Agenda
+            </router-link>
             <router-link :to="{ name: 'landing.community' }" class="btn btn-link hide-sm">
               Comunidad
             </router-link>
@@ -174,6 +177,9 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import BookOpenPageVariantIcon from 'vue-material-design-icons/BookOpenPageVariant.vue'
+import FountainPenTipIcon from 'vue-material-design-icons/FountainPenTip.vue'
+import FaceIcon from 'vue-material-design-icons/Face.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import BellOutlineIcon from 'vue-material-design-icons/BellOutline.vue'
@@ -182,6 +188,9 @@ export default {
   name: 'Navbar',
 
   components: {
+    BookOpenPageVariantIcon,
+    FountainPenTipIcon,
+    FaceIcon,
     InformationOutlineIcon,
     PlusIcon,
     BellOutlineIcon

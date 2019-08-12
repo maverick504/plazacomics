@@ -50,7 +50,7 @@ import ChatIcon from 'vue-material-design-icons/Chat.vue'
 
 export default {
   head () {
-    return { title: 'Publica Tu Cómic' }
+    return { title: 'Comunidad' }
   },
 
   components: {
@@ -59,14 +59,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-.btn.large-call-to-action {
-  font-size: 0.9rem;
-  height: 56px;
-  padding: 14px 32px;
-  border-radius: 28px;
-}
-
-</style>

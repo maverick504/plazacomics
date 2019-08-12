@@ -47,7 +47,7 @@ module.exports = {
   },
 
   css: [
-    { src: '~assets/scss/plazali.scss', lang: 'scss' },
+    { src: '~assets/scss/plazacomics.scss', lang: 'scss' },
     { src: '~assets/css/croppie.min.css', lang: 'css' }
   ],
 

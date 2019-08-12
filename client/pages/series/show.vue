@@ -31,9 +31,16 @@
               {{ $t('serie_state_' + serie.state) }} | {{ serie.total_chapters }} capítulos
             </span>
             <div class="d-block" style="line-height: 44px;">
-              <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
-                <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
-              </nuxt-link>
+              <template v-if="chapters.length===0">
+                <button class="btn btn-primary btn-lg mr-sm" disabled>
+                  <book-open-page-variant-icon class="mr-xs" /> Proximamente...
+                </button>
+              </template>
+              <template v-else>
+                <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
+                  <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
+                </nuxt-link>
+              </template>
               <toggle-follow-button
                 :follow-api-endpoint="`series/${serie.id}/like`"
                 :unfollow-api-endpoint="`series/${serie.id}/unlike`"
@@ -129,7 +136,12 @@
           <p class="my-no">{{ serie.subscribers_count }} Suscriptores</p>
         </section>
         <section v-if="activeTab=='chapters'" class="my-xl">
-          <div class="columns mb-lg">
+          <div v-if="chapters.length === 0" class="empty mb-lg">
+            <p class="empty-title h4">
+              Proximamente...
+            </p>
+          </div>
+          <div v-else class="columns mb-lg">
             <div v-for="(chapter, index) in chapters" :key="chapter.id" class="column col-6 col-md-12 pb-sm">
               <chapter-card :serie-slug="serie.slug" :chapter-number="index+1" :chapter="chapter" />
             </div>

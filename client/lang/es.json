@@ -77,5 +77,13 @@
   "licence_link_cc_by-nd": "https://creativecommons.org/licenses/by-nd/4.0/deed.es",
   "licence_link_cc_by-nc": "https://creativecommons.org/licenses/by-nc/4.0/deed.es",
   "licence_link_cc_by-nc-sa": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es",
-  "licence_link_cc_by-nc-nd": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es"
+  "licence_link_cc_by-nc-nd": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es",
+
+  "weekday_monday": "lunes",
+  "weekday_tuesday": "martes",
+  "weekday_wednesday": "miércoles",
+  "weekday_thursday": "jueves",
+  "weekday_friday": "viernes",
+  "weekday_saturday": "sábado",
+  "weekday_sunday": "domingo"
 }
