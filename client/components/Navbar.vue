@@ -157,7 +157,7 @@
             <!-- /menu -->
           </section>
           <section v-else class="navbar-section">
-            <router-link :to="{ name: 'info.publishing' }" class="btn btn-primary mr-sm hide-sm">
+            <router-link :to="{ name: 'landing.publishing' }" class="btn btn-primary mr-sm hide-sm">
               <information-outline-icon class="mr-sm" /> Publica aquí!
             </router-link>
             <router-link :to="{ name: 'login' }" class="btn">

@@ -18,7 +18,7 @@
       </div>
     </button>
     <!-- Must login modal -->
-    <Modal :active.sync="showMustLoginModal" size="small" title="Inicia sesión o regístrate">
+    <Modal :active.sync="showMustLoginModal" class="text-left" size="small" title="Inicia sesión o regístrate">
       <template v-slot:content>
         Create una cuenta para una mejor experiencia de lectura o para publicar tus propios cómics!
       </template>

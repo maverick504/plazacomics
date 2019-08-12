@@ -9,9 +9,6 @@
           <h1 style="display: block; margin: 0px;">
             <span class="bg-primary">¡Construyamos la mejor comunidad de creadores de cómics!</span>
           </h1>
-          <p style="display: block; margin: 0px;">
-            <span class="bg-primary">Únete a la comunidad</span>
-          </p>
         </div>
       </div>
     </section>
@@ -23,7 +20,7 @@
               Grupo en Facebook
             </h2>
             <p style="font-size: 20px;">
-              Aquí publicaremos noticias relacionadas a la plataforma, es un espacio abierto para pedir ayuda, contar en que estás trabajando, etc.
+              Aquí publicaremos noticias relacionadas a la plataforma, es un espacio abierto para pedir ayuda, contar en que estás trabajando, etc. Este grupo es relevante para los creadores de cómics de la plataforma.
             </p>
             <a href="https://www.facebook.com/groups/365725094329790/" target="_blank" class="btn btn-lg">
               <facebook-icon class="mr-sm" /> Unirme al grupo
@@ -34,7 +31,7 @@
               Chat
             </h2>
             <p style="font-size: 20px;">
-              En este chat abierto puedes interactuar con autores y el staff de PlazaComics, pedir consejos, sugerir mejoras, hablar sobre tu proyecto, etc.
+              En este chat abierto puedes interactuar con fans, otros creadores de cómics y el staff de PlazaComics, puedes hablar de tu cómic, pedir consejos, sugerir mejoras, hablar sobre tu proyecto, etc.
               <b>No requiere estár registrado.</b>
             </p>
             <a href="http://chat.plazacomics.com" target="_blank" class="btn btn-lg">

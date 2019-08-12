@@ -20,6 +20,39 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'auth:api'], function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Routes
+    |--------------------------------------------------------------------------
+    */
+
+    // users
+    // Route::get('/admin/users', 'Admin\UserController@index');
+    // Route::get('/admin/users/{id}', 'Admin\UserController@show');
+    // Route::put('/admin/users/{id}/assignRole', 'Admin\UserController@assignRole');
+    // Route::put('/admin/users/{id}/unassignRole', 'Admin\UserController@unassignRole');
+
+    // roles
+    // Route::get('/admin/roles', 'Admin\RoleController@index');
+    // Route::post('/admin/roles', 'Admin\RoleController@store');
+    // Route::get('/admin/roles/{id}', 'Admin\RoleController@show');
+    // Route::put('/admin/roles/{id}', 'Admin\RoleController@update');
+    // Route::put('/admin/roles/{id}/assignAbility', 'Admin\RoleController@assignAbility');
+    // Route::put('/admin/roles/{id}/unassignAbility', 'Admin\RoleController@unassignAbility');
+    // Route::get('/admin/searchRoles', 'Admin\RoleController@search');
+
+    // abilities
+    // Route::get('/admin/abilities', 'Admin\AbilityController@index');
+    // Route::get('/admin/abilities/{id}', 'Admin\AbilityController@show');
+    // Route::put('/admin/abilities/{id}', 'Admin\AbilityController@update');
+    // Route::get('/admin/searchAbilities', 'Admin\AbilityController@search');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Non Admin Routes
+    |--------------------------------------------------------------------------
+    */
+
     // Logout
     Route::post('logout', 'Auth\LoginController@logout');
 
@@ -27,6 +60,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user', function (Request $request) {
         return $request->user();
     });
+    // Route::get('user/roles', function (Request $request) {
+    //     return $request->user()->getRoles();
+    // });
+    // Route::get('user/abilities', function (Request $request) {
+    //     return $request->user()->getAbilities();
+    // });
 
     // Settings
     Route::patch('settings/profile', 'Settings\ProfileController@update');
@@ -41,17 +80,17 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('user/notifications/{id}/unmarkAsRead', 'NotificationController@unmarkAsRead');
     Route::delete('user/notifications/{id}', 'NotificationController@destroy');
 
-    // Serie Followers System
+    // Author Followers System
     Route::get('user/following', 'AuthorFollowController@userIndex');
     Route::post('authors/{authorId}/follow/', 'AuthorFollowController@follow');
     Route::post('authors/{authorId}/unfollow/', 'AuthorFollowController@unfollow');
 
     // Posts
     Route::get('feed', 'PostController@feed');
-    Route::post('posts', 'PostController@store');
+    // Route::post('posts', 'PostController@store');
     Route::put('posts/{id}', 'PostController@update');
     Route::delete('posts/{id}', 'PostController@destroy');
-    Route::post('posts/uploadImage', 'PostController@uploadImage');
+    // Route::post('posts/uploadImage', 'PostController@uploadImage');
     Route::get('user/posts', 'PostController@userIndex');
     Route::get('user/posts/{id}', 'PostController@userShow');
 
@@ -68,11 +107,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user/series', 'SerieController@userIndex');
     Route::get('user/series/{id}', 'SerieController@userShow');
 
-    // Serie Like System
+    // Series Like System
     Route::post('series/{serieId}/like/', 'SerieLikeController@like');
     Route::post('series/{serieId}/unlike/', 'SerieLikeController@unlike');
 
-    // Serie Subscriber System
+    // Series Subscriber System
     Route::get('user/subscriptions', 'SerieSubscribeController@userIndex');
     Route::post('series/{serieId}/subscribe/', 'SerieSubscribeController@subscribe');
     Route::post('user/{serieId}/unsubscribe/', 'SerieSubscribeController@unsubscribe');
@@ -104,6 +143,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 Route::group(['middleware' => 'guest:api'], function () {
     // Auth
+    Route::get('login', function () {
+        return Response::json([ 'message' => 'Not logged-in, log-in using a POST request.' ], 401);
+    })->name('login');
     Route::post('login', 'Auth\LoginController@login');
     Route::post('register', 'Auth\RegisterController@register');
 
@@ -132,7 +174,7 @@ Route::get('licences', 'LicenceController@index');
 Route::get('authors', 'AuthorController@index');
 Route::get('authors/{id}', 'AuthorController@show');
 
-// Serie Followers System
+// Author Followers System
 Route::get('series/{id}/followers', 'AuthorFollowController@authorIndex');
 
 // Posts
@@ -144,12 +186,13 @@ Route::get('authors/{id}/posts/', 'PostController@authorIndex');
 // Series
 Route::get('series/', 'SerieController@index');
 Route::get('newSeries/', 'SerieController@new');
+Route::get('trendingSeries/', 'SerieController@trending');
 Route::get('popularSeries/', 'SerieController@popular');
 Route::get('series/{id}', 'SerieController@show');
 Route::get('authors/{id}/series', 'SerieController@authorIndex');
 Route::get('series/', 'SerieController@index');
 
-// Serie Subscriber System
+// Series Subscriber System
 Route::get('series/{id}/subscribers', 'SerieSubscribeController@serieIndex');
 
 // Chapters

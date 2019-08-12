@@ -84,7 +84,6 @@ const routes = [
   { path: '/illustrations', name: 'illustrations.index', component: IllustrationsIndex },
 
   { path: '/series', name: 'series.index', component: SeriesIndex },
-  { path: '/series/page/:page', name: 'series.page', component: SeriesIndex },
   { path: '/series/create', name: 'series.create', component: CreateSerie },
   { path: '/series/:id/edit',
     component: EditSerie,
@@ -99,7 +98,6 @@ const routes = [
   { path: '/series/:serieSlug/chapters/:chapterId/:chapterSlug', name: 'chapters.show', component: ShowChapter },
 
   { path: '/authors', name: 'authors.index', component: AuthorsIndex },
-  { path: '/authors/page/:page', name: 'authors.page', component: AuthorsIndex },
   { path: '/authors/:id/:username',
     component: ShowAuthor,
     children: [

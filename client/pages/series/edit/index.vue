@@ -113,6 +113,7 @@ export default {
   },
 
   data: () => ({
+    breadcrumbs: [],
     showCoverCroppingModal: false,
     showBannerCroppingModal: false,
     busy: false

@@ -43,4 +43,26 @@ class Post extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+    /**
+     * Get the post's likes count.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getLikesCountAttribute($value)
+    {
+        return intval($value);
+    }
+
+    /**
+     * If the user liked the post.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getUserLikedAttribute($value)
+    {
+        return boolval($value);
+    }
 }

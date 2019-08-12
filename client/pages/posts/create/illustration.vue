@@ -3,67 +3,9 @@
     <div class="col-8 col-md-12">
       <breadcrumbs :items="breadcrumbs" />
       <h2>Publicar una Ilustración</h2>
-      <form class="py-no" @submit.prevent="save" @keydown="form.onKeydown($event)">
-        <!-- Image -->
-        <div :class="{ 'has-error': form.errors.has('image') }" class="form-group">
-          <div v-if="imageUrl">
-            <figure class="figure">
-              <img :src="`${cdnUrl}/${imageUrl}`" style="width: 100%;">
-            </figure>
-            <v-button type="link" native-type="button" class="mb-md" @click.native="removeImage">Eliminar</v-button>
-          </div>
-          <div v-else class="card bg-gray" @dragenter.prevent @dragleave.prevent @dragover.prevent @drop.prevent="handleDrop">
-            <div class="card-body">
-              <div v-if="uploadingImage" class="loading loading-lg" />
-              <div v-else class="empty">
-                <div class="empty-icon">
-                  <cloud-upload-outline-icon class="icon-2-5x"/>
-                </div>
-                <p class="empty-title h5">Arrastra un archivo de imágen aquí</p>
-                <p class="empty-subtitle">o</p>
-                <div class="empty-action">
-                  <v-button type="primary" native-type="button" @click.native="$refs.imageFile.click()"><upload-icon/> Abre el explorador</v-button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <input ref="imageFile" class="d-none" type="file" accept="image/*" @change="imageFileChanged()">
-          <p class="form-input-hint">
-            {{ form.errors.get('image') }}
-          </p>
-        </div>
-        <!-- Title -->
-        <div :class="{ 'has-error': form.errors.has('title') }" class="form-group">
-          <label class="form-label">Título</label>
-          <input v-model="form.title" type="text" class="form-input" placeholder="Título">
-          <p class="form-input-hint">
-            {{ form.errors.get('title') }}
-          </p>
-        </div>
-        <!-- Description -->
-        <div :class="{ 'has-error': form.errors.has('description') }" class="form-group">
-          <label class="form-label">Descripción</label>
-          <textarea v-model="form.description" class="form-input" placeholder="Descripción" rows="3" />
-          <p class="form-input-hint">
-            {{ form.errors.get('description') }}
-          </p>
-        </div>
-        <!-- Explicit Content -->
-        <div class="form-group">
-          <checkbox v-model="form.explicit_content" name="explicit_content" type="switch">
-            Esta publicación tiene contenido adulto/explícito
-          </checkbox>
-          <p class="form-input-hint">
-            {{ form.errors.get('explicit_content') }}
-          </p>
-        </div>
-        <!-- Submit Button -->
-        <div class="form-group mt-lg">
-          <v-button :loading="form.busy" type="primary">
-            Publicar
-          </v-button>
-        </div>
-      </form>
+      <div class="toast toast-primary">
+        La funcionalidad de subir ilustraciones está deshabilitada de momento, estamos rediseñandola con mejoras y estará disponible pronto.
+      </div>
     </div>
   </div>
 </template>

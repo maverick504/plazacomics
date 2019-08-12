@@ -2,7 +2,7 @@
   <div>
     <navbar />
     <div class="navbar-space" />
-    <nuxt />
+    <nuxt :key="$route.fullPath"/>
     <v-footer />
     <bottom-nav />
     <div class="botton-nav-space show-sm" />

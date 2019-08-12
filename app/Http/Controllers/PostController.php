@@ -22,20 +22,18 @@ class PostController extends Controller
         return Post::distinct()
         ->select([
             'posts.*',
-            DB::raw("SUM(CASE WHEN (followable_type = 'App\Post' &&
-                                    followables.relation = 'like' &&
+            DB::raw("SUM(CASE WHEN (followables.relation = 'like' &&
                                     followables.deleted_at IS NULL)
                                     THEN 1 ELSE 0 END) AS likes_count"),
-            DB::raw("SUM(CASE WHEN (followable_type = 'App\Post' &&
-                                    followables.relation = 'like' &&
+            DB::raw("SUM(CASE WHEN (followables.relation = 'like' &&
                                     followables.deleted_at IS NULL &&
                                     followables.user_id = " . auth()->user()->id . ")
                                     THEN 1 ELSE 0 END) > 0 AS user_liked")
         ])
         ->with([ 'author' ])
         ->leftJoin('followables', 'posts.id', '=', 'followables.followable_id')
+        ->where('followable_type', '=', 'App\Post')
         ->whereIn('posts.user_id', $followingsIds)
-        ->where('posts.explicit_content', '=', false) // This should be temporal.
         ->latest()
         ->groupBy('posts.id')
         ->paginate(RESULTS_PER_PAGE);

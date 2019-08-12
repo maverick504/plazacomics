@@ -13,7 +13,7 @@
       <div class="column col-4 grid-col grid-col--3"/>
       <!-- items -->
       <div v-for="(post, index) in posts" :key="index" class="grid-item">
-        <nuxt-link :class="{ 'has-adult-content': post.explicit_content }" :to="{ name: 'posts.show', params: { id: post.id} }" class="card mb-md">
+        <nuxt-link :class="{ 'has-adult-content': post.explicit_content }" :to="{ name: 'posts.show', params: { id: post.id} }" class="card mb-md" style="overflow: hidden;">
           <v-image :src="`${cdnUrl}/${post.images[0].low_res.url}`" :ratio-width="post.images[0].low_res.width" :ratio-height="post.images[0].low_res.height" alt="Image">
             <template v-if="post.explicit_content">
               <div style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; display: table;">

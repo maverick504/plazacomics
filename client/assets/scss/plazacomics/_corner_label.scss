@@ -1,16 +1,16 @@
 .corner-label {
   position: absolute;
-  left: 0px;
+  right: 0px;
   top: 0px;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 64px 64px 0 0;
-  border-color: $dark-color transparent transparent transparent;
+  border-width: 0 64px 64px 0;
+  border-color: transparent $dark-color transparent transparent;
   .content {
     position: relative;
-    top: -60px;
-    left: 6px;
+    top: 8px;
+    left: 28px;
     font-weight: bold;
     color: $light-color;
   }

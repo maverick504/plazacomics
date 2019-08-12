@@ -40,7 +40,8 @@ class SerieController extends Controller
     {
         return Serie::with([
             'genre1',
-            'genre2'
+            'genre2',
+            'authors'
         ])
         ->public()
         ->paginate(RESULTS_PER_PAGE);
@@ -53,28 +54,33 @@ class SerieController extends Controller
      */
     public function new()
     {
-        return Serie::with([
+        $data = Serie::with([
             'genre1',
-            'genre2'
+            'genre2',
+            'authors'
         ])
         ->public()
         ->latest()
-        ->limit(4)
+        ->limit(8)
         ->get();
+
+        return response()->json([
+          'data' => $data
+        ]);
     }
 
     /**
-     * Display a listing of the series sorted by popularity.
+     * Display a listing of the series sorted by popularity by week.
      *
      * @return \Illuminate\Http\Response
      */
-    public function popular()
+    public function trending()
     {
-        $topIds = visits('App\Serie')->top(4)->pluck('id')->toArray();
-
+        $topIds = visits('App\Serie')->period('week')->top(8)->pluck('id')->toArray();
         $query = Serie::with([
             'genre1',
-            'genre2'
+            'genre2',
+            'authors'
         ])
         ->public()
         ->whereIn('id', $topIds);
@@ -83,7 +89,39 @@ class SerieController extends Controller
           $query->orderByRaw('id=' . $id . ' DESC');
         }
 
-        return $query->get();
+        $data = $query->get();
+
+        return response()->json([
+          'data' => $data
+        ]);
+    }
+
+    /**
+     * Display a listing of the series sorted by popularity by month.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popular()
+    {
+        $topIds = visits('App\Serie')->period('month')->top(8)->pluck('id')->toArray();
+
+        $query = Serie::with([
+            'genre1',
+            'genre2',
+            'authors'
+        ])
+        ->public()
+        ->whereIn('id', $topIds);
+
+        foreach($topIds as $id) {
+          $query->orderByRaw('id=' . $id . ' DESC');
+        }
+
+        $data = $query->get();
+
+        return response()->json([
+          'data' => $data
+        ]);
     }
 
     /**

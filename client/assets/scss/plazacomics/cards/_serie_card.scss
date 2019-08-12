@@ -1,0 +1,26 @@
+.serie-card {
+  border: none;
+  .card-image {
+    border-radius: 6px;
+  }
+  .overlay {
+    opacity: 0;
+    transition: opacity 0.5s;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    background: #ff5c5ccc;
+    color: #fff;
+    .line {
+      border-top: 1px solid #fff;
+      width: 50px;
+      margin: 8px 0px;
+    }
+  }
+  &:hover .overlay {
+    opacity: 1;
+  }
+}

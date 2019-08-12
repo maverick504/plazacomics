@@ -54,6 +54,7 @@
 @import "spectre_override/base";
 @import "spectre_override/buttons";
 @import "spectre_override/cards";
+@import "spectre_override/chips";
 @import "spectre_override/forms";
 @import "spectre_override/menu";
 @import "spectre_override/modals";
@@ -72,7 +73,7 @@
 /* PLAZACOMICS */
 @import "plazacomics/cards/author_card";
 @import "plazacomics/cards/chapter_card";
-@import "plazacomics/cards/link_card";
+@import "plazacomics/cards/serie_card";
 @import "plazacomics/bottom_nav";
 @import "plazacomics/comments";
 @import "plazacomics/containers";

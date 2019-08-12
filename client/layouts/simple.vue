@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    <nuxt :key="$route.fullPath"/>
     <no-ssr>
       <cookie-law theme="blood-orange" button-text="Si, está bien!">
         <template slot="message">
