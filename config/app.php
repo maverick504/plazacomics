@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Silber\Bouncer\BouncerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
         /*
@@ -218,9 +219,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class,
-        'Hashids' => Vinkla\Hashids\Facades\Hashids::class
 
+        /*
+         * Installed Packages...
+         */
+        'Bouncer' => Silber\Bouncer\BouncerFacade::class,
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];
