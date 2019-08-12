@@ -76,7 +76,7 @@ export default {
   },
 
   async mounted () {
-    const browse = this.$route.query.browse ? this.$route.query.browse : 0
+    const browse = this.$route.query.browse ? this.$route.query.browse : 'trending'
     var results = []
 
     switch (browse) {
