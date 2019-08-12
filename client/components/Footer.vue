@@ -26,6 +26,12 @@
         <nuxt-link :to="{ name: 'help', params: { article: 'faq' } }" class="text-gray">
           Preguntas Frecuentes
         </nuxt-link>
+        <nuxt-link :to="{ name: 'landing.community' }" class="text-gray">
+          Comunidad
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'schedule.index' }" class="text-gray">
+          Calendario
+        </nuxt-link>
       </div>
       <div class="mb-md">
         síguenos en:
