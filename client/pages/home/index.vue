@@ -48,8 +48,11 @@
 <script>
 import axios from 'axios'
 import SerieCard from '../../components/SerieCard.vue'
-import { Carousel3d, Slide } from 'vue-carousel-3d'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+
+if (process.client) {
+  require('~/plugins/vue-carrousel-3d.js')
+}
 
 export default {
   head () {
@@ -58,8 +61,6 @@ export default {
 
   components: {
     SerieCard,
-    Carousel3d,
-    Slide,
     InformationOutlineIcon
   },
 
