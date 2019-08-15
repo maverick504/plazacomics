@@ -21,7 +21,7 @@ class OAuthController extends Controller
     public function __construct()
     {
         config([
-            'services.github.redirect' => route('oauth.callback', 'github'),
+            'services.facebook.redirect' => route('oauth.callback', 'facebook'),
         ]);
     }
 
@@ -94,8 +94,12 @@ class OAuthController extends Controller
      */
     protected function createUser($provider, $sUser)
     {
+        $name = $sUser->getName();
+        $username = substr(str_replace(' ','',strtolower($name)), 0, 40).rand(1,10000);
+
         $user = User::create([
-            'username' => $sUser->getName(),
+            'username' => $username,
+            'name' => $name,
             'email' => $sUser->getEmail(),
         ]);
 

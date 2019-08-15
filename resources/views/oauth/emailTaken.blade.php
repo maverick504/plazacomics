@@ -1,5 +1,5 @@
 @extends('errors.layout')
 
-@section('title', 'Login Error')
+@section('title', __('oauth.login_error'))
 
-@section('message', 'Email already taken.')
+@section('message', __('oauth.email_already_taken'))

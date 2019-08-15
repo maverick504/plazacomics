@@ -63,6 +63,9 @@
               </v-button>
             </div>
           </form>
+          <div class="divider text-center" data-content="O"/>
+          <!-- Facebook Login Button -->
+          <login-with-facebook/>
         </div>
       </div>
       <p class="align-center mt-md mb-no">
@@ -81,6 +84,7 @@
 
 <script>
 import Form from 'vform'
+import LoginWithFacebook from '../../components/LoginWithFacebook.vue'
 import EmailIcon from 'vue-material-design-icons/Email.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
 
@@ -90,6 +94,7 @@ export default {
   },
 
   components: {
+    LoginWithFacebook,
     EmailIcon,
     LockIcon
   },

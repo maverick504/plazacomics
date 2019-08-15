@@ -55,7 +55,6 @@ export default {
         'saturday',
         'sunday'
       ],
-      weekdayToday: 'monday',
       updates: [],
       loading: true
     }
@@ -63,6 +62,7 @@ export default {
 
   async mounted () {
     this.weekdayToday = this.weekdays[new Date().getDay() - 1]
+
     const weekday = this.$route.query.weekday ? this.$route.query.weekday : this.weekdayToday
     const updates = await axios.get('/schedule', {
       params: {

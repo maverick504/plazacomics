@@ -154,8 +154,8 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     // Social Auth
-    // Route::post('oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
-    // Route::get('oauth/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+    Route::post('oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
+    Route::get('oauth/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 });
 
 /*
