@@ -8,7 +8,7 @@
         </button>
         <div class="layout-banner__overlay-content" @click="$refs.bannerFile.click()">
           <cloud-upload-outline-icon class="icon-2x" />
-          <span class="small-caption">Cambiár Banner</span>
+          <span class="small-caption">Cambiar Banner</span>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
             <div class="layout-cover__overlay" @click="$refs.coverFile.click()">
               <div class="layout-cover__overlay-content">
                 <cloud-upload-outline-icon class="icon-2x" />
-                <span class="small-caption">Cambiár Portada</span>
+                <span class="small-caption">Cambiar Portada</span>
               </div>
             </div>
           </figure>
