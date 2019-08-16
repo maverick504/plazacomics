@@ -7,7 +7,7 @@
         </figure>
         <span class="ml-sm"><b>{{ post.author.username }}</b> subió una ilustración. {{ post.publish_date | moment('from', 'now') }}.</span>
       </div>
-      <div v-elseif="post.type==='new_chapter'">
+      <div v-else-if="post.type==='new_chapter'">
         Nuevo capítulo de <b>{{ post.serie.name }}</b>
       </div>
     </div>
@@ -17,7 +17,7 @@
           <v-image :src="`${cdnUrl}/${post.images[0].hi_res.url}`" :ratio-width="post.images[0].hi_res.width" :ratio-height="post.images[0].hi_res.height" class="img-responsive" alt="Image"/>
         </nuxt-link>
       </template>
-      <template v-elseif="type==='new_chapter'">
+      <template v-else-if="post.type==='new_chapter'">
         <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: post.serie.slug, chapterId: post.chapter.id, chapterSlug: post.chapter.slug } }">
           <template v-if="post.chapter.thumbnail_url">
             <v-image
@@ -44,7 +44,7 @@
       <template v-if="post.type==='illustration'">
         <b>{{ post.title }}</b>
       </template>
-      <template v-elseif="type==='new_chapter'">
+      <template v-else-if="post.type==='new_chapter'">
         <b>{{ post.chapter.title }}</b>
       </template>
       <div v-if="post.type==='illustration'" class="mt-md">
