@@ -45,10 +45,12 @@ class UserLikedSeries extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'user_id' => $this->user->id,
-            'serie_id' => $this->serie->id,
             'icon_url' => $this->user->avatar_url,
-            'message' => 'A **' . $this->user->username . '** le gusta tu cómic, **' . $this->serie->name . '**.'
+            'message' => 'A **' . $this->user->username . '** le gusta tu cómic, **' . $this->serie->name . '**.',
+            'additional_data' => array(
+                'user_id' => $this->user->id,
+                'serie_id' => $this->serie->id
+            ),
         ];
     }
 

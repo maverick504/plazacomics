@@ -45,10 +45,12 @@ class UserSuscribedToSeries extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'user_id' => $this->user->id,
-            'serie_id' => $this->serie->id,
             'icon_url' => $this->user->avatar_url,
-            'message' => '**' . $this->user->username . '** se ha suscrito a tu cómic, **' . $this->serie->name . '**.'
+            'message' => '**' . $this->user->username . '** se ha suscrito a tu cómic, **' . $this->serie->name . '**.',
+            'additional_data' => array(
+                'user_id' => $this->user->id,
+                'serie_id' => $this->serie->id
+            )
         ];
     }
 

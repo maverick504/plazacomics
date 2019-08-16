@@ -105,11 +105,12 @@ class CommentController extends Controller implements CommentControllerInterface
                 }
 
                 $info = array(
-                    'commentable_type' => 'App\Chapter',
-                    'commenter_id' => auth()->user()->id,
                     'icon_url' => auth()->user()->avatar_url,
                     'message' => '**' . auth()->user()->username . '** comentó en **' . $chapter->title . '** de tu cómic, **' . $serie->name . '**: "' . $comment->comment . '".',
                     'additional_data' => array(
+                        'id' => $comment->id,
+                        'commenter_id' => auth()->user()->id,
+                        'commentable_type' => 'App\Chapter',
                         'serie_id' => $serie->id,
                         'chapter_id' => $chapter->id
                     )
@@ -129,11 +130,12 @@ class CommentController extends Controller implements CommentControllerInterface
                 }
 
                 $info = array(
-                    'commentable_type' => 'App\Post',
-                    'commenter_id' => auth()->user()->id,
                     'icon_url' => auth()->user()->avatar_url,
                     'message' => '**' . auth()->user()->username . '** comentó en tu post **' . $post->title . '**: "' . $comment->comment . '".',
                     'additional_data' => array(
+                        'id' => $comment->id,
+                        'commenter_id' => auth()->user()->id,
+                        'commentable_type' => 'App\Post',
                         'post_id' => $post->id
                     )
                 );
@@ -229,11 +231,12 @@ class CommentController extends Controller implements CommentControllerInterface
             }
 
             $info = array(
-                'commentable_type' => 'App\Comment',
-                'commenter_id' => auth()->user()->id,
                 'icon_url' => auth()->user()->avatar_url,
                 'message' => '**' . auth()->user()->username . '** respondió a tu comentario: **' . $reply->comment . '**.',
                 'additional_data' => array(
+                    'id' => $reply->id,
+                    'commenter_id' => auth()->user()->id,
+                    'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
                 )
             );
@@ -253,11 +256,12 @@ class CommentController extends Controller implements CommentControllerInterface
             }
 
             $info = array(
-                'commentable_type' => 'App\Comment',
-                'commenter_id' => auth()->user()->id,
                 'icon_url' => auth()->user()->avatar_url,
                 'message' => '**' . auth()->user()->username . '** también respondió a: **' . $reply->comment . '**.',
                 'additional_data' => array(
+                    'id' => $reply->id,
+                    'commenter_id' => auth()->user()->id,
+                    'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
                 )
             );

@@ -51,7 +51,7 @@ class ChapterController extends Controller
         ]);
 
         // Validate that the specified serie is owned by the user.
-        $serie = Serie::find($request->get('serie_id'));
+        $serie = Serie::with('authors')->where('id', '=', $request->get('serie_id'))->firstOrFail();
 
         if(!$serie->isOwnedBy(Auth::user()->id)) {
             $error = \Illuminate\Validation\ValidationException::withMessages([
@@ -99,6 +99,16 @@ class ChapterController extends Controller
 
             // Recount chapters and pages of the modified serie
             $serie->recountChaptersAndPages();
+
+            // Create a new post to announce the new chapter
+            $post = new \App\Post();
+            $post->user_id = auth()->user()->id;
+            $post->explicit_content = $serie->explicit_content;
+            $post->publish_date = $chapter->relase_date;
+            $post->type = \App\Post::TYPE_NEW_CHAPTER;
+            $post->serie_id = $serie->id;
+            $post->chapter_id = $chapter->id;
+            $post->save();
 
             DB::commit();
         } catch (\Exception $e) {
@@ -296,6 +306,13 @@ class ChapterController extends Controller
             $serie = Serie::find($chapter->serie_id);
             $serie->recountChaptersAndPages();
 
+            // Update the post related to this chapter
+            $post = \App\Post::where('chapter_id', $chapter->id)->first();
+            if($post) {
+                $post->publish_date = $chapter->relase_date;
+                $post->save();
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -403,9 +420,12 @@ class ChapterController extends Controller
 
         DB::beginTransaction();
         try {
-            // Remove images from disk
+            // Remove the pages
             Storage::disk('spaces')->deleteDirectory('chapters/' . Hashids::encode($chapter->id));
             Page::where('chapter_id', $chapter->id)->delete();
+
+            // Remove the post related to this chapter
+            \App\Post::where('chapter_id', $chapter->id)->delete();
 
             // Remove the chapter itself
             $chapter->delete();

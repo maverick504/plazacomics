@@ -30,7 +30,7 @@
           Comunidad
         </nuxt-link>
         <nuxt-link :to="{ name: 'schedule.index' }" class="text-gray">
-          Calendario
+          Agenda
         </nuxt-link>
       </div>
       <div class="mb-md">

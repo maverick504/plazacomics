@@ -7,20 +7,18 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewComment extends Notification
+class NewPost extends Notification
 {
     use Queueable;
-
-    protected $info;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($info)
+    public function __construct()
     {
-        $this->info = $info;
+        //
     }
 
     /**
@@ -31,18 +29,21 @@ class NewComment extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail'];
     }
 
     /**
-     * Get the database representation of the notification.
+     * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return array
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toDatabase($notifiable)
+    public function toMail($notifiable)
     {
-        return $this->info;
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**

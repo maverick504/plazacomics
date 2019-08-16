@@ -17,7 +17,8 @@ class PostController extends Controller
      */
     public function feed(Request $request)
     {
-        $followingsIds = auth()->user()->followings()->pluck('id')->toArray();
+        $followingsIds = auth()->user()->followings('App\User')->pluck('id')->toArray();
+        $subscriptionsIds = auth()->user()->subscriptions('App\Serie')->pluck('id')->toArray();
 
         return Post::distinct()
         ->select([
@@ -30,13 +31,24 @@ class PostController extends Controller
                                     followables.user_id = " . auth()->user()->id . ")
                                     THEN 1 ELSE 0 END) > 0 AS user_liked")
         ])
-        ->with([ 'author' ])
+        ->with([ 'author', 'serie', 'chapter' ])
         ->leftJoin('followables', 'posts.id', '=', 'followables.followable_id')
-        ->where('followable_type', '=', 'App\Post')
-        ->whereIn('posts.user_id', $followingsIds)
+        ->where(function ($query) {
+            $query->whereNull('followable_type')
+            ->orWhere('followable_type', '=', "App\\Post");
+        })
+        ->where(function ($query) use($followingsIds, $subscriptionsIds) {
+            $query->whereIn('posts.user_id', $followingsIds)
+            ->orWhereIn('posts.serie_id', $subscriptionsIds);
+        })
+        ->where('publish_date', '<=', date('Y-m-d'))
         ->latest()
         ->groupBy('posts.id')
         ->paginate(RESULTS_PER_PAGE);
+
+        $query = str_replace(array('?'), array('\'%s\''), $results->toSql());
+        $query = vsprintf($query, $results->getBindings());
+        dump($query);
     }
 
     /**

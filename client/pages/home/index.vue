@@ -35,7 +35,7 @@
       <div class="container">
         <div class="col-6 col-md-12">
           <h3>¡Publica tu cómic en PlazaComics!</h3>
-          <p>Publica tu cómic gratis en una plataforma optimizada para la lectura de cómics.</p>
+          <p>Publica tu cómic gratis en una plataforma optimizada para la lectura de cómics y mangas.</p>
           <router-link :to="{ name: 'landing.publishing' }" class="btn btn-lg">
             <information-outline-icon class="mr-sm" /> Saber más
           </router-link>

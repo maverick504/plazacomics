@@ -6,7 +6,7 @@
         <span class="content">+18</span>
       </div>
       <div class="overlay">
-        <div>
+        <div v-if="serie.authors">
           Autor:
           <span v-for="(author, index) in serie.authors" :key="index">
             {{ author.username }}

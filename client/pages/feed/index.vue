@@ -6,17 +6,14 @@
           <package-variant-icon class="icon-10x" />
         </div>
         <p class="empty-title h5">
-          No hay nada para mostrar aquí
+          Este es tu feed :3
         </p>
         <p class="empty-subtitle">
-          Comienza a seguir autores y podrás ver sus publicaciones aquí.
+          Comienza a seguir series y autores y aquí podrás ver novedades de nuevos capítulos o ilustraciones subidas.
         </p>
         <div class="empty-action">
-          <nuxt-link :to="{ name: 'illustrations.index' }" class="btn btn-primary mr-sm mb-sm">
-            <fountain-pen-tip-icon class="mr-xs" /> Ver Ilustraciones
-          </nuxt-link>
           <nuxt-link :to="{ name: 'series.index' }" class="btn btn-primary mr-sm mb-sm">
-            <book-open-page-variant-icon class="mr-xs" /> Ver Series
+            <book-open-page-variant-icon class="mr-xs" /> Comenzar a explorar series
           </nuxt-link>
         </div>
       </div>

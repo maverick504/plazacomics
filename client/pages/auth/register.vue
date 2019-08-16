@@ -73,11 +73,6 @@
           Política de Privacidad
         </router-link>
       </p>
-      <!--
-      <p class="align-center mt-md mb-no">
-        Al continuar, aceptas nuestros <router-link :to="{ name: 'info.termsOfService' }">Términos de Servicio</router-link> y nuestra <router-link :to="{ name: 'info.privacyPolicy' }">Política de Privacidad</router-link>
-      </p>
-      -->
     </div>
   </div>
 </template>
@@ -123,7 +118,7 @@ export default {
       await this.$store.dispatch('auth/updateUser', { user: data })
 
       // Redirect home.
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'feed' })
     }
   }
 }
