@@ -365,7 +365,10 @@ class PostController extends Controller
      */
     public function userIndex()
     {
-      return Post::where('user_id', auth()->user()->id)->latest()->get();
+      return Post::where('user_id', auth()->user()->id)
+      ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
+      ->latest()
+      ->get();
     }
 
     /**
@@ -376,7 +379,9 @@ class PostController extends Controller
      */
     public function userShow($id)
     {
-      $post = Post::where('id', '=', $id)->first();
+      $post = Post::where('id', '=', $id)
+      ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
+      ->first();
 
       if(!$post) {
           return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
