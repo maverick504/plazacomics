@@ -114,7 +114,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Series Subscriber System
     Route::get('user/subscriptions', 'SerieSubscribeController@userIndex');
     Route::post('series/{serieId}/subscribe/', 'SerieSubscribeController@subscribe');
-    Route::post('user/{serieId}/unsubscribe/', 'SerieSubscribeController@unsubscribe');
+    Route::post('series/{serieId}/unsubscribe/', 'SerieSubscribeController@unsubscribe');
 
     // Chapters
     Route::post('chapters/', 'ChapterController@store');

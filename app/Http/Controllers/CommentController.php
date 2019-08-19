@@ -218,6 +218,8 @@ class CommentController extends Controller implements CommentControllerInterface
             $reply->save();
 
             $commentCreator = $comment->commenter()->first();
+            $commentChapter = \App\Chapter::find($comment->commentable_id);
+            $commentSerie = $commentChapter->serie()->first();
 
             $usersToNotify = array();
 
@@ -235,10 +237,10 @@ class CommentController extends Controller implements CommentControllerInterface
                     'commenter_username' => auth()->user()->username,
                     'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
-                    'serie_id' => $comment->data->additional_data->serie_id,
-                    'serie_slug' => $comment->data->additional_data->serie_slug,
-                    'chapter_id' => $comment->data->additional_data->chapter_id,
-                    'chapter_slug' => $comment->data->additional_data->chapter_slug
+                    'serie_id' => $commentSerie->id,
+                    'serie_slug' => $commentSerie->slug,
+                    'chapter_id' => $commentChapter->id,
+                    'chapter_slug' => $commentChapter->slug
                 )
             );
 
@@ -265,10 +267,10 @@ class CommentController extends Controller implements CommentControllerInterface
                     'commenter_username' => auth()->user()->username,
                     'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
-                    'serie_id' => $comment->data->additional_data->serie_id,
-                    'serie_slug' => $comment->data->additional_data->serie_slug,
-                    'chapter_id' => $comment->data->additional_data->chapter_id,
-                    'chapter_slug' => $comment->data->additional_data->chapter_slug
+                    'serie_id' => $commentSerie->id,
+                    'serie_slug' => $commentSerie->slug,
+                    'chapter_id' => $commentChapter->id,
+                    'chapter_slug' => $commentChapter->slug
                 )
             );
 
@@ -277,7 +279,7 @@ class CommentController extends Controller implements CommentControllerInterface
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-
+            
             return response()->json([ 'message' => MESSAGE_UNKNOWN_ERROR ], 500);
         }
 
