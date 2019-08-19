@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'modal-sm': size=='small', 'modal-lg': size=='large', 'active': active }" class="modal">
+  <div :class="{ 'modal-sm': size=='small', 'modal-lg': size=='large', 'modal-md': size=='medium', 'active': active }" class="modal">
     <a href="javascript:void(0);" class="modal-overlay" aria-label="Close" @click="close" />
     <div class="modal-container">
       <div class="modal-header">
@@ -26,7 +26,7 @@ export default {
 
   props: {
     title: { type: String, default: null },
-    size: { type: String, default: 'medium' },
+    size: { type: String, default: 'default' },
     active: { type: Boolean, default: false },
     closable: { type: Boolean, default: true }
   },

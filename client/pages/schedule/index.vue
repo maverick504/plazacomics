@@ -1,6 +1,6 @@
 <template>
   <div class="container my-xl">
-    <h1 class="h3 d-block">
+    <h1 class="d-block">
       Publicaciones agendadas para esta semana
     </h1>
     <ul class="tab tab-block">
@@ -61,7 +61,14 @@ export default {
   },
 
   async mounted () {
-    this.weekdayToday = this.weekdays[new Date().getDay() - 1]
+    this.weekdayToday = new Date().getDay()
+    if (this.weekdayToday === 0) { // sunday
+      this.weekdayToday = 6
+    } else {
+      this.weekdayToday--
+    }
+
+    this.weekdayToday = this.weekdays[this.weekdayToday]
 
     const weekday = this.$route.query.weekday ? this.$route.query.weekday : this.weekdayToday
     const updates = await axios.get('/schedule', {

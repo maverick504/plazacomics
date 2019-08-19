@@ -28,7 +28,7 @@ class NotificationController extends Controller
             return Auth::user()->notifications()->where('type', 'App\Notifications\UserLikedSeries')->get();
             break;
           case 'subscriptions':
-            return Auth::user()->notifications()->where('type', 'App\Notifications\UserSuscribedToSeries')->get();
+            return Auth::user()->notifications()->where('type', 'App\Notifications\UserSubscribedToSeries')->get();
             break;
           case 'comments':
             return Auth::user()->notifications()->where('type', 'App\Notifications\NewComment')->get();

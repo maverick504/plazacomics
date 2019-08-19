@@ -7,7 +7,7 @@ $factory->define(App\Chapter::class, function (Faker $faker) {
 			'title' => $faker->unique()->sentence(rand(1,5)),
 			'slug' => $faker->unique()->slug(),
 			'thumbnail_url' => null,
-			'relase_date' => date('Y-m-d'),
+			'relase_date' => $faker->dateTimeBetween('-4 days', '+2 days')->format('Y-m-d') . ' 00:00:00',
 			'total_pages' => 0
     ];
 });

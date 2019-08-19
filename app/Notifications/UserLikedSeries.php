@@ -49,7 +49,9 @@ class UserLikedSeries extends Notification
             'message' => 'A **' . $this->user->username . '** le gusta tu cómic, **' . $this->serie->name . '**.',
             'additional_data' => array(
                 'user_id' => $this->user->id,
-                'serie_id' => $this->serie->id
+                'user_username' => $this->user->username,
+                'serie_id' => $this->serie->id,
+                'serie_slug' => $this->serie->slug
             ),
         ];
     }

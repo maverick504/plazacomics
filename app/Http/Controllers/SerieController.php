@@ -15,7 +15,6 @@ use App\Chapter;
 use App\Page;
 use App\Rules\ValidSlug;
 use App\Rules\ValidSerieState;
-use Auth;
 use Image;
 use Storage;
 use Hashids;
@@ -160,7 +159,7 @@ class SerieController extends Controller
             // Store the author
             $serieAuthor = new SerieAuthor();
             $serieAuthor->serie_id = $serie->id;
-            $serieAuthor->user_id = Auth::user()->id;
+            $serieAuthor->user_id = auth()->user()->id;
             $serieAuthor->save();
 
             DB::commit();
@@ -189,15 +188,14 @@ class SerieController extends Controller
             'authors' => function($query) {
                 $query->select('users.id', 'users.username', 'users.avatar_url');
             }
-        ])->public()->where('id', '=', $id)->first();
+        ])
+        ->public()
+        ->where('id', '=', $id)
+        ->firstOrFail();
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(Auth::user()) {
-            $serie->user_is_subscriber = $serie->isSubscribedBy(Auth::user());
-            $serie->user_liked = $serie->isLikedBy(Auth::user());
+        if(auth()->user()) {
+            $serie->user_is_subscriber = $serie->isSubscribedBy(auth()->user());
+            $serie->user_liked = $serie->isLikedBy(auth()->user());
         }
         $serie->likes_count = $serie->likers()->count();
         $serie->subscribers_count = $serie->subscribers()->count();
@@ -217,13 +215,9 @@ class SerieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $serie = Serie::find($id);
+        $serie = Serie::findOrFail($id);
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
         }
 
@@ -241,10 +235,10 @@ class SerieController extends Controller
 
         // It is required that the serie have more than one chapter to change his state from draft to any other.
         if($request->get('state') != SERIE_STATE_DRAFT) {
-            $availableChaptersCount = Chapter::where('serie_id', $serie->id)->count();
-            if($availableChaptersCount == 0) {
+            $chaptersCount = Chapter::where('serie_id', $serie->id)->count();
+            if($chaptersCount == 0) {
                 $error = \Illuminate\Validation\ValidationException::withMessages([
-                   'state' => [ "No puedes cambiar el estado de esta serie porque no tiene capítulos publicados aún." ]
+                   'state' => [ "No puedes cambiar el estado de esta serie porque aún no tiene capítulos." ]
                 ]);
                 throw $error;
             }
@@ -284,15 +278,9 @@ class SerieController extends Controller
      */
     public function updateCover(Request $request, $id)
     {
-        $serie = Serie::find($id);
+        $serie = Serie::findOrFail($id);
 
-        if(!$serie) {
-            return response()->json([
-                'message' => MESSAGE_NOT_FOUND
-            ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([
                 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE
             ], 403);
@@ -334,13 +322,9 @@ class SerieController extends Controller
      */
     public function updateBanner(Request $request, $id)
     {
-        $serie = Serie::find($id);
+        $serie = Serie::findOrFail($id);
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
         }
 
@@ -380,13 +364,9 @@ class SerieController extends Controller
      */
     public function removeBanner(Request $request, $id)
     {
-        $serie = Serie::find($id);
+        $serie = Serie::findOrFail($id);
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
         }
 
@@ -420,7 +400,9 @@ class SerieController extends Controller
         return Serie::with([
             'genre1',
             'genre2'
-        ])->ownedBy($userId)->public()->get();
+        ])->ownedBy($userId)
+        ->public()
+        ->get();
     }
 
     /**
@@ -433,7 +415,8 @@ class SerieController extends Controller
         return Serie::with([
             'genre1',
             'genre2'
-        ])->ownedBy(Auth::user()->id)->get();
+        ])->ownedBy(auth()->user()->id)
+        ->get();
     }
 
     /**
@@ -448,13 +431,10 @@ class SerieController extends Controller
             'genre1',
             'genre2',
             'licence'
-        ])->where('id', '=', $id)->first();
+        ])->where('id', '=', $id)
+        ->firstOrFail();
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
         }
 

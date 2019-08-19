@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Serie;
-use App\Notifications\UserSuscribedToSeries;
+use App\Notifications\UserSubscribedToSeries;
 use Illuminate\Support\Facades\Notification;
 
 class SerieSubscribeController extends Controller
@@ -66,7 +66,7 @@ class SerieSubscribeController extends Controller
             if(!$userWasSubscribed) {
                 // Send notification.
                 $authors = $serie->authors()->get();
-                Notification::send($authors, new UserSuscribedToSeries(auth()->user(), $serie));
+                Notification::send($authors, new UserSubscribedToSeries(auth()->user(), $serie));
             }
 
             auth()->user()->subscribe($serie);

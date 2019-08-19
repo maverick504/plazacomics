@@ -1,0 +1,33 @@
+.countdown {
+  .block {
+    display: inline-block;
+    width: 90px;
+    text-align: center;
+    .digit {
+      font-size: 64px;
+      color: $primary-color;
+      margin-bottom: 0px;
+    }
+    .text {
+      font-size: 16px;
+    }
+  }
+}
+
+@media only screen and (max-width: 840px) {
+  .countdown {
+    .block {
+      display: inline-block;
+      width: 76px;
+      text-align: center;
+      .digit {
+        font-size: 44px;
+        color: $primary-color;
+        margin-bottom: 0px;
+      }
+      .text {
+        font-size: 14px;
+      }
+    }
+  }
+}

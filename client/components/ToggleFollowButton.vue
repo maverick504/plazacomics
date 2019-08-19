@@ -18,17 +18,35 @@
       </div>
     </button>
     <!-- Must login modal -->
-    <Modal :active.sync="showMustLoginModal" class="text-left" size="small" title="Inicia sesión o regístrate">
+    <Modal
+      :active.sync="showMustLoginModal"
+      class="text-center"
+      size="medium"
+      title="Inicia sesión o regístrate"
+      style="line-height: 1.5;"
+    >
       <template v-slot:content>
-        Create una cuenta para una mejor experiencia de lectura o para publicar tus propios cómics!
+        <p>Create una cuenta para una mejor experiencia de lectura ¡o publicar tu propio cómics!</p>
+        <nuxt-link :to="{ name: 'login' }" class="btn btn-block">
+          <div>
+            <login-variant-icon/>
+            Iniciar sesión con tu correo
+          </div>
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'login' }" class="btn btn-block mt-sm">
+          <div>
+            <account-plus-icon/>
+            Registrarte con tu correo
+          </div>
+        </nuxt-link>
+        <div class="divider text-center" data-content="O"/>
+        <!-- Facebook Login Button -->
+        <login-with-facebook :reload-on-success="true" />
       </template>
       <template v-slot:footer>
-        <nuxt-link :to="{ name: 'register' }" class="btn btn-primary mr-sm">
-          Regístrate
-        </nuxt-link>
-        <nuxt-link :to="{ name: 'login' }" class="btn">
-          Inicia sesión
-        </nuxt-link>
+        <p class="text-center my-no">
+          Al continuar, aceptas nuestra <router-link :to="{ name: 'legal', params: { article: 'privacy-policy' } }">Política de Privacidad</router-link>
+        </p>
       </template>
     </Modal>
     <!-- /Must login modal -->
@@ -39,19 +57,25 @@
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import swal from 'sweetalert2'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import LoginWithFacebook from '@/components/LoginWithFacebook.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
 import HeartIcon from 'vue-material-design-icons/Heart.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import LoginVariantIcon from 'vue-material-design-icons/LoginVariant.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 
 export default {
   name: 'ToggleFollowButton',
 
   components: {
+    LoginWithFacebook,
     PlusIcon,
     CheckIcon,
     HeartOutlineIcon,
-    HeartIcon
+    HeartIcon,
+    LoginVariantIcon,
+    AccountPlusIcon
   },
 
   props: {

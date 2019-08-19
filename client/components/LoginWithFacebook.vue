@@ -17,6 +17,10 @@ export default {
     FacebookIcon
   },
 
+  props: {
+    reloadOnSuccess: { default: false, type: Boolean, required: false }
+  },
+
   computed: {
     facebookAuth: () => process.env.facebookAuth,
     url: () => `${process.env.apiUrl}/oauth/facebook`
@@ -54,7 +58,11 @@ export default {
         token: e.data.token
       })
 
-      this.$router.push({ name: 'feed' })
+      if (this.reloadOnSuccess) {
+        this.$router.go()
+      } else {
+        this.$router.push({ name: 'feed' })
+      }
     }
   }
 }

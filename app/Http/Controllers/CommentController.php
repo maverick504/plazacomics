@@ -30,25 +30,19 @@ class CommentController extends Controller implements CommentControllerInterface
             return Response::json([ 'message' => 'commentable_id is required.' ], 400);
         }
 
-        $commentableId = $_GET['commentable_id'];
-
         switch($_GET['commentable_type']) {
             case 'chapter':
-                $commentable = \App\Chapter::find($commentableId);
+                $commentable = \App\Chapter::findOrFail($_GET['commentable_id']);
                 break;
             case 'post':
-                $commentable = \App\Post::find($commentableId);
+                $commentable = \App\Post::findOrFail($_GET['commentable_id']);
                 break;
             default:
                 return Response::json([ 'message' => 'commentable_type is not valid.' ], 400);
         }
 
-        if(!$commentable) {
-            return Response::json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
         if($commentable instanceof \App\Chapter && !$commentable->hasBeenRelased()) {
-            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
+            return response()->json([ 'message' => 'No puedes comentar este capitulo porque no fué publicado aún' ], 403);
         }
 
         $this->commentable = $commentable;
@@ -110,9 +104,12 @@ class CommentController extends Controller implements CommentControllerInterface
                     'additional_data' => array(
                         'id' => $comment->id,
                         'commenter_id' => auth()->user()->id,
+                        'commenter_username' => auth()->user()->username,
                         'commentable_type' => 'App\Chapter',
                         'serie_id' => $serie->id,
-                        'chapter_id' => $chapter->id
+                        'serie_slug' => $serie->slug,
+                        'chapter_id' => $chapter->id,
+                        'chapter_slug' => $chapter->slug
                     )
                 );
 
@@ -135,6 +132,7 @@ class CommentController extends Controller implements CommentControllerInterface
                     'additional_data' => array(
                         'id' => $comment->id,
                         'commenter_id' => auth()->user()->id,
+                        'commenter_username' => auth()->user()->username,
                         'commentable_type' => 'App\Post',
                         'post_id' => $post->id
                     )
@@ -219,13 +217,11 @@ class CommentController extends Controller implements CommentControllerInterface
             $reply->approved = true;
             $reply->save();
 
-            // Notify the creator of the comment.
-
             $commentCreator = $comment->commenter()->first();
 
             $usersToNotify = array();
 
-            // We don't want to notify the user who created the reply.
+            // We want to notify the creator of the original comment but not if he is the user who created the reply.
             if($commentCreator->id !== auth()->user()->id) {
                 $usersToNotify[] = $commentCreator;
             }
@@ -236,8 +232,13 @@ class CommentController extends Controller implements CommentControllerInterface
                 'additional_data' => array(
                     'id' => $reply->id,
                     'commenter_id' => auth()->user()->id,
+                    'commenter_username' => auth()->user()->username,
                     'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
+                    'serie_id' => $comment->data->additional_data->serie_id,
+                    'serie_slug' => $comment->data->additional_data->serie_slug,
+                    'chapter_id' => $comment->data->additional_data->chapter_id,
+                    'chapter_slug' => $comment->data->additional_data->chapter_slug
                 )
             );
 
@@ -261,8 +262,13 @@ class CommentController extends Controller implements CommentControllerInterface
                 'additional_data' => array(
                     'id' => $reply->id,
                     'commenter_id' => auth()->user()->id,
+                    'commenter_username' => auth()->user()->username,
                     'commentable_type' => 'App\Comment',
                     'comment_id' => $comment->id,
+                    'serie_id' => $comment->data->additional_data->serie_id,
+                    'serie_slug' => $comment->data->additional_data->serie_slug,
+                    'chapter_id' => $comment->data->additional_data->chapter_id,
+                    'chapter_slug' => $comment->data->additional_data->chapter_slug
                 )
             );
 

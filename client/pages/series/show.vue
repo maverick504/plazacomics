@@ -31,16 +31,9 @@
               {{ $t('serie_state_' + serie.state) }} | {{ serie.total_chapters }} capítulos
             </span>
             <div class="d-block" style="line-height: 44px;">
-              <template v-if="chapters.length===0">
-                <button class="btn btn-primary btn-lg mr-sm" disabled>
-                  <book-open-page-variant-icon class="mr-xs" /> Proximamente...
-                </button>
-              </template>
-              <template v-else>
-                <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
-                  <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
-                </nuxt-link>
-              </template>
+              <nuxt-link :to="{ name: 'chapters.show', params: { serieSlug: serie.slug, chapterId: chapters[0].id, chapterSlug: chapters[0].slug } }" class="btn btn-primary btn-lg mr-sm">
+                <book-open-page-variant-icon class="mr-xs" /> Comenzar a leer
+              </nuxt-link>
               <toggle-follow-button
                 :follow-api-endpoint="`series/${serie.id}/like`"
                 :unfollow-api-endpoint="`series/${serie.id}/unlike`"
@@ -62,13 +55,14 @@
             </div>
             <div class="d-block" style="line-height: 44px;">
               <social-sharing
-                :url="'http://www.plazacomics.com' + $router.resolve({ route: { name: 'series.show', params: { id: serie.id, slug: serie.slug } } }).href"
+                :url="'https://www.plazacomics.com' + $router.resolve({ route: { name: 'series.show', params: { id: serie.id, slug: serie.slug } } }).href"
                 :title="serie.name + ' | PlazaComics'"
                 :description="serie.synopsis"
                 :quote="serie.synopsis"
                 hashtags="plazacomics"
                 twitter-user="plazacomics"
-                inline-template>
+                inline-template
+              >
                 <div class="d-inline-block">
                   <network network="facebook">
                     <button class="btn btn-action btn-facebook s-circle tooltip mr-sm" data-tooltip="Compartir en Facebook">

@@ -45,7 +45,7 @@ export default {
   async mounted () {
     this.loading = true
 
-    const { data } = await axios.get(`${this.apiEndpoint}/?type=illustrations`)
+    const { data } = await axios.get(`${this.apiEndpoint}/?type=illustration`)
     this.posts = data
 
     this.loading = false

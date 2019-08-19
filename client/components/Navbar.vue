@@ -11,16 +11,40 @@
               Feed
             </router-link>
             <div class="popover popover-bottom">
-              <router-link :to="{ name: 'series.index' }" class="btn btn-link hide-sm">
-                Explorar
-              </router-link>
+              <v-button type="link" class="hide-sm">
+                Series
+              </v-button>
               <div class="popover-container" style="width: 100px;">
                 <ul class="menu has-arrow has-arrow-top">
                   <li class="menu-item">
-                    <router-link :to="{ name: 'series.index' }">
-                      <book-open-page-variant-icon class="mr-sm"/>Series
+                    <router-link :to="{ name: 'series.index', query: { 'browse': 'trending' } }">
+                      <fire-icon class="mr-sm"/>Tendencias
                     </router-link>
                   </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'series.index', query: { 'browse': 'popular' } }">
+                      <star-icon class="mr-sm"/>Populares
+                    </router-link>
+                  </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'series.index', query: { 'browse': 'new' } }">
+                      <alert-decagram-icon class="mr-sm"/>Nuevas
+                    </router-link>
+                  </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'series.index', query: { 'browse': 'all' } }">
+                      <book-open-page-variant-icon class="mr-sm"/>Todas
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="popover popover-bottom">
+              <v-button type="link" class="hide-sm">
+                Más
+              </v-button>
+              <div class="popover-container" style="width: 100px;">
+                <ul class="menu has-arrow has-arrow-top">
                   <li class="menu-item">
                     <router-link :to="{ name: 'illustrations.index' }">
                       <fountain-pen-tip-icon class="mr-sm"/>Ilustraciones
@@ -31,15 +55,19 @@
                       <face-icon class="mr-sm"/>Autores
                     </router-link>
                   </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'schedule.index' }">
+                      <calendar-icon class="mr-sm"/>Agenda
+                    </router-link>
+                  </li>
+                  <li class="menu-item">
+                    <router-link :to="{ name: 'landing.community' }">
+                      <account-multiple-icon class="mr-sm"/>Comunidad
+                    </router-link>
+                  </li>
                 </ul>
               </div>
             </div>
-            <router-link :to="{ name: 'schedule.index' }" class="btn btn-link hide-sm">
-              Agenda
-            </router-link>
-            <router-link :to="{ name: 'landing.community' }" class="btn btn-link hide-sm">
-              Comunidad
-            </router-link>
           </section>
           <section v-if="user" class="navbar-section">
             <div class="dropdown dropdown-right">
@@ -60,40 +88,7 @@
               </ul>
             </div>
             <!-- notifications -->
-            <router-link :to="{ name: 'notifications', params: { filter: 'all' } }" :class="{ 'badge': notifications.length>0 }" :data-badge="notifications.length" class="btn btn-link btn-action mr-sm show-sm">
-              <bell-outline-icon />
-            </router-link>
-            <div class="dropdown dropdown-right">
-              <a :class="{ 'badge': notifications.length>0 }" :data-badge="notifications.length" href="javascript:void(0);" class="btn btn-link dropdown-toggle btn-action mr-sm hide-sm" tabindex="0">
-                <bell-outline-icon />
-              </a>
-              <div class="menu" style="width: 400px;">
-                <div class="menu-item py-xs">
-                  <strong>Notificaciones</strong>
-                  <a href="javascript:void(0);" class="float-right py-no" @click="markNotificationsAsRead">Marcar todas como leídas</a>
-                </div>
-                <div v-if="notifications.length === 0" class="menu-item">
-                  <p class="my-xl text-center">No tienes notificaciones sin leer.</p>
-                </div>
-                <div v-else class="menu-item" style="max-height: 200px; overflow-y: auto;">
-                  <div v-for="notification in notifications" :key="notification.id" class="tile tile-centered tile-notification">
-                    <div class="tile-icon">
-                      <figure class="avatar"><img :src="notification.data.icon_url?`${cdnUrl}/${notification.data.icon_url}`:'/placeholders/notification_placeholder_56x56.png'" alt="Ícono"></figure>
-                    </div>
-                    <div class="tile-content">
-                      <vue-showdown :markdown="notification.data.message" class="tile-title"/>
-                      <div class="tile-subtitle text-gray-dark">
-                        <small v-if="notification.read_at">leída · </small>
-                        <small>{{ notification.created_at | moment('from', 'now') }}</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="menu-item mt-sm">
-                  <nuxt-link :to="{ name: 'notifications', params: { filter: 'unread' } }" class="text-center bg-gray">Ver todas</nuxt-link>
-                </div>
-              </div>
-            </div>
+            <notifications-dropdown/>
             <!-- /notifications -->
             <!-- menu -->
             <div class="dropdown dropdown-right">
@@ -175,63 +170,47 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters } from 'vuex'
+import NotificationsDropdown from '@/components/notifications/NotificationsDropdown.vue'
+import FireIcon from 'vue-material-design-icons/Fire.vue'
+import StarIcon from 'vue-material-design-icons/Star.vue'
+import AlertDecagramIcon from 'vue-material-design-icons/AlertDecagram.vue'
 import BookOpenPageVariantIcon from 'vue-material-design-icons/BookOpenPageVariant.vue'
 import FountainPenTipIcon from 'vue-material-design-icons/FountainPenTip.vue'
 import FaceIcon from 'vue-material-design-icons/Face.vue'
+import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import BellOutlineIcon from 'vue-material-design-icons/BellOutline.vue'
 
 export default {
   name: 'Navbar',
 
   components: {
+    NotificationsDropdown,
+    FireIcon,
+    StarIcon,
+    AlertDecagramIcon,
     BookOpenPageVariantIcon,
     FountainPenTipIcon,
     FaceIcon,
+    CalendarIcon,
+    AccountMultipleIcon,
     InformationOutlineIcon,
-    PlusIcon,
-    BellOutlineIcon
+    PlusIcon
   },
-
-  data: () => ({
-    notifications: []
-  }),
 
   computed: {
     ...mapGetters('auth', ['user'])
   },
 
-  async created () {
-    this.fetchNotifications()
-
-    const self = this
-    setInterval(async function () {
-      self.fetchNotifications()
-    }, 30000) // Fetch notifications every 30 seconds.
-  },
-
   methods: {
-    async fetchNotifications () {
-      if (this.user) {
-        const notifications = await axios.get(`user/notifications?filter=unread`)
-        this.notifications = notifications.data
-      }
-    },
-
-    async markNotificationsAsRead () {
-      await axios.put(`user/markNotificationsAsRead?filter=unread`)
-      this.fetchNotifications()
-    },
-
     async logout () {
       // Log out the user.
       await this.$store.dispatch('auth/logout')
 
       // Redirect to home.
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'login' })
     }
   }
 }

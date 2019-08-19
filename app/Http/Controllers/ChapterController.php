@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Serie;
 use App\Chapter;
 use App\Page;
+use App\Post;
 use App\Rules\ValidSlug;
 use Auth;
 use Image;
@@ -27,7 +28,6 @@ class ChapterController extends Controller
         ->join('series', 'chapters.serie_id', '=', 'series.id')
         ->where('series.id', $serieId)
         ->where('series.state', '!=', SERIE_STATE_DRAFT)
-        ->relased()
         ->orderBy('relase_date', 'asc')
         ->orderBy('created_at', 'asc')
         ->get();
@@ -50,10 +50,10 @@ class ChapterController extends Controller
             'pages' => 'required|array|min:1|max:' . COMIC_CHAPTER_MAX_PAGES
         ]);
 
-        // Validate that the specified serie is owned by the user.
         $serie = Serie::with('authors')->where('id', '=', $request->get('serie_id'))->firstOrFail();
 
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        // Validate that the specified serie is owned by the user.
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             $error = \Illuminate\Validation\ValidationException::withMessages([
                'serie' => [ MESSAGE_SERIE_NOT_ACCESSIBLE ]
             ]);
@@ -101,11 +101,11 @@ class ChapterController extends Controller
             $serie->recountChaptersAndPages();
 
             // Create a new post to announce the new chapter
-            $post = new \App\Post();
+            $post = new Post();
             $post->user_id = auth()->user()->id;
             $post->explicit_content = $serie->explicit_content;
             $post->publish_date = $chapter->relase_date;
-            $post->type = \App\Post::TYPE_NEW_CHAPTER;
+            $post->type = Post::TYPE_NEW_CHAPTER;
             $post->serie_id = $serie->id;
             $post->chapter_id = $chapter->id;
             $post->save();
@@ -131,26 +131,18 @@ class ChapterController extends Controller
      */
     public function show($id)
     {
-        $chapter = Chapter::with([
-            'pages'
-        ])->where('id', '=', $id)->first();
-
-        if(!$chapter) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        $serie = Serie::find($chapter->serie_id);
-
-        if(!$serie->isPublic()) {
-            return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
-        }
-
-        if(!$chapter->hasBeenRelased()) {
-            return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
+        $chapter = Chapter::select('chapters.*')
+        ->join('series', 'chapters.serie_id', '=', 'series.id')
+        ->where('series.state', '!=', SERIE_STATE_DRAFT)
+        ->where('chapters.id', '=', $id)
+        ->firstOrFail();
+        
+        if($chapter->hasBeenRelased()) {
+            $chapter->pages = $chapter->pages()->get();
         }
 
         // Get chapter number
-        $chapter->number = Chapter::where('serie_id', '=', $serie->id)
+        $chapter->number = Chapter::where('serie_id', '=', $chapter->serie_id)
         ->where(function($query) use($chapter) {
           $query->where('relase_date', '<', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
@@ -166,9 +158,8 @@ class ChapterController extends Controller
         ->count()+1;
 
         // Get previous chapter.
-        // Please don't touch this query, is an evil query xD
         $chapter->previous_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
-        ->where('serie_id', '=', $serie->id)
+        ->where('serie_id', '=', $chapter->serie_id)
         ->where(function($query) use($chapter) {
           $query->where('relase_date', '<', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
@@ -187,9 +178,8 @@ class ChapterController extends Controller
         ->first();
 
         // Get next chapter.
-        // This query is evil as well, don't touch it
         $chapter->next_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
-        ->where('serie_id', '=', $serie->id)
+        ->where('serie_id', '=', $chapter->serie_id)
         ->where(function($query) use($chapter) {
           $query->where('relase_date', '>', $chapter->relase_date)
           ->orwhere(function($query) use($chapter) {
@@ -222,13 +212,9 @@ class ChapterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $chapter = Chapter::find($id);
+        $chapter = Chapter::findOrFail($id);
 
-        if(!$chapter) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+        if(!$chapter->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
         }
 
@@ -307,7 +293,7 @@ class ChapterController extends Controller
             $serie->recountChaptersAndPages();
 
             // Update the post related to this chapter
-            $post = \App\Post::where('chapter_id', $chapter->id)->first();
+            $post = Post::where('chapter_id', $chapter->id)->first();
             if($post) {
                 $post->publish_date = $chapter->relase_date;
                 $post->save();
@@ -341,7 +327,7 @@ class ChapterController extends Controller
             return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
         }
 
-        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+        if(!$chapter->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
         }
 
@@ -387,7 +373,7 @@ class ChapterController extends Controller
             return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
         }
 
-        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+        if(!$chapter->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
         }
 
@@ -414,7 +400,7 @@ class ChapterController extends Controller
             return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
         }
 
-        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+        if(!$chapter->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
         }
 
@@ -425,7 +411,7 @@ class ChapterController extends Controller
             Page::where('chapter_id', $chapter->id)->delete();
 
             // Remove the post related to this chapter
-            \App\Post::where('chapter_id', $chapter->id)->delete();
+            Post::where('chapter_id', $chapter->id)->delete();
 
             // Remove the chapter itself
             $chapter->delete();
@@ -450,13 +436,9 @@ class ChapterController extends Controller
      */
     public function userSerieIndex($serieId)
     {
-        $serie = Serie::find($serieId);
+        $serie = Serie::findOrFail($serieId);
 
-        if(!$serie) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$serie->isOwnedBy(Auth::user()->id)) {
+        if(!$serie->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_SERIE_NOT_ACCESSIBLE ], 403);
         }
 
@@ -476,13 +458,9 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::with([
             'pages'
-        ])->where('id', '=', $id)->first();
+        ])->where('id', '=', $id)->firstOrFail();
 
-        if(!$chapter) {
-            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-        }
-
-        if(!$chapter->isOwnedBy(Auth::user()->id)) {
+        if(!$chapter->isOwnedBy(auth()->user()->id)) {
             return response()->json([ 'message' => MESSAGE_CHAPTER_NOT_ACCESSIBLE ], 403);
         }
 

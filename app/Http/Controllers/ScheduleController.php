@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Serie;
-use App\Chapter;
 
 class ScheduleController extends Controller
 {
@@ -21,13 +20,15 @@ class ScheduleController extends Controller
             return response()->json(['message'=>'El dia de la semana otorgado no es válido.'], 400);
         }
 
-        return Serie::select(['series.*', 'chapters.relase_date'])
+        return Serie::select('series.*')
+        ->with([
+            'genre1',
+            'genre2',
+            'authors'
+        ])->public()
         ->distinct('series.id')
-        ->with('genre1', 'genre2')
         ->join('chapters', 'chapters.serie_id', '=', 'series.id')
-        ->where('series.state', '!=', SERIE_STATE_DRAFT)
         ->where('chapters.relase_date', '=', date("Y-m-d", strtotime($weekday . ' this week')))
-        ->orderBy('chapters.relase_date')
         ->get();
     }
 }

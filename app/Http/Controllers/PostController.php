@@ -33,13 +33,15 @@ class PostController extends Controller
         ])
         ->with([ 'author', 'serie', 'chapter' ])
         ->leftJoin('followables', 'posts.id', '=', 'followables.followable_id')
+        ->leftJoin('series', 'posts.serie_id', '=', 'series.id')
         ->where(function ($query) {
             $query->whereNull('followable_type')
             ->orWhere('followable_type', '=', "App\\Post");
         })
         ->where(function ($query) use($followingsIds, $subscriptionsIds) {
             $query->whereIn('posts.user_id', $followingsIds)
-            ->orWhereIn('posts.serie_id', $subscriptionsIds);
+            ->orWhereIn('posts.serie_id', $subscriptionsIds)
+            ->where('series.state', '!=', 'draft');
         })
         ->where('publish_date', '<=', date('Y-m-d'))
         ->latest()
@@ -62,12 +64,10 @@ class PostController extends Controller
             'author'
         ]);
 
-        if (in_array('type', $_GET)) {
-            switch($_GET['type']) {
-                case 'illustration':
-                    $query->where('type', Post::TYPE_ILLUSTRATION);
-                    break;
-            }
+        switch($request->get('type')) {
+            case 'illustration':
+                $query->where('posts.type', '=', Post::TYPE_ILLUSTRATION);
+                break;
         }
 
         return $query->get();
@@ -341,21 +341,19 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function authorIndex($userId)
+    public function authorIndex(Request $request, $userId)
     {
-      $query = Post::with([
-        'author'
-      ])->where('user_id', $userId);
+        $query = Post::with([
+          'author'
+        ])->where('user_id', $userId);
 
-      if (in_array('type', $_GET)) {
-        switch($_GET['type']) {
-          case 'illustration':
-            $query->where('type', Post::TYPE_ILLUSTRATION);
-            break;
+        switch($request->get('type')) {
+            case 'illustration':
+                $query->where('posts.type', '=', Post::TYPE_ILLUSTRATION);
+                break;
         }
-      }
 
-      return $query->get();
+        return $query->get();
     }
 
     /**
@@ -365,10 +363,10 @@ class PostController extends Controller
      */
     public function userIndex()
     {
-      return Post::where('user_id', auth()->user()->id)
-      ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
-      ->latest()
-      ->get();
+        return Post::where('user_id', auth()->user()->id)
+        ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
+        ->latest()
+        ->get();
     }
 
     /**
@@ -379,18 +377,18 @@ class PostController extends Controller
      */
     public function userShow($id)
     {
-      $post = Post::where('id', '=', $id)
-      ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
-      ->first();
+        $post = Post::where('id', '=', $id)
+        ->where('type', '!=', Post::TYPE_NEW_CHAPTER)
+        ->first();
 
-      if(!$post) {
-          return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
-      }
+        if(!$post) {
+            return response()->json([ 'message' => MESSAGE_NOT_FOUND ], 404);
+        }
 
-      if($post->user_id !== auth()->user()->id) {
-          return response()->json([ 'message' => MESSAGE_POST_NOT_ACCESSIBLE ], 403);
-      }
+        if($post->user_id !== auth()->user()->id) {
+            return response()->json([ 'message' => MESSAGE_POST_NOT_ACCESSIBLE ], 403);
+        }
 
-      return $post;
+        return $post;
     }
 }

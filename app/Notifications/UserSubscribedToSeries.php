@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserSuscribedToSeries extends Notification
+class UserSubscribedToSeries extends Notification
 {
     use Queueable;
 
@@ -49,7 +49,9 @@ class UserSuscribedToSeries extends Notification
             'message' => '**' . $this->user->username . '** se ha suscrito a tu cómic, **' . $this->serie->name . '**.',
             'additional_data' => array(
                 'user_id' => $this->user->id,
-                'serie_id' => $this->serie->id
+                'user_username' => $this->user->username,
+                'serie_id' => $this->serie->id,
+                'serie_slug' => $this->serie->slug
             )
         ];
     }
