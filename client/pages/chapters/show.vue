@@ -96,7 +96,7 @@
     </section>
     <div v-if="chapter.next_chapter === null" style="overflow-x: auto; white-space: nowrap;" class="mb-xl">
       <div class="container" style="width: 720px; max-width: 90vw; margin: auto; padding-left: 0px; padding-right: 0px;">
-        <div v-for="(serie, index) in trendingSeries" :key="index" style="display: inline-block; width: 33.33%; min-width: 200px; overflow-x: initial; white-space: initial;">
+        <div v-for="(serie, index) in popularSeries" :key="index" style="display: inline-block; width: 33.33%; min-width: 200px; overflow-x: initial; white-space: initial;">
           <serie-card :serie="serie" style="margin: 0px 8px; "/>
         </div>
       </div>
@@ -109,7 +109,7 @@
         </div>
       </div>
     </section>
-    <v-footer />
+    <v-footer/>
     <!-- Settings modal -->
     <modal v-if="chapterHasBeenRelased" ref="settingsModal" :active.sync="showingSettingsModal" title="Ajustes">
       <template v-slot:content>
@@ -191,16 +191,16 @@ export default {
       var chapter = await axios.get(`/chapters/${params.chapterId}`)
       var serie = await axios.get(`/series/${chapter.data.serie_id}`)
 
-      var trendingSeries = []
+      var popularSeries = []
       if (chapter.data.next_chapter === null) {
-        trendingSeries = await axios.get(`/trendingSeries`)
-        trendingSeries = trendingSeries.data.data.slice(0, 3)
+        popularSeries = await axios.get(`/popularSeries`)
+        popularSeries = popularSeries.data.data.slice(0, 3)
       }
 
       return {
         chapter: chapter.data,
         serie: serie.data,
-        trendingSeries: trendingSeries
+        popularSeries: popularSeries
       }
     } catch (err) {
       return error({ statusCode: err.response.status })
