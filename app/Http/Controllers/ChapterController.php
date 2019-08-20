@@ -136,7 +136,7 @@ class ChapterController extends Controller
         ->where('series.state', '!=', SERIE_STATE_DRAFT)
         ->where('chapters.id', '=', $id)
         ->firstOrFail();
-        
+
         if($chapter->hasBeenRelased()) {
             $chapter->pages = $chapter->pages()->get();
         }
@@ -158,7 +158,7 @@ class ChapterController extends Controller
         ->count()+1;
 
         // Get previous chapter.
-        $chapter->previous_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
+        $chapter->previous_chapter = Chapter::select('id', 'slug', 'title', 'thumbnail_url', 'relase_date', 'total_pages')
         ->where('serie_id', '=', $chapter->serie_id)
         ->where(function($query) use($chapter) {
           $query->where('relase_date', '<', $chapter->relase_date)
@@ -178,7 +178,7 @@ class ChapterController extends Controller
         ->first();
 
         // Get next chapter.
-        $chapter->next_chapter = Chapter::select('id', 'slug', 'title', 'relase_date', 'total_pages')
+        $chapter->next_chapter = Chapter::select('id', 'slug', 'title', 'thumbnail_url', 'relase_date', 'total_pages')
         ->where('serie_id', '=', $chapter->serie_id)
         ->where(function($query) use($chapter) {
           $query->where('relase_date', '>', $chapter->relase_date)

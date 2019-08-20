@@ -29,13 +29,58 @@ class ProfileController extends Controller
             'gender' => 'nullable|in:M,F',
             'birth_date' => 'nullable|date_format:d/m/Y',
             'location' => 'nullable',
-            'about' => 'nullable'
+            'about' => 'nullable',
+            'links' => 'nullable|array|max:10'
         ]);
 
         if($request->get('birth_date')) {
             $birthDate = DateTime::createFromFormat('d/m/Y', $request->get('birth_date'))->format('Y-m-d h:i:s');
         } else {
             $birthDate = null;
+        }
+
+        $links = [];
+
+        // Validate links.
+        if($request->has('links')) {
+          foreach($request->get('links') as $link) {
+            if(!array_key_exists('url', $link)) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, falta url en alguno de los enlaces." ]
+              ]);
+            }
+            if(strlen($link['url']) === 0) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, la url en alguno de los enlaces está vacía." ]
+              ]);
+            }
+            if(strlen($link['url']) > 250) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, la url de alguno de los enlaces supera los 250 caracteres." ]
+              ]);
+            }
+
+            if(!array_key_exists('title', $link)) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, falta título en alguno de los enlaces." ]
+              ]);
+            }
+            if(strlen($link['title']) === 0) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, el título de alguno de los enlaces está vacío." ]
+              ]);
+            }
+            if(strlen($link['title']) > 45) {
+              throw \Illuminate\Validation\ValidationException::withMessages([
+                 'links' => [ "El formato no es válido, el título de alguno de los enlaces supera los 45 caracteres." ]
+              ]);
+            }
+
+            $links[] = array(
+              'url' => $link['url'],
+              'title' => $link['title']
+            );
+          }
         }
 
         return tap($user)->update([
@@ -45,7 +90,8 @@ class ProfileController extends Controller
             'gender' => $request->get('gender'),
             'birth_date' => $birthDate,
             'location' => $request->get('location'),
-            'about' => $request->get('about')
+            'about' => $request->get('about'),
+            'links' => $links
         ]);
     }
 

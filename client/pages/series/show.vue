@@ -46,6 +46,7 @@
                 :follow-api-endpoint="`series/${serie.id}/subscribe`"
                 :unfollow-api-endpoint="`series/${serie.id}/unsubscribe`"
                 :following.sync="serie.user_is_subscriber"
+                :followers-count.sync="serie.subscribers_count"
                 relation="subscribe"
                 class="mr-sm"
               />

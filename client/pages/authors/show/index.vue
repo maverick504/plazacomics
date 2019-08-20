@@ -20,6 +20,7 @@
                 :follow-api-endpoint="`authors/${author.id}/follow/`"
                 :unfollow-api-endpoint="`authors/${author.id}/unfollow/`"
                 :following.sync="author.user_is_follower"
+                :followers-count.sync="author.followers_count"
                 relation="follow"
               />
             </div>
@@ -28,39 +29,46 @@
         <div class="divider" />
         <div class="columns my-md">
           <div class="column col-4 col-md-12">
-            <div class="card mb-md">
-              <div class="card-body">
-                <div v-if="author.about" class="mb-md">
-                  <h3 class="h5">
-                    Sobre mi
-                  </h3>
-                  <p class="mb-no">
+            <div class="card info-card mb-md">
+              <div class="card-body info-blocks">
+                <div v-if="author.about" class="info-block">
+                  <h3 class="info-block-title">Sobre mi</h3>
+                  <p class="info-block-item">
                     {{ author.about }}
                   </p>
                 </div>
-                <h3 class="h5">
-                  Información
-                </h3>
-                <span class="d-block">
-                  <calendar-today-icon class="mr-sm" />
-                  Se unió {{ author.created_at | moment('from', 'now') }}
-                </span>
-                <span class="d-block mt-sm">
-                  <email-icon class="mr-sm" />
-                  {{ author.email }}
-                </span>
-                <span v-if="author.location" class="d-block mt-sm">
-                  <map-marker-icon class="mr-sm " />
-                  {{ author.location }}
-                </span>
-                <span v-if="author.gender==='M'" class="d-block mt-sm">
-                  <gender-male-icon class="mr-sm" />
-                  Hombre
-                </span>
-                <span v-if="author.gender==='F'" class="d-block mt-sm">
-                  <gender-female-icon class="mr-sm" />
-                  Mujer
-                </span>
+                <div v-if="author.links !== null && author.links.length > 0" class="info-block">
+                  <h3 class="info-block-title">Links</h3>
+                  <p v-for="(link, index) in author.links" :key="index" class="info-block-item">
+                    <a :href="link.url" target="_blank">
+                      <open-in-new-icon/>
+                      {{ link.title }}
+                    </a>
+                  </p>
+                </div>
+                <div class="info-block">
+                  <h3 class="info-block-title">Información</h3>
+                  <p class="info-block-item">
+                    <calendar-today-icon/>
+                    Se unió {{ author.created_at | moment('from', 'now') }}
+                  </p>
+                  <p class="info-block-item">
+                    <email-icon/>
+                    {{ author.email }}
+                  </p>
+                  <p v-if="author.location" class="info-block-item">
+                    <map-marker-icon/>
+                    {{ author.location }}
+                  </p>
+                  <p v-if="author.gender==='M'" class="info-block-item">
+                    <gender-male-icon/>
+                    Hombre
+                  </p>
+                  <p v-if="author.gender==='F'" class="info-block-item">
+                    <gender-female-icon/>
+                    Mujer
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -95,6 +103,7 @@ import EmailIcon from 'vue-material-design-icons/Email.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
 import GenderMaleIcon from 'vue-material-design-icons/GenderMale.vue'
 import GenderFemaleIcon from 'vue-material-design-icons/GenderFemale.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
 export default {
   head () {
@@ -107,7 +116,8 @@ export default {
     EmailIcon,
     MapMarkerIcon,
     GenderMaleIcon,
-    GenderFemaleIcon
+    GenderFemaleIcon,
+    OpenInNewIcon
   },
 
   data: function () {

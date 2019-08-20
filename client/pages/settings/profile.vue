@@ -83,6 +83,19 @@
           {{ form.errors.get('about') }}
         </p>
       </div>
+      <div class="form-group">
+        <span class="form-label">Enlaces:</span>
+        <div v-for="(link, index) in form.links" :key="index" class="input-group mb-sm">
+          <input v-model="link.url" class="form-input" type="text" placeholder="Url">
+          <input v-model="link.title" class="form-input" type="text" placeholder="Title">
+          <v-button class="input-group-btn" action native-type="button" @click.native="removeLink(index)">
+            <delete-outline-icon/>
+          </v-button>
+        </div>
+      </div>
+      <v-button native-type="button" type="primary" @click.native="addLink()">
+        <plus-icon/>Agregar enlace
+      </v-button>
       <!-- Submit Button -->
       <div class="form-group mt-lg">
         <v-button :loading="form.busy" type="primary">
@@ -103,6 +116,8 @@ import EmailIcon from 'vue-material-design-icons/Email.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
 import CakeVariantIcon from 'vue-material-design-icons/CakeVariant.vue'
 import CardTextOutlineIcon from 'vue-material-design-icons/CardTextOutline.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import DeleteOutlineIcon from 'vue-material-design-icons/DeleteOutline.vue'
 
 export default {
   scrollToTop: false,
@@ -116,7 +131,9 @@ export default {
     EmailIcon,
     MapMarkerIcon,
     CakeVariantIcon,
-    CardTextOutlineIcon
+    CardTextOutlineIcon,
+    PlusIcon,
+    DeleteOutlineIcon
   },
 
   data: () => ({
@@ -127,7 +144,8 @@ export default {
       gender: '',
       birth_date: '',
       location: '',
-      about: ''
+      about: '',
+      links: []
     })
   }),
 
@@ -139,7 +157,15 @@ export default {
     this.$nextTick(() => {
       // Fill the form with user data.
       this.form.keys().forEach(key => {
-        if (key === 'gender' && this.user[key] == null) {
+        if (key === 'links') {
+          if (this.user[key] !== null) {
+            // Note: this method for copying objects is not the most performant, but its OK for this case.
+            const copy = JSON.parse(JSON.stringify(this.user[key]))
+            this.form[key] = copy
+          } else {
+            this.form[key] = []
+          }
+        } else if (key === 'gender' && this.user[key] == null) {
           this.form[key] = ''
         } else if (key === 'birth_date' && this.user[key] !== null) {
           this.form[key] = moment(this.user[key]).format('DD/MM/YYYY')
@@ -151,6 +177,14 @@ export default {
   },
 
   methods: {
+    addLink () {
+      this.form.links.push({ url: '', title: '' })
+    },
+
+    removeLink (index) {
+      this.form.links.splice(index, 1)
+    },
+
     async update () {
       const { data } = await this.form.patch('/settings/profile')
 

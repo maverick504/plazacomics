@@ -1,20 +1,23 @@
 <template>
   <div :class="{ 'd-inline-block': !block }">
     <button :class="{
-      [`btn-${type}`]: true, 'btn-block': block, 'loading': busy
+      [`btn-${type}`]: true,
+      [`btn-${size}`]: true,
+      'btn-block': block,
+      'loading': busy
     }" class="btn" @click="toggleFollow"
     >
       <div>
         <template v-if="relation==='like'">
-          <heart-icon v-if="following" />
-          <heart-outline-icon v-else />
-          {{ followersCount }}
+          <heart-icon v-if="following" class="mr-xs"/>
+          <heart-outline-icon v-else class="mr-xs"/>
         </template>
         <template v-else>
-          <check-icon v-if="following" />
-          <plus-icon v-else />
-          {{ following?labels.following:labels.notFollowing }}
+          <check-icon v-if="following" class="mr-xs"/>
+          <plus-icon v-else class="mr-xs"/>
+          <span class="mr-sm">{{ following?labels.following:labels.notFollowing }}</span>
         </template>
+        <span v-if="followersCount!==null">{{ followersCount }}</span>
       </div>
     </button>
     <!-- Must login modal -->
@@ -85,7 +88,8 @@ export default {
     followersCount: { default: null, type: Number },
     relation: { default: 'follow', type: String },
     block: { default: false, type: Boolean },
-    type: { default: 'default', type: String }
+    type: { default: 'default', type: String },
+    size: { default: 'default', type: String }
   },
 
   data: function () {

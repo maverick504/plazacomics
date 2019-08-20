@@ -6,6 +6,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Overtrue\LaravelFollow\Traits\CanLike;
 use Overtrue\LaravelFollow\Traits\CanFollow;
@@ -15,6 +16,7 @@ use Laravelista\Comments\Commenter;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use HasRolesAndAbilities;
     use CanSubscribe;
     use CanLike;
     use CanFollow;
@@ -27,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'username', 'name', 'email', 'password', 'avatar_url', 'gender', 'location', 'birth_date', 'about'
+        'username', 'name', 'email', 'password', 'avatar_url', 'gender', 'location', 'birth_date', 'about', 'links'
     ];
 
     /**
@@ -37,6 +39,15 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password', 'remember_token'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'links' => 'array',
     ];
 
     /**
