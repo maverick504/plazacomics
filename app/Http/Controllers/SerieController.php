@@ -69,58 +69,29 @@ class SerieController extends Controller
     }
 
     /**
-     * Display a listing of the series sorted by popularity by week.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function trending()
-    {
-        $topIds = visits('App\Serie')->period('week')->top(8)->pluck('id')->toArray();
-        $query = Serie::with([
-            'genre1',
-            'genre2',
-            'authors'
-        ])
-        ->public()
-        ->whereIn('id', $topIds);
-
-        foreach($topIds as $id) {
-          $query->orderByRaw('id=' . $id . ' DESC');
-        }
-
-        $data = $query->get();
-
-        return response()->json([
-          'data' => $data
-        ]);
-    }
-
-    /**
      * Display a listing of the series sorted by popularity by month.
      *
      * @return \Illuminate\Http\Response
      */
     public function popular()
     {
-        $topIds = visits('App\Serie')->period('month')->top(8)->pluck('id')->toArray();
+        $subQuery = \Overtrue\LaravelFollow\FollowRelation::popular(\App\Serie::class)->where('relation', '=', 'like');
 
-        $query = Serie::with([
+        return Serie::select(['series.*', 'popular.count AS likes_count'])
+        ->with([
             'genre1',
             'genre2',
             'authors'
         ])
-        ->public()
-        ->whereIn('id', $topIds);
-
-        foreach($topIds as $id) {
-          $query->orderByRaw('id=' . $id . ' DESC');
-        }
-
-        $data = $query->get();
-
-        return response()->json([
-          'data' => $data
-        ]);
+        ->joinSub(
+            $subQuery,
+            'popular',
+            function($join)
+            {
+               $join->on('series.id', '=', 'popular.followable_id');
+            }
+        )
+        ->paginate(RESULTS_PER_PAGE);
     }
 
     /**

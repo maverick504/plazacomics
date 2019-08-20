@@ -1,11 +1,11 @@
 <template>
   <div>
-    <navbar />
-    <div class="navbar-space" />
-    <nuxt :key="$route.fullPath"/>
-    <v-footer />
-    <bottom-nav />
-    <div class="botton-nav-space show-sm" />
+    <navbar/>
+    <div class="navbar-space"/>
+    <router-view :key="$route.fullPath"/>
+    <v-footer/>
+    <bottom-nav/>
+    <div class="botton-nav-space show-sm"/>
     <no-ssr>
       <cookie-law theme="blood-orange" button-text="Si, está bien!">
         <template slot="message">

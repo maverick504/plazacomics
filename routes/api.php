@@ -186,7 +186,6 @@ Route::get('authors/{id}/posts/', 'PostController@authorIndex');
 // Series
 Route::get('series/', 'SerieController@index');
 Route::get('newSeries/', 'SerieController@new');
-Route::get('trendingSeries/', 'SerieController@trending');
 Route::get('popularSeries/', 'SerieController@popular');
 Route::get('series/{id}', 'SerieController@show');
 Route::get('authors/{id}/series', 'SerieController@authorIndex');

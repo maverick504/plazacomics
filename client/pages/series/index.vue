@@ -7,14 +7,6 @@
       <ul class="tab">
         <li class="tab-item">
           <nuxt-link
-            :class="{ 'active': $route.query.browse?$route.query.browse==='trending':true }"
-            :to="{ name: 'series.index', query: { browse: 'trending', page: 1 } }"
-          >
-            Tendencias
-          </nuxt-link>
-        </li>
-        <li class="tab-item">
-          <nuxt-link
             :class="{ 'active': $route.query.browse==='popular' }"
             :to="{ name: 'series.index', query: { browse: 'popular', page: 1 } }"
           >
@@ -80,9 +72,6 @@ export default {
     var results = []
 
     switch (browse) {
-      case 'trending':
-        results = await axios.get('/trendingSeries')
-        break
       case 'popular':
         results = await axios.get('/popularSeries')
         break

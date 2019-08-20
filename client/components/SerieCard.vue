@@ -12,6 +12,10 @@
             {{ author.username }}
           </span>
         </div>
+        <div>
+          <span class="label mr-xs">{{ $t('genre_' + serie.genre1.language_key) }}</span>
+          <span v-if="serie.genre2" class="label mr-xs">{{ $t('genre_' + serie.genre2.language_key) }}</span>
+        </div>
         <div class="line"/>
         <p>{{ serie.synopsis }}</p>
       </div>
@@ -21,16 +25,22 @@
         {{ serie.name }}
       </div>
     </div>
-    <div class="card-body pa-no">
-      <span class="chip ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
-      <span v-if="serie.genre2" class="chip">{{ $t('genre_' + serie.genre2.language_key) }}</span>
+    <div v-if="serie.likes_count" class="card-body pa-no">
+      <heart-icon class="icon-1x text-primary" style="vertical-align: middle;"/>
+      <span>{{ serie.likes_count }}</span>
     </div>
   </router-link>
 </template>
 
 <script>
+import HeartIcon from 'vue-material-design-icons/Heart.vue'
+
 export default {
   name: 'SerieCard',
+
+  components: {
+    HeartIcon
+  },
 
   props: {
     serie: { default: null, type: Object }

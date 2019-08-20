@@ -17,11 +17,6 @@
               <div class="popover-container" style="width: 100px;">
                 <ul class="menu has-arrow has-arrow-top">
                   <li class="menu-item">
-                    <router-link :to="{ name: 'series.index', query: { 'browse': 'trending' } }">
-                      <fire-icon class="mr-sm"/>Tendencias
-                    </router-link>
-                  </li>
-                  <li class="menu-item">
                     <router-link :to="{ name: 'series.index', query: { 'browse': 'popular' } }">
                       <star-icon class="mr-sm"/>Populares
                     </router-link>
@@ -172,7 +167,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import NotificationsDropdown from '@/components/notifications/NotificationsDropdown.vue'
-import FireIcon from 'vue-material-design-icons/Fire.vue'
 import StarIcon from 'vue-material-design-icons/Star.vue'
 import AlertDecagramIcon from 'vue-material-design-icons/AlertDecagram.vue'
 import BookOpenPageVariantIcon from 'vue-material-design-icons/BookOpenPageVariant.vue'
@@ -188,7 +182,6 @@ export default {
 
   components: {
     NotificationsDropdown,
-    FireIcon,
     StarIcon,
     AlertDecagramIcon,
     BookOpenPageVariantIcon,

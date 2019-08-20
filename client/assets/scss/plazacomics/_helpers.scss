@@ -67,7 +67,7 @@ $verticalAlignValues: (baseline, length, sub, super, top, text-top, middle, bott
 }
 
 // Icon size helpers
-$sizes: ('1-2': 1.2, '2': 2, '2-5': 2.5, '10': 10);
+$sizes: ('1': 1, '1-2': 1.2, '2': 2, '2-5': 2.5, '10': 10);
 
 @each $sizeKey, $sizeValue in $sizes {
   .material-design-icon.icon-#{$sizeKey}x {

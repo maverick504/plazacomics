@@ -36,7 +36,8 @@ export async function scrollBehavior (to, from, savedPosition) {
     'series.edit.details': 3,
     'series.edit.chapters': 3,
     'authors.show': 4,
-    'authors.show.illustrations': 4
+    'authors.show.illustrations': 4,
+    'schedule.index': 5
   }
 
   if ((groups[to.name] !== undefined && groups[from.name] !== undefined && groups[to.name] === groups[from.name])) {

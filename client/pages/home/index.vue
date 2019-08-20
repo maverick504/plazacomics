@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container mt-xl mb-xl">
-      <h1 class="text-center">Series que son tendencia en PlazaComics</h1>
+      <h1 class="text-center">Series Populares</h1>
       <no-ssr>
         <carousel-3d
           :controls-visible="true"
@@ -9,7 +9,7 @@
           :controls-next-html="`<span class='text-primary'>&#10093;</span>`"
           :controls-width="30" :controls-height="60"
           :clickable="false" :width="300" :height="400">
-          <slide v-for="(serie, index) in trendingSeries.data" :index="index" :key="index">
+          <slide v-for="(serie, index) in popularSeries" :index="index" :key="index">
             <figure style="margin: 0px;">
               <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" style="border-radius: 6px;">
               <figcaption style="position: absolute; width: 100%; background: rgba(0, 0, 0, .6); color: #fff; padding: 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
@@ -18,15 +18,19 @@
                   <span class="chip text-dark ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
                   <span v-if="serie.genre2" class="chip text-dark">{{ $t('genre_' + serie.genre2.language_key) }}</span>
                 </div>
+                <div v-if="serie.likes_count">
+                  <heart-icon class="icon-1x text-primary" style="vertical-align: middle;"/>
+                  <span>{{ serie.likes_count }}</span>
+                </div>
               </figcaption>
               <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="slide-link"/>
             </figure>
           </slide>
         </carousel-3d>
       </no-ssr>
-      <h2>Series populares en PlazaComics</h2>
+      <h2 class="text-center">Series Nuevas</h2>
       <div class="columns">
-        <div v-for="serie in popularSeries.data" :key="serie.id" class="column col-3 col-md-6 pb-md">
+        <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6 pb-md">
           <serie-card :serie="serie" />
         </div>
       </div>
@@ -48,6 +52,7 @@
 <script>
 import axios from 'axios'
 import SerieCard from '../../components/SerieCard.vue'
+import HeartIcon from 'vue-material-design-icons/Heart.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 if (process.client) {
@@ -61,24 +66,25 @@ export default {
 
   components: {
     SerieCard,
+    HeartIcon,
     InformationOutlineIcon
   },
 
   data: function () {
     return {
-      trendingSeries: [],
-      popularSeries: []
+      popularSeries: [],
+      newSeries: []
     }
   },
 
   async asyncData ({ error }) {
     try {
-      const trendingSeries = await axios.get(`trendingSeries/`)
       const popularSeries = await axios.get(`popularSeries/`)
+      const newSeries = await axios.get(`newSeries/`)
 
       return {
-        trendingSeries: trendingSeries.data,
-        popularSeries: popularSeries.data
+        popularSeries: popularSeries.data.data,
+        newSeries: newSeries.data.data.slice(0, 4)
       }
     } catch (err) {
       return error({ statusCode: err.response.status })
