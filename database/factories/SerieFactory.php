@@ -11,7 +11,7 @@ $factory->define(App\Serie::class, function (Faker $faker) {
 			'genre2' => $faker->boolean()?rand(1,13):null,
 			'licence' => rand(1,8),
       'synopsis' => $faker->optional()->sentence(rand(5,15)),
-      'cover_url' => 'test-data/series/1/cover.jpg',
+      'cover_url' => $faker->boolean()?'test-data/series/1/cover.jpg':null,
       'banner_url' => null,
       'explicit_content' => $faker->boolean(),
       'total_chapters' => 0,
