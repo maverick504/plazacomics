@@ -305,7 +305,7 @@ class SerieController extends Controller
 
         // Save the image in the server
         $image->stream();
-        $filePath = 'series/' . Hashids::encode($serie->id) . '/cover.jpg';
+        $filePath = 'series/' . Hashids::encode($serie->id) . '/cover_' . uniqid() . '.jpg';
         Storage::disk('spaces')->put($filePath, $image, 'public');
 
         // Update the serie
@@ -347,7 +347,7 @@ class SerieController extends Controller
 
         // Save the image in the server.
         $image->stream();
-        $filePath = 'series/' . Hashids::encode($serie->id) . '/banner.jpg';
+        $filePath = 'series/' . Hashids::encode($serie->id) . '/banner_' . uniqid() . '.jpg';
         Storage::disk('spaces')->put($filePath, $image, 'public');
 
         // Update the serie,

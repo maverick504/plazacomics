@@ -124,12 +124,12 @@ class ProfileController extends Controller
 
         // Save the image in the server
         $image->stream();
-        $fileName = Hashids::encode($user->id) . '.jpg';
-        Storage::disk('spaces')->put('user-avatars/' . $fileName, $image, 'public');
+        $filePath = 'user-avatars/' . Hashids::encode($user->id) . '_' . uniqid() . '.jpg';
+        Storage::disk('spaces')->put($filePath, $image, 'public');
 
         // Update the user
         return tap($user)->update([
-          'avatar_url' => 'user-avatars/' . $fileName
+          'avatar_url' => $filePath
         ]);
     }
 }
