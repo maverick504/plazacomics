@@ -1,48 +1,32 @@
 <template>
-  <div>
-    <div class="container mt-xl mb-xl">
-      <h1 class="text-center">Series Populares</h1>
-      <no-ssr>
-        <carousel-3d
-          :controls-visible="true"
-          :controls-prev-html="`<span class='text-primary'>&#10092;</span>`"
-          :controls-next-html="`<span class='text-primary'>&#10093;</span>`"
-          :controls-width="30" :controls-height="60"
-          :clickable="false" :width="300" :height="400">
-          <slide v-for="(serie, index) in popularSeries" :index="index" :key="index">
-            <figure style="margin: 0px;">
-              <img :src="serie.cover_url?`${cdnUrl}/${serie.cover_url}`:'/placeholders/cover_placeholder_900x1200.png'" style="border-radius: 6px;">
-              <figcaption style="position: absolute; width: 100%; background: rgba(0, 0, 0, .6); color: #fff; padding: 8px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;">
-                <div style="font-size: 20px;">{{ serie.name }}</div>
-                <div>
-                  <span class="chip text-dark ml-no">{{ $t('genre_' + serie.genre1.language_key) }}</span>
-                  <span v-if="serie.genre2" class="chip text-dark">{{ $t('genre_' + serie.genre2.language_key) }}</span>
-                </div>
-                <div v-if="serie.likes_count">
-                  <heart-icon class="icon-1x text-primary" style="vertical-align: middle;"/>
-                  <span>{{ serie.likes_count }}</span>
-                </div>
-              </figcaption>
-              <router-link :to="{ name: 'series.show', params: { id: serie.id, slug: serie.slug } }" class="slide-link"/>
-            </figure>
-          </slide>
-        </carousel-3d>
-      </no-ssr>
-      <h2 class="text-center">Series Nuevas</h2>
+  <div class="bg-secondary">
+    <agile
+      :nav-buttons="false"
+      :autoplay-speed="5000"
+      :speed="500"
+      fade
+      pause-on-hover
+      pause-on-dots-hover
+      autoplay
+    >
+      <a href="https://www.plazacomics.com/series/14/nekoboy">
+        <img src="~assets/banners/banner_nekoboy.jpg">
+      </a>
+      <a href="https://www.plazacomics.com/series/13/relick">
+        <img src="~assets/banners/banner_relick.png">
+      </a>
+      <a href="https://www.plazacomics.com/series/4/revolucion">
+        <img src="~assets/banners/banner_revolucion.png">
+      </a>
+      <a href="http://m.me/plazacomicsofficial">
+        <img src="~assets/banners/upload.png">
+      </a>
+    </agile>
+    <div class="container page page--is-overlapping">
+      <h1 class="h2">Series Populares</h1>
       <div class="columns">
-        <div v-for="serie in newSeries" :key="serie.id" class="column col-3 col-md-6 pb-md">
+        <div v-for="(serie, index) in popularSeries" :key="index" class="column col-3 col-md-4 col-sm-6 pb-md">
           <serie-card :serie="serie" />
-        </div>
-      </div>
-    </div>
-    <div class="bg-primary text-light py-xl">
-      <div class="container">
-        <div class="col-6 col-md-12">
-          <h3>¡Publica tu cómic en PlazaComics!</h3>
-          <p>Publica tu cómic gratis en una plataforma optimizada para la lectura de cómics y mangas.</p>
-          <router-link :to="{ name: 'landing.publishing' }" class="btn btn-lg">
-            <information-outline-icon class="mr-sm" /> Saber más
-          </router-link>
         </div>
       </div>
     </div>
@@ -51,40 +35,31 @@
 
 <script>
 import axios from 'axios'
-import SerieCard from '../../components/SerieCard.vue'
-import HeartIcon from 'vue-material-design-icons/Heart.vue'
-import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
-
-if (process.client) {
-  require('~/plugins/vue-carrousel-3d.js')
-}
+import SerieCard from '@/components/SerieCard.vue'
 
 export default {
+  layout: 'default',
+
   head () {
     return { title: 'Inicio' }
   },
 
   components: {
-    SerieCard,
-    HeartIcon,
-    InformationOutlineIcon
+    SerieCard
   },
 
   data: function () {
     return {
-      popularSeries: [],
-      newSeries: []
+      popularSeries: []
     }
   },
 
   async asyncData ({ error }) {
     try {
-      const popularSeries = await axios.get(`popularSeries/`)
-      const newSeries = await axios.get(`newSeries/`)
+      const popularSeries = await axios.get(`series?order=popular`)
 
       return {
-        popularSeries: popularSeries.data.data,
-        newSeries: newSeries.data.data.slice(0, 4)
+        popularSeries: popularSeries.data.data.slice(0, 4)
       }
     } catch (err) {
       return error({ statusCode: err.response.status })
@@ -92,3 +67,54 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+.agile {
+  a {
+    width: 100%;
+    height: auto;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  &__dots {
+    bottom: 10px;
+    flex-direction: column;
+    right: 30px;
+    position: absolute;
+  }
+  &__dot {
+    margin: 5px 0;
+    button {
+      background-color: transparent;
+      border: 1px solid #303742;
+      cursor: pointer;
+      display: block;
+      height: 10px;
+      font-size: 0;
+      line-height: 0;
+      margin: 0;
+      padding: 0;
+      transition-duration: .3s;
+      width: 10px;
+    }
+
+    &--current,
+    &:hover {
+      button {
+        background-color: #303742;
+      }
+    }
+  }
+}
+
+.slide {
+  display: block;
+  height: 500px;
+  object-fit: cover;
+  width: 100%;
+}
+
+</style>

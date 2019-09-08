@@ -60,6 +60,7 @@ module.exports = {
     '~plugins/vmask',
     '~plugins/mixins',
     { src: '~plugins/ga.js', ssr: false },
+    { src: '~plugins/vue-agile.js', ssr: false },
     { src: '~plugins/vue-cookie-law.js', ssr: true },
     { src: '~plugins/vue-croppie.js', ssr: false },
     { src: '~plugins/vue-lazyload.js', ssr: false },
