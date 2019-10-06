@@ -50,7 +50,7 @@
         </v-button>
         <input ref="files" class="d-none" type="file" accept="image/*" multiple @change="newPagesSelected()">
         <div class="mt-md">
-          <span>{{ form.pages.length }}/30 páginas</span>
+          <span>{{ form.pages.length }}/50 páginas</span>
           <div class="bg-gray my-sm" style="width: 100%; height: 400px; padding: 0px 16px 16px 16px; border: 0.05rem solid #dadee4; overflow-y: auto; ">
             <draggable v-model="form.pages" element="div" class="columns">
               <div v-for="page in form.pages" :key="page.id" class="column col-2 col-md-4 mt-md">
@@ -218,7 +218,7 @@ export default {
       this.totalFiles = files.length
 
       for (var i = 0; i < files.length; i++) {
-        if (this.form.pages.length >= 30) {
+        if (this.form.pages.length >= 50) {
           break
         }
 
