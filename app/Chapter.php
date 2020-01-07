@@ -71,7 +71,7 @@ class Chapter extends Model
      */
     public function hasBeenRelased()
     {
-        if (date_format($this->relase_date, "m/d/Y") <= date("m/d/Y")) {
+        if (strtotime(date_format($this->relase_date, "Y-m-d")) > strtotime("Y-m-d")) {
             return true;
         }
         return false;
